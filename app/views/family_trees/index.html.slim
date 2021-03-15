@@ -1,0 +1,19 @@
+h1 Listing family_trees
+
+table
+  thead
+    tr
+      th
+      th
+      th
+
+  tbody
+    - @family_trees.each do |family_tree|
+      tr
+        td = link_to 'Show', family_tree
+        td = link_to 'Edit', edit_family_tree_path(family_tree)
+        td = link_to 'Destroy', family_tree, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Family tree', new_family_tree_path

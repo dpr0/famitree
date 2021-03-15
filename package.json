@@ -11,7 +11,7 @@
     "admin-lte": "^3.1.0-rc",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "core-js": "^3.9.1",
-    "firebase": "^8.2.10",
+    "firebase": "^8.3.0",
     "firebaseui-ru": "^3.4.2",
     "interact": "^0.0.3",
     "jquery": "^3.6.0",

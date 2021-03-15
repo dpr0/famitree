@@ -1,20 +1,8 @@
 Rails.application.routes.draw do
+  resources :family_trees
   devise_for :users, controllers: { omniauth_callbacks: 'callbacks' }
-  root 'manufacturers#index'
+  root 'users#show'
 
-  resources :users, only: [:index, :show]
-  resources :manufacturers
-
-  resources :sections do
-    resources :persons do
-      resources :subpersons do
-        resources :items do
-          resources :modifications do
-            post :favourite, on: :collection
-          end
-          post :filter, on: :member
-        end
-      end
-    end
-  end
+  resources :users, only: [:show]
+  resources :persons
 end

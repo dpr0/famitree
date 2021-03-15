@@ -9,6 +9,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :phone
       t.string :provider
       t.string :token
+      t.integer :person_id
 
       ## Database authenticatable
       t.string :encrypted_password, null: false, default: ''

@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class Person < ApplicationRecord
+class Relation < ApplicationRecord
 end

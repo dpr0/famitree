@@ -5,9 +5,6 @@ class User < ApplicationRecord
          :validatable, :omniauthable, omniauth_providers: [:firebase, :telegram, :yandex]
   has_many :authorizations, dependent: :destroy
 
-  has_many :modification_users
-  has_many :modifications, through: :modification_users, inverse_of: :users, dependent: :destroy
-
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth[:provider], uid: auth[:uid]).first
     return authorization.user if authorization
