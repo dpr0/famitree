@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -38,6 +36,7 @@ ActiveRecord::Schema.define(version: 2021_03_15_050300) do
     t.string "last_name"
     t.string "first_name"
     t.string "middle_name"
+    t.string "maiden_name"
     t.integer "sex_id"
     t.integer "father_id"
     t.integer "mother_id"
