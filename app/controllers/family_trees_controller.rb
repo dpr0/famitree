@@ -1,53 +1,40 @@
 # frozen_string_literal: true
 
 class FamilyTreesController < ApplicationController
-  before_action :set_family_tree, only: %i[show edit update destroy]
+  before_action :set_family_tree, only: %i[show update destroy]
 
   def index
-    @family_trees = FamilyTree.where(user_id: current_user.id).all if current_user
+    @family_trees = current_user ? FamilyTree.where(user_id: current_user.id).all : []
+    render json: @family_trees, status: :ok
   end
 
   def show
-    render plain: @family_tree.to_json, status: 200, content_type: 'application/json'
+    render json: {family_tree: @family_tree, persons: @family_tree.persons}, status: :ok
   end
-
-  def new
-    @family_tree = FamilyTree.new
-  end
-
-  def edit; end
 
   def create
-    @family_tree = FamilyTree.new(family_tree_params)
-
-    respond_to do |format|
-      if @family_tree.save
-        format.html { redirect_to @family_tree, notice: 'Family tree was successfully created.' }
-        format.json { render :show, status: :created, location: @family_tree }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @family_tree.errors, status: :unprocessable_entity }
-      end
+    @family_tree = current_user.family_trees.new(family_tree_params)
+    if @family_tree.save
+      render json: @family_tree, status: :created
+    else
+      render json: @family_tree.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    respond_to do |format|
-      if @family_tree.update(family_tree_params)
-        format.html { redirect_to @family_tree, notice: 'Family tree was successfully updated.' }
-        format.json { render :show, status: :ok, location: @family_tree }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @family_tree.errors, status: :unprocessable_entity }
-      end
+    if @family_tree.update(family_tree_params)
+      render json: @family_tree, status: :ok
+    else
+      render json: @family_tree.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @family_tree.destroy
-    respond_to do |format|
-      format.html { redirect_to family_trees_url, notice: 'Family tree was successfully destroyed.' }
-      format.json { head :no_content }
+    if @family_tree.user.id == current_user&.id
+      @family_tree.destroy
+      render json: {status: :deleted}, status: :ok
+    else
+      render json: {status: :not_deleted}, status: :unprocessable_entity
     end
   end
 
