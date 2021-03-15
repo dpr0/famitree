@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta name="yandex-verification" content=""
+    meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+    = csrf_meta_tags
+    = csp_meta_tag
+    = favicon_link_tag 'favicon.ico'
+    title famitree.ru
+
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+
+  body.hold-transition.sidebar-mini.layout-fixed data-scrollbar-auto-hide="n"
+    .wrapper
+      .content-wrapper
+        = yield
+
+link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"
