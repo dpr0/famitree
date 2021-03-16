@@ -1,5 +1,43 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  def show; end
+  # before_action :authenticate_user!
+
+  def show
+
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

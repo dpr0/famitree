@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_050300) do
+ActiveRecord::Schema.define(version: 2021_03_15_192723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(version: 2021_03_15_050300) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "family_trees_users", force: :cascade do |t|
+    t.integer "family_tree_id"
+    t.integer "user_id"
+    t.integer "role_id"
+    t.datetime "created_at"
+    t.index ["family_tree_id", "user_id"], name: "index_family_trees_users_on_family_tree_id_and_user_id"
+    t.index ["user_id", "family_tree_id"], name: "index_family_trees_users_on_user_id_and_family_tree_id"
   end
 
   create_table "persons", force: :cascade do |t|
@@ -60,6 +69,11 @@ ActiveRecord::Schema.define(version: 2021_03_15_050300) do
     t.integer "person_id"
     t.integer "relation_person_id"
     t.integer "relation_type_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
   end
 
   create_table "users", force: :cascade do |t|

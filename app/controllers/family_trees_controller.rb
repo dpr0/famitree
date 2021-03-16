@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class FamilyTreesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_family_tree, only: %i[show update destroy]
 
   def index
     @family_trees = current_user ? FamilyTree.where(user_id: current_user.id).all : []
-    render json: @family_trees, status: :ok
   end
 
   def show
-    render json: {family_tree: @family_tree, persons: @family_tree.persons}, status: :ok
+    @family_tree.persons
   end
 
   def create
@@ -45,6 +45,6 @@ class FamilyTreesController < ApplicationController
   end
 
   def family_tree_params
-    params.fetch(:family_tree, {})
+    params.permit(:name)
   end
 end

@@ -335,6 +335,7 @@ DEPENDENCIES
   ed25519
   flag-icons-rails
   jbuilder
+  jwt
   listen
   omniauth
   omniauth-telegram

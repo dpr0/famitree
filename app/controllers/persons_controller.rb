@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class PersonsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_person, only: %i[show update destroy]
 
+  def index
+    @persons = Person.where(family_tree_id: params[:family_tree_id]).all
+  end
+
   def show
-    render json: @person, status: :ok
+
   end
 
   def create

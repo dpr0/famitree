@@ -8,3 +8,7 @@ RelationType.create(code: 'wife',     name: 'Жена')
 RelationType.create(code: 'husband',  name:  'Муж')
 RelationType.create(code: 'sister',   name:  'Сын')
 RelationType.create(code: 'brother',  name: 'Дочь')
+
+Role.create(code: 'owner',   name: 'Владелец')
+Role.create(code: 'editor',  name: 'Редактор')
+Role.create(code: 'guest',   name: 'Гость')

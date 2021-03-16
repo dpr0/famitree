@@ -24,6 +24,7 @@ gem 'omniauth-telegram'
 gem 'telegram-bot'
 gem 'telegram-bot-types'
 gem 'flag-icons-rails'
+gem 'jwt'
 # gem 'image_processing'
 
 group :development do
