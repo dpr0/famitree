@@ -2,8 +2,9 @@ nav.main-header.navbar.navbar-expand
   ul.navbar-nav
     li.nav-item.d-none.d-sm-inline-block
       = link_to 'Главная', user_path(current_user.id), class: 'nav-link'
-    li.nav-item.d-none.d-sm-inline-block
-      = link_to 'Мои семейные деревья', user_family_trees_path(current_user.id), class: 'nav-link'
+    - if current_user
+      li.nav-item.d-none.d-sm-inline-block
+        = link_to 'Мои семейные деревья', user_family_trees_path(current_user.id), class: 'nav-link'
   ul.navbar-nav.ml-auto
     - unless current_user
       = link_to 'Войти', new_user_session_path, class: 'nav-link'
