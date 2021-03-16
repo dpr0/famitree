@@ -1,6 +1,49 @@
 section.text-center
   .container
     .row
-      .col-sm-4
-        = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
-          i.fas.fa-sign-out-alt
+      .col-sm-2
+
+      .col-sm-12
+        .row
+          .col-sm-6.text-right
+            | Пользователь
+          .col-sm-6.text-left
+            = current_user.name
+        - if ['google.com', 'yandex'].include? current_user.provider
+          .row
+            .col-sm-6.text-right
+              | Email
+            .col-sm-6.text-left
+              = current_user.email
+        - if current_user.phone
+          .row
+            .col-sm-6.text-right
+              | Телефон
+            .col-sm-6.text-left
+              = current_user.phone
+        .row
+          .col-sm-6.text-right
+            | OAuth провайдер
+          .col-sm-6.text-left
+            = current_user.provider
+        - if current_user.person
+          .row
+            .col-sm-6.text-right
+              | Персона
+            .col-sm-6.text-left
+              = current_user.person.full_name
+        .row
+          .col-sm-6.text-right
+            | IP
+          .col-sm-6.text-left
+            = current_user.current_sign_in_ip
+        - @trees.each do |role_id, trees|
+          .row
+            .col-sm-6.text-right
+              = Role.cached_by_id[role_id].name
+            .col-sm-6.text-left
+              ul
+                - trees.each do |tree|
+                  li = link_to tree.family_tree.name, user_family_tree_path(tree.user_id)
+
+      .col-sm-2

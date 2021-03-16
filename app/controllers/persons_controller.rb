@@ -2,13 +2,17 @@
 
 class PersonsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_person, only: %i[show update destroy]
-
-  def index
-    @persons = Person.where(family_tree_id: params[:family_tree_id]).all
-  end
+  before_action :set_person, only: %i[edit show update destroy]
 
   def show
+
+  end
+
+  def new
+    @person = Person.new
+  end
+
+  def edit
 
   end
 

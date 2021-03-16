@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :family_trees
   devise_for :users, controllers: { omniauth_callbacks: 'callbacks' }
   root 'users#show'
 
@@ -7,8 +6,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:show] do
         post :login, on: :collection
-        resources :family_trees do
-          resources :persons
+        resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
+          resources :persons,    only: [:index, :show, :create, :update, :destroy]
         end
       end
     end
@@ -16,8 +15,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
     post :login, on: :collection
-    resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
-      resources :persons,    only: [:index, :show, :create, :update, :destroy]
+    resources :family_trees do
+      resources :persons
     end
   end
 end

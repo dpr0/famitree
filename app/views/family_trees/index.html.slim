@@ -1,19 +1,19 @@
-h1 Listing family_trees
+h1 Список семейных деревьев
 
 table
   thead
     tr
       th
       th
-      th
-
   tbody
     - @family_trees.each do |family_tree|
       tr
-        td = link_to 'Show', family_tree
-        td = link_to 'Edit', edit_family_tree_path(family_tree)
-        td = link_to 'Destroy', family_tree, data: { confirm: 'Are you sure?' }, method: :delete
+        td = link_to family_tree.name, user_family_tree_path(family_tree.id, user_id: family_tree.user_id)
+        td = link_to edit_user_family_tree_path(family_tree.id, user_id: family_tree.user_id) do
+          i.far.fa-edit.text-primary
+        td = link_to user_family_tree_path(family_tree.id, user_id: family_tree.user_id), data: { confirm: 'Вы уверены?' }, method: :delete do
+          i.fas.fa-times.text-danger
 
 br
 
-= link_to 'New Family tree', new_family_tree_path
+= link_to 'Создать новое семейное дерево', new_user_family_tree_path(current_user.id), class: 'btn btn-primary text-white'

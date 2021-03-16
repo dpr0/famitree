@@ -2,49 +2,68 @@
 
 class FamilyTreesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_family_tree, only: %i[show update destroy]
+  before_action :set_family_tree, only: %i[edit show update destroy]
 
   def index
     @family_trees = current_user ? FamilyTree.where(user_id: current_user.id).all : []
   end
 
   def show
-    @family_tree.persons
+
+    (redirect_to user_family_trees_path(current_user.id) and return) if @family_tree.nil? || !current_user.family_tree_users.map(&:family_tree_id).include?(@family_tree.id)
+    @persons = @family_tree.persons
   end
 
+  def new
+    @family_tree = FamilyTree.new
+  end
+
+  def edit; end
+
   def create
-    @family_tree = current_user.family_trees.new(family_tree_params)
-    if @family_tree.save
-      render json: @family_tree, status: :created
-    else
-      render json: @family_tree.errors, status: :unprocessable_entity
+    @family_tree = FamilyTree.new(family_tree_params.merge(user_id: current_user.id))
+    @family_tree.family_tree_users.new(user_id: current_user.id, role_id: Role[:owner].id)
+
+    respond_to do |format|
+      if @family_tree.save
+        format.html { redirect_to user_family_trees_path(current_user.id), notice: 'Семейное дерево создано.' }
+        format.json { render :show, status: :created, location: @family_tree }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @family_tree.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def update
-    if @family_tree.update(family_tree_params)
-      render json: @family_tree, status: :ok
-    else
-      render json: @family_tree.errors, status: :unprocessable_entity
+    respond_to do |format|
+      if @family_tree.update(family_tree_params)
+        format.html { redirect_to user_family_trees_path(current_user.id), notice: 'Семейное дерево обновлено.' }
+        format.json { render :show, status: :ok, location: @family_tree }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @family_tree.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
-    if @family_tree.user.id == current_user&.id
-      @family_tree.destroy
-      render json: {status: :deleted}, status: :ok
-    else
-      render json: {status: :not_deleted}, status: :unprocessable_entity
+    return if @family_tree.user_id != current_user&.id
+
+    @family_tree.destroy
+    respond_to do |format|
+      format.html { redirect_to family_trees_url, notice: 'Семейное дерево удалено.' }
+      format.json { head :no_content }
     end
   end
 
   private
 
   def set_family_tree
-    @family_tree = FamilyTree.find(params[:id])
+    @family_tree = FamilyTree.find_by(id: params[:id])
   end
 
   def family_tree_params
-    params.permit(:name)
+    params.require(:family_tree).permit(:name)
   end
 end

@@ -1,8 +1,7 @@
-h1 Editing family_tree
-
-== render 'form'
-
-=> link_to 'Show', @family_tree
-'|
-=< link_to 'Back', family_trees_path
-
+.row
+  .col-sm-3
+  .col-sm-6
+    h1.text-center Редактировать семейное дерево
+    = render 'form'
+    = link_to 'Назад', user_family_trees_path(current_user.id), class: 'btn btn-secondary text-dark'
+  .col-sm-3
