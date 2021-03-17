@@ -30,8 +30,6 @@ class User < ApplicationRecord
     end
   end
 
-  private
-
   def create_authorization(auth)
     authorizations.create(provider: auth[:provider], uid: auth[:uid])
   end
