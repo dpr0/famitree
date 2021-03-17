@@ -1,4 +1,4 @@
-= form_for [@family_tree&.user, @family_tree] do |f|
+= form_for @family_tree do |f|
   - if @family_tree.errors.any?
     #error_explanation
       h2 = "#{pluralize(@family_tree.errors.count, "error")} prohibited this family_tree from being saved:"

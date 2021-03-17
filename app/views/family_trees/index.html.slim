@@ -8,12 +8,12 @@ table
   tbody
     - @family_trees.each do |family_tree|
       tr
-        td = link_to family_tree.name, user_family_tree_path(family_tree.id, user_id: family_tree.user_id)
-        td = link_to edit_user_family_tree_path(family_tree.id, user_id: family_tree.user_id) do
+        td = link_to family_tree.name, family_tree_path(family_tree.id)
+        td = link_to edit_family_tree_path(family_tree.id) do
           i.far.fa-edit.text-primary
-        td = link_to user_family_tree_path(family_tree.id, user_id: family_tree.user_id), data: { confirm: 'Вы уверены?' }, method: :delete do
+        td = link_to family_tree_path(family_tree.id), data: { confirm: 'Вы уверены?' }, method: :delete do
           i.fas.fa-times.text-danger
 
 br
 
-= link_to 'Создать новое семейное дерево', new_user_family_tree_path(current_user.id), class: 'btn btn-primary text-white'
+= link_to 'Создать новое семейное дерево', new_family_tree_path, class: 'btn btn-primary text-white'

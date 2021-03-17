@@ -44,6 +44,9 @@ section.text-center
             .col-sm-6.text-left
               ul
                 - trees.each do |tree|
-                  li = link_to tree.family_tree.name, user_family_tree_path(tree.user_id)
+                  li = link_to tree.family_tree.name, family_tree_path(tree.user_id)
 
+        .row
+          .col-sm-6.text-right
+            = link_to 'Редактировать свой профиль', edit_person_path(current_user.person_id), class: 'btn btn-outline-primary'
       .col-sm-2

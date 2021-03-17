@@ -4,19 +4,17 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
+      resources :family_trees, only: [:index, :show, :create, :update, :destroy]
+      resources :persons,      only: [:index, :show, :create, :update, :destroy]
       resources :users, only: [:show] do
         post :login, on: :collection
-        resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
-          resources :persons,    only: [:index, :show, :create, :update, :destroy]
-        end
       end
     end
   end
 
+  resources :family_trees
+  resources :persons
   resources :users, only: [:show] do
     post :login, on: :collection
-    resources :family_trees do
-      resources :persons
-    end
   end
 end

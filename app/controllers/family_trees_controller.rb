@@ -9,8 +9,7 @@ class FamilyTreesController < ApplicationController
   end
 
   def show
-
-    (redirect_to user_family_trees_path(current_user.id) and return) if @family_tree.nil? || !current_user.family_tree_users.map(&:family_tree_id).include?(@family_tree.id)
+    (redirect_to family_trees_path and return) if @family_tree.nil? || !current_user.family_tree_users.map(&:family_tree_id).include?(@family_tree.id)
     @persons = @family_tree.persons
   end
 
@@ -26,7 +25,7 @@ class FamilyTreesController < ApplicationController
 
     respond_to do |format|
       if @family_tree.save
-        format.html { redirect_to user_family_trees_path(current_user.id), notice: 'Семейное дерево создано.' }
+        format.html { redirect_to family_trees_path, notice: 'Семейное дерево создано.' }
         format.json { render :show, status: :created, location: @family_tree }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +37,7 @@ class FamilyTreesController < ApplicationController
   def update
     respond_to do |format|
       if @family_tree.update(family_tree_params)
-        format.html { redirect_to user_family_trees_path(current_user.id), notice: 'Семейное дерево обновлено.' }
+        format.html { redirect_to family_trees_path, notice: 'Семейное дерево обновлено.' }
         format.json { render :show, status: :ok, location: @family_tree }
       else
         format.html { render :edit, status: :unprocessable_entity }

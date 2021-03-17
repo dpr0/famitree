@@ -8,3 +8,6 @@ RelationType.create(code: 'divorced',  name: 'разведены')
 Role.create(code: 'owner',   name: 'Владелец')
 Role.create(code: 'editor',  name: 'Редактор')
 Role.create(code: 'guest',   name: 'Гость')
+
+Sex.create(code: 'male',     name: 'муж.')
+Sex.create(code: 'female',   name: 'жен.')

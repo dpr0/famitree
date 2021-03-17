@@ -4,7 +4,7 @@ class Person < ApplicationRecord
   self.table_name = :persons
 
   has_one :user
-  belongs_to :family_tree
+  belongs_to :family_tree, required: false
   has_many :relations
 
   def full_name

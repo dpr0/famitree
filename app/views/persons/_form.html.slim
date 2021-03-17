@@ -1,0 +1,61 @@
+- if @person.errors.any?
+  #error_explanation
+    h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+    ul
+      - @person.errors.full_messages.each do |message|
+        li = message
+
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Семейное дерево
+  = f.collection_select :family_tree_id, current_user.family_trees, :id, :name, class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Пол
+  = f.collection_select :sex_id, Sex.all_cached, :id, :name, class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Фамилия
+  = f.text_field :last_name, type: 'text', class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Имя
+  = f.text_field :first_name, type: 'text', class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Отчество
+  = f.text_field :middle_name, type: 'text', class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Девичья фамилия
+  = f.text_field :maiden_name, type: 'text', class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Отец
+  = f.number_field :father_id, class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Мать
+  = f.number_field :mother_id, class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Дата рождения
+  = f.date_field :birthdate, class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Адрес
+  = f.text_field :address, type: 'text', class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Контакт
+  = f.text_field :contact, type: 'text', class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Документ
+  = f.text_field :document, type: 'text', class: 'form-control'
+.input-group.mb-3
+  .input-group-prepend.w-50
+    span.input-group-text.w-100 Инфо
+  = f.text_field :info, type: 'text', class: 'form-control'
+
+= f.submit 'Сохранить', class: 'btn btn-primary'

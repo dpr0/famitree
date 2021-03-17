@@ -7,18 +7,18 @@ class User < ApplicationRecord
   has_many :authorizations, dependent: :destroy
   has_many :family_tree_users
   has_many :family_trees, through: :family_tree_users, inverse_of: :users, dependent: :destroy
-  belongs_to :person
+  belongs_to :person, required: false
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth[:provider], uid: auth[:uid]).first
     return authorization.user if authorization
 
-    logger.info(auth)
     user = User.where(email: auth[:email], provider: auth[:provider]).first
-    user ||= User.new(auth)
-    user.save
-    logger.info(user.errors)
-    logger.info('=====================================================================')
+    unless user
+      user ||= User.new(auth)
+      user.person = Person.new(contact: auth[:phone]) if auth[:phone]
+      user.save!
+    end
     user.create_authorization(auth)
     user
   end
