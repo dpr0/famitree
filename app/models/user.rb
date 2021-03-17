@@ -13,8 +13,12 @@ class User < ApplicationRecord
     authorization = Authorization.where(provider: auth[:provider], uid: auth[:uid]).first
     return authorization.user if authorization
 
+    logger.info(auth)
     user = User.where(email: auth[:email], provider: auth[:provider]).first
-    user ||= User.create!(auth)
+    user ||= User.new(auth)
+    user.save
+    logger.info(user.errors)
+    logger.info('=====================================================================')
     user.create_authorization(auth)
     user
   end
