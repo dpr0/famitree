@@ -1,6 +1,6 @@
-p#notice = notice
+= link_to 'Добавить родственника', new_person_path, class: 'btn btn-outline-primary'
 
 ul
   - @persons.each do |person|
-    li= person.full_name
+    li= link_to person.full_name, person_path(person.id)
 

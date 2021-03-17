@@ -1,0 +1,73 @@
+section.text-center
+  .container
+    .row
+      .col-sm-2
+
+      .col-sm-12
+        .row
+          .col-sm-6.text-right
+            | Семейное дерево
+          .col-sm-6.text-left
+            = @person.family_tree&.name
+        .row
+          .col-sm-6.text-right
+            | Пол
+          .col-sm-6.text-left
+            = Sex.cached_by_id[@person.sex_id].name
+        .row
+          .col-sm-6.text-right
+            | Фамилия
+          .col-sm-6.text-left
+            = @person.last_name
+        .row
+          .col-sm-6.text-right
+            | Имя
+          .col-sm-6.text-left
+            = @person.first_name
+        .row
+          .col-sm-6.text-right
+            | Отчество
+          .col-sm-6.text-left
+            = @person.middle_name
+        .row
+          .col-sm-6.text-right
+            | Девичья фамилия
+          .col-sm-6.text-left
+            = @person.maiden_name
+        .row
+          .col-sm-6.text-right
+            | Отец
+          .col-sm-6.text-left
+            = @person.father_id
+        .row
+          .col-sm-6.text-right
+            | Мать
+          .col-sm-6.text-left
+            = @person.mother_id
+        .row
+          .col-sm-6.text-right
+            | Дата рождения
+          .col-sm-6.text-left
+            = @person.birthdate
+        .row
+          .col-sm-6.text-right
+            | Адрес
+          .col-sm-6.text-left
+            = @person.address
+        .row
+          .col-sm-6.text-right
+            | Контакт
+          .col-sm-6.text-left
+            = @person.contact
+        .row
+          .col-sm-6.text-right
+            | Документ
+          .col-sm-6.text-left
+            = @person.document
+        .row
+          .col-sm-6.text-right
+            | Инфо
+          .col-sm-6.text-left
+            = @person.info
+
+      .col-sm-2
