@@ -8,7 +8,7 @@ class Person < ApplicationRecord
   has_many :relations
 
   def full_name
-    maiden = maiden_name ? "(#{maiden_name})" : ""
+    maiden = maiden_name.present? ? "(#{maiden_name})" : ""
     "#{last_name}#{maiden} #{first_name} #{middle_name}"
   end
 end

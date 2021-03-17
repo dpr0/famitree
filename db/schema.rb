@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_090000) do
 
   create_table "relations", force: :cascade do |t|
     t.integer "person_id"
-    t.integer "relation_person_id"
+    t.integer "persona_id"
     t.integer "relation_type_id"
   end
 

@@ -1,6 +1,37 @@
 = link_to 'Добавить родственника', new_person_path, class: 'btn btn-outline-primary'
 
 ul
-  - @persons.each do |person|
-    li= link_to person.full_name, person_path(person.id)
+  - @persons.group_by(&:mother_id).each do |mother_id, persons|
+    li
+      ul
+        - persons.each do |person|
+          li
+            = link_to person.full_name, person_path(person.id)
+            - if person.sex_id == 1
+            - rel1 = @relations.select { |x| x.person_id == person.id }
+            - rel2 = @relations.select { |x| x.persona_id == person.id }
+            - if rel1.present?
+              - rel1.each do |rel|
+                - z = rel.relation_type_id == 1 ? RelationType.cached_by_id[1].name : RelationType.cached_by_id[2].name
+                span = " #{z} с #{@persons.find { |x| x.id == rel.persona_id }.full_name}"
+                ul
+                  - childs = @persons.where(father_id: rel.person_id, mother_id: rel.persona_id).or(@persons.where(father_id: rel.persona_id, mother_id: rel.person_id))
+                  - if childs.present?
+                    b Дети:
+                    - childs.each do |child|
+                      li
+                        = "#{child.id}: "
+                        = link_to child.full_name, person_path(child.id)
 
+            - if rel2.present?
+              - rel2.each do |rel|
+                - z = rel.relation_type_id == 1 ? RelationType.cached_by_id[1].name : RelationType.cached_by_id[2].name
+                span = " #{z} с #{@persons.find { |x| x.id == rel.person_id }.full_name}"
+                ul
+                  - childs = @persons.where(father_id: rel.person_id, mother_id: rel.persona_id).or(@persons.where(father_id: rel.persona_id, mother_id: rel.person_id))
+                  - if childs.present?
+                    b Дети:
+                    - childs.each do |child|
+                      li
+                        = "#{child.id}: "
+                        = link_to child.full_name, person_path(child.id)

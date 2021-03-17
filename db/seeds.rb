@@ -2,8 +2,8 @@
 
 Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].each { |seed| load seed }
 
-RelationType.create(code: 'married',   name: 'женаты')
-RelationType.create(code: 'divorced',  name: 'разведены')
+RelationType.create(code: 'married',   name: 'брак')
+RelationType.create(code: 'divorced',  name: 'развод')
 
 Role.create(code: 'owner',   name: 'Владелец')
 Role.create(code: 'editor',  name: 'Редактор')

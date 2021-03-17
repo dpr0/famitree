@@ -5,12 +5,13 @@ class FamilyTreesController < ApplicationController
   before_action :set_family_tree, only: %i[edit show update destroy]
 
   def index
-    @family_trees = current_user ? FamilyTree.where(user_id: current_user.id).all : []
+    @family_tree_users = current_user ? current_user.family_tree_users.sort_by(&:role_id) : []
   end
 
   def show
     (redirect_to family_trees_path and return) if @family_tree.nil? || !current_user.family_tree_users.map(&:family_tree_id).include?(@family_tree.id)
     @persons = @family_tree.persons
+    @relations = Relation.where(person_id: @persons.ids).or(Relation.where(persona_id: @persons.ids)).all
   end
 
   def new

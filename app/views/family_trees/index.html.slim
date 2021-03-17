@@ -5,13 +5,16 @@ table
     tr
       th
       th
+      th
+      th
   tbody
-    - @family_trees.each do |family_tree|
+    - @family_tree_users.each do |family_tree_user|
       tr
-        td = link_to family_tree.name, family_tree_path(family_tree.id)
-        td = link_to edit_family_tree_path(family_tree.id) do
+        td = family_tree_user.role.name
+        td = link_to family_tree_user.family_tree.name, family_tree_path(family_tree_user.family_tree.id)
+        td = link_to edit_family_tree_path(family_tree_user.family_tree.id) do
           i.far.fa-edit.text-primary
-        td = link_to family_tree_path(family_tree.id), data: { confirm: 'Вы уверены?' }, method: :delete do
+        td = link_to family_tree_path(family_tree_user.family_tree.id), data: { confirm: 'Вы уверены?' }, method: :delete do
           i.fas.fa-times.text-danger
 
 br
