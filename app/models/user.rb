@@ -16,7 +16,7 @@ class User < ApplicationRecord
     user = User.where(email: auth[:email], provider: auth[:provider]).first
     unless user
       user ||= User.new(auth)
-      user.person = Person.new(contact: auth[:phone]) if auth[:phone]
+      user.person = Person.create!({last_name: auth[:name]}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
       user.save!
     end
     user.create_authorization(auth)
