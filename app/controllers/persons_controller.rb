@@ -3,11 +3,11 @@
 class PersonsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_person, only: %i[edit show update destroy]
+  before_action :mans_and_womens, only: %i[edit new]
 
   def show; end
 
   def new
-    @person = Person.new
   end
 
   def edit; end
@@ -29,7 +29,7 @@ class PersonsController < ApplicationController
   def update
     respond_to do |format|
       if @person.update(person_params)
-        format.html { redirect_to family_trees_path, notice: 'Родственник обновлён.' }
+        format.html { redirect_to family_tree_path(@person.family_tree_id), notice: 'Родственник обновлён.' }
         format.json { render :show, status: :ok, location: @person }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,6 +54,12 @@ class PersonsController < ApplicationController
 
   def set_person
     @person = Person.find(params[:id])
+  end
+
+  def mans_and_womens
+    @person ||= Person.new(family_tree_id: params[:family_tree_id])
+    @mens = @person.family_tree.persons.where(sex_id: [Sex[:male].id]).where.not(id: [@person.id])
+    @womens = @person.family_tree.persons.where(sex_id: Sex[:female].id).where.not(id: [@person.id])
   end
 
   def person_params
