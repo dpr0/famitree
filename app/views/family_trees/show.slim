@@ -1,0 +1,9 @@
+= link_to 'Добавить родственника', new_person_path(family_tree_id: params[:id]), class: 'btn btn-outline-primary'
+
+ul
+  - @persons.group_by(&:mother_id).each do |mother_id, persons|
+    li
+      ul
+        - persons.each do |person|
+          li
+            = render 'person', person: person

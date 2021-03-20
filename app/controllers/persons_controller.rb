@@ -8,6 +8,7 @@ class PersonsController < ApplicationController
   def show; end
 
   def new
+    @family_tree = @person.family_tree
   end
 
   def edit; end
@@ -54,12 +55,14 @@ class PersonsController < ApplicationController
 
   def set_person
     @person = Person.find(params[:id])
+    @family_tree = @person.family_tree
+    @family_tree_user = @family_tree.family_tree_users.find { |ft| ft.family_tree_id == @person.family_tree_id && ft.user_id == current_user.id }
   end
 
   def mens_and_womens
     @person ||= Person.new(family_tree_id: params[:family_tree_id])
-    @mens = @person.family_tree.persons.where(sex_id: [Sex[:male].id]).where.not(id: [@person.id])
-    @womens = @person.family_tree.persons.where(sex_id: Sex[:female].id).where.not(id: [@person.id])
+    @mens = @family_tree.persons.where(sex_id: [Sex[:male].id]).where.not(id: [@person.id])
+    @womens = @family_tree.persons.where(sex_id: Sex[:female].id).where.not(id: [@person.id])
   end
 
   def person_params

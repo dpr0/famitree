@@ -1,0 +1,30 @@
+- if @family_tree_user.write?
+  = link_to edit_person_path(person.id) do
+    i.far.fa-edit
+| &nbsp
+= link_to person.full_name, person_path(person.id), class: "text-#{person.sex_id == 1 ? 'primary' : 'danger'}"
+- @person_relations.select { |x| x.person_id == person.id }.each do |rel|
+  - r1 = rel.relation_type_id == RelationType[:married].id ? RelationType[:married].name : RelationType[:divorced].name
+  span = " #{r1} с "
+  - r2 = @persons.find { |x| x.id == rel.persona_id }
+  span = link_to r2.full_name, person_path(r2.id), class: "text-#{r2.sex_id == 1 ? 'primary' : 'danger'}"
+  ul
+    - childs = @persons.where(father_id: rel.person_id, mother_id: rel.persona_id)
+    - if childs.present?
+      b Дети:
+      - childs.each do |child|
+        li
+          = render 'person', person: child
+
+- @persona_relations.select { |x| x.persona_id == person.id }.each do |rel|
+  - r1 = rel.relation_type_id == RelationType[:married].id ? RelationType[:married].name : RelationType[:divorced].name
+  span = " #{r1} с "
+  - r2 = @persons.find { |x| x.id == rel.person_id }
+  span = link_to r2.full_name, person_path(r2.id), class: "text-#{r2.sex_id == 1 ? 'primary' : 'danger'}"
+  ul
+    - childs = @persons.where(father_id: rel.person_id, mother_id: rel.persona_id)
+    - if childs.present?
+      b Дети:
+      - childs.each do |child|
+        li
+          = render 'person', person: child
