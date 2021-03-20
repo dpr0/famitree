@@ -1,4 +1,4 @@
-h1 Список семейных деревьев
+h3 Список семейных деревьев
 
 table
   thead
@@ -12,10 +12,14 @@ table
       tr
         td = family_tree_user.role.name
         td = link_to family_tree_user.family_tree.name, family_tree_path(family_tree_user.family_tree.id)
-        td = link_to edit_family_tree_path(family_tree_user.family_tree.id) do
-          i.far.fa-edit.text-primary
-        td = link_to family_tree_path(family_tree_user.family_tree.id), data: { confirm: 'Вы уверены?' }, method: :delete do
-          i.fas.fa-times.text-danger
+        td
+          - if family_tree_user.owner?
+            = link_to edit_family_tree_path(family_tree_user.family_tree.id) do
+              i.far.fa-edit.text-primary
+        td
+          - if family_tree_user.owner?
+            = link_to family_tree_path(family_tree_user.family_tree.id), data: { confirm: 'Вы уверены?' }, method: :delete do
+              i.fas.fa-times.text-danger
 
 br
 

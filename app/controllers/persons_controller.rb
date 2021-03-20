@@ -3,7 +3,7 @@
 class PersonsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_person, only: %i[edit show update destroy]
-  before_action :mans_and_womens, only: %i[edit new]
+  before_action :mens_and_womens, only: %i[edit new]
 
   def show; end
 
@@ -56,7 +56,7 @@ class PersonsController < ApplicationController
     @person = Person.find(params[:id])
   end
 
-  def mans_and_womens
+  def mens_and_womens
     @person ||= Person.new(family_tree_id: params[:family_tree_id])
     @mens = @person.family_tree.persons.where(sex_id: [Sex[:male].id]).where.not(id: [@person.id])
     @womens = @person.family_tree.persons.where(sex_id: Sex[:female].id).where.not(id: [@person.id])

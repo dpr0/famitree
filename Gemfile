@@ -25,6 +25,7 @@ gem 'telegram-bot'
 gem 'telegram-bot-types'
 gem 'flag-icons-rails'
 gem 'jwt'
+gem 'cancancan'
 # gem 'image_processing'
 
 group :development do
