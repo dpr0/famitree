@@ -52,6 +52,18 @@ section.text-center
           .col-6.text-left
             - if @person.mother_id
               = link_to Person.find(@person.mother_id).full_name, person_path(@person.mother_id), class: "text-danger"
+        - r = Relation.where(person_id: @person.id).or(Relation.where(persona_id: @person.id))
+        - if r.present?
+          .row
+            .col-6.text-right
+              | Отношения:
+            .col-6.text-right
+          - Person.where(id: r.map(&:person_id) + r.map(&:persona_id)).each do |p|
+            - next if p.id == @person.id
+            .row
+              .col-6.text-right
+              .col-6.text-left
+                = link_to p.full_name, person_path(p.id), class: sex_color(p.sex_id)
         .row
           .col-6.text-right
             | Дата рождения
