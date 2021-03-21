@@ -1,14 +1,17 @@
 nav.main-header.navbar.navbar-expand
-  - if current_user
-    ul.navbar-nav
-      li.nav-item.d-none.d-sm-inline-block
-        = link_to 'Главная', user_path(current_user.id), class: 'nav-link'
-      li.nav-item.d-none.d-sm-inline-block
-        = link_to 'Мои семейные деревья', family_trees_path(), class: 'nav-link'
-  ul.navbar-nav.ml-auto
+  ul.navbar-nav
     - unless current_user
       = link_to 'Войти', new_user_session_path, class: 'nav-link'
     - else
+      li.nav-item
+        = link_to family_trees_path, class: 'nav-link' do
+          i.fas.fa-home
+      - if @family_tree
+        li.nav-item
+          = link_to new_person_path(family_tree_id: @family_tree.id), class: 'nav-link' do
+            i.fas.fa-plus
+  ul.navbar-nav.ml-auto
+    - if current_user
       li.nav-item
         = link_to user_path(current_user.id), class: 'nav-link' do
           i.far.fa-user
@@ -54,9 +57,9 @@ nav.main-header.navbar.navbar-expand
             span.float-right.text-muted.text-sm 2 дня
           .dropdown-divider
           a.dropdown-item.dropdown-footer href="#" Просмотр всех уведомлений
-      li.nav-item
-        a.nav-link data-slide="true" data-widget="control-sidebar" href="#" role="button"
-          i.fas.fa-th-large
+      / li.nav-item
+      /   a.nav-link data-slide="true" data-widget="control-sidebar" href="#" role="button"
+      /     i.fas.fa-th-large
       li.nav-item
         = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
           i.fas.fa-sign-out-alt

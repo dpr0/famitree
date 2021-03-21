@@ -1,52 +1,49 @@
 section.text-center
   .container
     .row
-      .col-sm-2
+      .col-2
 
-      .col-sm-12
+      .col-12
         .row
-          .col-sm-6.text-right
+          .col-6.text-right
             | Пользователь
-          .col-sm-6.text-left
+          .col-6.text-left
             = current_user.name
         - if ['google.com', 'yandex'].include? current_user.provider
           .row
-            .col-sm-6.text-right
+            .col-6.text-right
               | Email
-            .col-sm-6.text-left
+            .col-6.text-left
               = current_user.email
         - if current_user.phone
           .row
-            .col-sm-6.text-right
+            .col-6.text-right
               | Телефон
-            .col-sm-6.text-left
+            .col-6.text-left
               = current_user.phone
         .row
-          .col-sm-6.text-right
+          .col-6.text-right
             | OAuth провайдер
-          .col-sm-6.text-left
+          .col-6.text-left
             = current_user.provider
         - if current_user.person
           .row
-            .col-sm-6.text-right
+            .col-6.text-right
               | Персона
-            .col-sm-6.text-left
+            .col-6.text-left
               = current_user.person.full_name
         .row
-          .col-sm-6.text-right
+          .col-6.text-right
             | IP
-          .col-sm-6.text-left
+          .col-6.text-left
             = current_user.current_sign_in_ip
-        - @trees.each do |role_id, trees|
-          .row
-            .col-sm-6.text-right
-              = Role.cached_by_id[role_id].name
-            .col-sm-6.text-left
-              ul
-                - trees.each do |tree|
-                  li = link_to tree.family_tree.name, family_tree_path(tree.user_id)
+        .row
+          .col-6.text-right
+            | Деревьев
+          .col-6.text-left
+            = @trees.count
 
         .row
-          .col-sm-6.text-right
+          .col-12.text-center
             = link_to 'Редактировать свой профиль', edit_person_path(current_user.person_id), class: 'btn btn-outline-primary'
-      .col-sm-2
+      .col-2
