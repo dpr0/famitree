@@ -14,12 +14,13 @@ class User < ApplicationRecord
     return authorization.user if authorization
 
     user = User.where(email: auth[:email], provider: auth[:provider]).first
+    user ||= User.where(email: "#{auth[:phone]}@#{auth[:provider]}", provider: auth[:provider]).first
     if user
       user.uid ||= auth[:uid]
       user.name = auth[:name] if auth[:name].present?
       user.person ||= Person.create!({last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name, }.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
     else
-      user = User.new(auth)
+      user = User.new(auth.to_enum.to_h.merge(password: Devise.friendly_token[0, 20], email: "#{auth[:phone]}@#{auth[:provider]}"))
       user.person = Person.create!({last_name: auth[:name]}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
     end
     user.save!
