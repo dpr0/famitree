@@ -26,6 +26,7 @@ class PersonsController < ApplicationController
   end
 
   def update
+    byebug
     respond_to do |format|
       if @person.update(person_params)
         format.html { redirect_to family_tree_path(@person.family_tree_id), notice: 'Родственник обновлён.' }

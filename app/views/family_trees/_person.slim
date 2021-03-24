@@ -1,4 +1,4 @@
-- if @family_tree_user.write?
+- if @family_tree_user&.write?
   = link_to edit_person_path(person.id) do
     i.far.fa-edit
 | &nbsp

@@ -3,7 +3,7 @@ section.text-center
     .row
       .col-2
       .col-8
-        - if @family_tree_user.write?
+        - if @family_tree_user&.write?
           p= link_to 'Редактировать', edit_person_path(@person), class: 'btn btn-outline-primary'
       .col-2
     .row
