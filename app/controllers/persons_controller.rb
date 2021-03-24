@@ -54,7 +54,7 @@ class PersonsController < ApplicationController
   def set_person
     @person = Person.find(params[:id])
     @family_tree = @person.family_tree
-    @family_tree_user = @family_tree.family_tree_users.find { |ft| ft.family_tree_id == @person.family_tree_id && ft.user_id == current_user.id }
+    @family_tree_user = @family_tree.family_tree_users.find { |ft| ft.family_tree_id == @person.family_tree_id && ft.user_id == current_user.id } if @family_tree
   end
 
   def mens_and_womens
