@@ -21,6 +21,7 @@ module Api::V1
     def create
       @family_tree = FamilyTree.new(family_tree_params.merge(user_id: current_user.id))
       if @family_tree.save
+        @family_tree.family_tree_users.create(user_id: current_user.id, role_id: Role[:owner].id)
         render json: @family_tree, status: :created
       else
         render json: @family_tree.errors, status: :unprocessable_entity
@@ -28,7 +29,7 @@ module Api::V1
     end
 
     def update
-      if !@family_tree_user.owner?
+      if !@family_tree_user&.owner?
         render json: {error: 'you are not owner'}, status: :unprocessable_entity
       elsif @family_tree.update(family_tree_params)
         render json: @family_tree, status: :ok
