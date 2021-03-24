@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'callbacks' }
-  root 'users#show'
+  root 'users#new'
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
@@ -14,7 +14,8 @@ Rails.application.routes.draw do
 
   resources :family_trees
   resources :persons
-  resources :users, only: [:show] do
-    post :login, on: :collection
+  resources :users, only: [:new, :show] do
+    post :create_user, on: :collection
+    get :welcome, on: :collection
   end
 end

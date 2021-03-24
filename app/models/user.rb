@@ -14,12 +14,28 @@ class User < ApplicationRecord
     return authorization.user if authorization
 
     user = User.where(email: auth[:email], provider: auth[:provider]).first
-    unless user
-      user ||= User.new(auth)
+    if user
+      user.uid ||= auth[:uid]
+      user.name = auth[:name] if auth[:name].present?
+      user.person ||= Person.create!({last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name, }.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
+    else
+      user = User.new(auth)
       user.person = Person.create!({last_name: auth[:name]}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
-      user.save!
     end
+    user.save!
     user.create_authorization(auth)
+    user
+  end
+
+  def self.create_user(p)
+    p[:birthdate] = p[:birthdate]&.to_date
+    phone = p[:phone].gsub(/[^\d]/, '')
+    p[:phone] = phone.size == 10 ? "+7#{phone}" : nil
+    p[:email] = "#{phone}@phone" if phone
+    p[:provider] = 'phone'
+    user = User.new(p)
+    user.name = user.full_name
+    user.password = Devise.friendly_token[0, 20]
     user
   end
 
@@ -32,5 +48,9 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     authorizations.create(provider: auth[:provider], uid: auth[:uid])
+  end
+
+  def full_name
+    "#{last_name} #{first_name} #{middle_name}"
   end
 end

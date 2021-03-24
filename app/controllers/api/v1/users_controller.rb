@@ -5,9 +5,7 @@ module Api::V1
     protect_from_forgery with: :null_session
     before_action :authenticate_request, except: :login
 
-    def show
-
-    end
+    def show; end
 
     def login
       @user = User.find_for_oauth(params[:user])
