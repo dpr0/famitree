@@ -29,14 +29,16 @@
   .input-group-prepend.w-50
     span.input-group-text.w-100 Девичья фамилия
   = f.text_field :maiden_name, type: 'text', class: 'form-control'
-.input-group.mb-3
-  .input-group-prepend.w-50
-    label.input-group-text.w-100 for="person_father_id" Отец
-  = f.collection_select :father_id, @mens, :id, :full_name, class: 'custom-select', prompt: true, id: 'father_id'
-.input-group.mb-3
-  .input-group-prepend.w-50
-    label.input-group-text.w-100 for="person_mother_id" Мать
-  = f.collection_select :mother_id, @womens, :id, :full_name, class: 'custom-select', prompt: true, id: 'mother_id'
+- if @mens
+  .input-group.mb-3
+    .input-group-prepend.w-50
+      label.input-group-text.w-100 for="person_father_id" Отец
+    = f.collection_select :father_id, @mens, :id, :full_name, class: 'custom-select', prompt: true, id: 'father_id'
+- if @womens
+  .input-group.mb-3
+    .input-group-prepend.w-50
+      label.input-group-text.w-100 for="person_mother_id" Мать
+    = f.collection_select :mother_id, @womens, :id, :full_name, class: 'custom-select', prompt: true, id: 'mother_id'
 .input-group.mb-3
   .input-group-prepend.w-50
     span.input-group-text.w-100 Дата рождения
