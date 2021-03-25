@@ -19,7 +19,8 @@ section.text-center
           .col-6.text-right
             | Пол
           .col-6.text-left
-            = Sex.cached_by_id[@person.sex_id].name
+            - if @person.sex_id
+              = Sex.cached_by_id[@person.sex_id].name
         .row
           .col-6.text-right
             | Фамилия

@@ -4,15 +4,11 @@ module Api::V1
   class PersonsController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :set_person, only: %i[show update destroy]
-
-    def index
-      @persons = Person.where(family_tree_id: params[:family_tree_id]).all
-      render json: @persons, status: :ok
-    end
+    before_action :load_person, only: %i[show update destroy]
+    before_action :load_family_tree, only: %i[create update]
 
     def show
-      render json: @person, status: :ok
+      render json: @person, status: @person ? :ok : :not_found
     end
 
     def create
@@ -33,22 +29,30 @@ module Api::V1
     end
 
     def destroy
-      if @person.family_tree.user.id == current_user&.id
-        @person.destroy
-        render json: { status: :deleted }, status: :ok
-      else
-        render json: { status: :not_deleted }, status: :unprocessable_entity
-      end
+      @person.destroy
+      render json: { status: :deleted }, status: :ok
     end
 
     private
 
-    def set_person
-      @person = Person.find(params[:id])
+    def load_person
+      @person = if params[:id] == current_user.person_id
+                  current_user.person
+                else
+                  Person.where(family_tree_id: current_user.family_tree_users.map(&:family_tree_id)).find_by(id: params[:id])
+                end
+      render(json: { error: "person: #{params[:id]} - access denied"}, status: :unprocessable_entity) and return unless @person
     end
 
     def person_params
-      params.fetch(:person, {})
+      params.require(:person).permit(
+        :family_tree_id, :sex_id, :last_name, :first_name, :middle_name, :maiden_name, :father_id, :mother_id, :birthdate, :deathdate, :address, :contact, :document, :info
+      )
+    end
+
+    def load_family_tree
+      @family_tree = current_user.family_tree_users.find_by(family_tree_id: params[:family_tree_id])
+      render(json: { error: "family_tree_id: #{params[:family_tree_id]} - access denied"}, status: :unprocessable_entity) and return unless @family_tree
     end
   end
 end

@@ -8,7 +8,7 @@
 .input-group.mb-3
   .input-group-prepend.w-50
     span.input-group-text.w-100 Семейное дерево
-  = f.collection_select :family_tree_id, current_user.family_trees, :id, :name, class: 'form-control'
+  = f.collection_select :family_tree_id, @family_trees, :id, :name, class: 'form-control'
 .input-group.mb-3
   .input-group-prepend.w-50
     span.input-group-text.w-100 Пол
