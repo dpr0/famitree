@@ -15,8 +15,12 @@ class UsersController < ApplicationController
   def create_user
     @user = User.create_user(create_user_params)
 
+    if @user.phone && User.find_by(phone: @user.phone).present?
+      redirect_to(new_user_path, notice: "Пользователь с номером #{@user.phone} уже зарегистрирован в системе") and return
+    end
+
     respond_to do |format|
-      if @user.phone && @user.save
+      if @user.save
         format.html { redirect_to welcome_users_path }
         format.json { render :show, status: :created, location: @user }
       else

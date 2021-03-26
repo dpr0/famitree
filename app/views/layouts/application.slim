@@ -13,6 +13,10 @@ html
 
   body.bg-black.sidebar-collapse
     = render 'layouts/header'
+    .row
+      .col-12.text-center
+        .notice = notice
+        .alert = alert
     = yield
 
 link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"

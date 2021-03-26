@@ -32,7 +32,7 @@ class User < ApplicationRecord
     p[:birthdate] = p[:birthdate]&.to_date
     phone = p[:phone].gsub(/[^\d]/, '')
     p[:phone] = phone.size == 10 ? "+7#{phone}" : nil
-    p[:email] = "#{phone}@phone" if phone
+    p[:email] = "+7#{phone}@phone" if phone
     p[:provider] = 'phone'
     user = User.new(p)
     user.name = user.full_name
