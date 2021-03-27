@@ -19,11 +19,13 @@ class User < ApplicationRecord
       user.uid ||= auth[:uid]
       user.name = auth[:name] if auth[:name].present?
       user.person ||= Person.create!({last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name, }.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
+      user.save!
     else
-      user = User.new(auth.to_enum.to_h.merge(password: Devise.friendly_token[0, 20], email: "#{auth[:phone]}@#{auth[:provider]}"))
-      user.person = Person.create!({last_name: auth[:name]}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
+      # user = User.new(auth.to_enum.to_h.merge(password: Devise.friendly_token[0, 20], email: "#{auth[:phone]}@#{auth[:provider]}"))
+      # user.person = Person.create!({last_name: auth[:name]}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
+      # user.save!
+      return
     end
-    user.save!
     user.create_authorization(auth)
     user
   end
@@ -41,10 +43,10 @@ class User < ApplicationRecord
   end
 
   def self.auth_by_token(headers)
-    @current_user = if headers['Authorization'].present?
-      hash = JsonWebToken.decode(headers['Authorization'].split(' ').last)
-      User.find(hash[:user_id]) if hash[:user_id]
-    end
+    return unless headers['Authorization'].present?
+
+    hash = JsonWebToken.decode(headers['Authorization'].split(' ').last)
+    @current_user = User.find(hash[:user_id]) if hash && hash[:user_id]
   end
 
   def create_authorization(auth)

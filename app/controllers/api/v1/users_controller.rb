@@ -9,7 +9,7 @@ module Api::V1
 
     def login
       @user = User.find_for_oauth(params[:user])
-      render(json: {}, status: :unauthorized) unless @user.persisted?
+      render(json: { error: 'Not Authorized' }, status: :unauthorized) and return unless @user&.persisted?
 
       sign_in @user, event: :authentication
       render json: { auth_token: JsonWebToken.encode(user_id: current_user.id) }
