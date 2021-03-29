@@ -3,9 +3,15 @@
 module Api::V1
   class UsersController < ApplicationController
     protect_from_forgery with: :null_session
-    before_action :authenticate_request, except: :login
+    before_action :authenticate_request, except: [:login, :check]
 
     def show; end
+
+    def check
+      phone = params[:phone].gsub(/\D/, '')
+      user = User.where(phone: "+#{phone}", email: "+#{phone}@phone", provider: :phone).first
+      render json: { user_exist: user.present? }
+    end
 
     def login
       @user = User.find_for_oauth(params[:user])

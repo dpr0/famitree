@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :persons,      only: [:index, :show, :create, :update, :destroy]
       resources :users, only: [:show] do
         post :login, on: :collection
+        get :check, on: :collection
       end
     end
   end
