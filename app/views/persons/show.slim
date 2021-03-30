@@ -13,30 +13,12 @@ section.text-center
         .row
           .col-12
             h1
-              - if @person.link_vk.present?
-                = link_to @person.link_vk do
-                  i.fab.fa-vk
-              - if @person.link_ok.present?
-                = link_to @person.link_ok do
-                  i.fab.fa-odnoklassniki-square.text-primary
-              - if @person.link_fb.present?
-                = link_to @person.link_fb do
-                  i.fab.fa-facebook-square.text-primary
-              - if @person.link_ig.present?
-                = link_to @person.link_ig do
-                  i.fab.fa-instagram-square.text-primary
-              - if @person.link_tg.present?
-                = link_to @person.link_tg do
-                  i.fab.fa-telegram-plane
-              - if @person.link_tw.present?
-                = link_to @person.link_tw do
-                  i.fab.fa-twitter.text-primary
-              - if @person.link_ch.present?
-                = link_to @person.link_ch do
-                  i.fas.fa-house-user.text-primary
-              - if @person.link_tt.present?
-                = link_to @person.link_tt do
-                  i.fab.fa-tiktok.text-primary
+              - PersonsController::LINKS.each do |link, klass|
+                - if @person.send(link).present?
+                  = link_to @person.send(link) do
+                    i class="text-primary #{klass}"
+                - else
+                  i class="text-secondary #{klass}"
         .row
           .col-6.text-right
             | Семейное дерево

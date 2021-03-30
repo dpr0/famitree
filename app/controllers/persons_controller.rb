@@ -6,6 +6,17 @@ class PersonsController < ApplicationController
   before_action :family_trees, only: %i[new edit]
   before_action :mens_and_womens, only: %i[edit new]
 
+  LINKS = {
+      link_vk: 'fab fa-vk',
+      link_fb: 'fab fa-odnoklassniki',
+      link_ig: 'fab fa-facebook',
+      link_ok: 'fab fa-instagram',
+      link_tg: 'fab fa-telegram-plane',
+      link_tw: 'fab fa-twitter',
+      link_tt: 'fas fa-house-user',
+      link_ch: 'fab fa-tiktok'
+  }.freeze
+
   def show
     redirect_to family_trees_path unless @person
   end
