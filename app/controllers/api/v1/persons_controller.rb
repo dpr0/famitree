@@ -4,33 +4,35 @@ module Api::V1
   class PersonsController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :load_person, only: %i[show update destroy]
+    before_action :load_person, only: %i[show update destroy avatar]
     before_action :load_family_tree, only: %i[create update]
 
     def show
-      render json: @person, status: @person ? :ok : :not_found
+      render json: {
+          person: @person, facts: @person.facts, main_image: @person.main_image.variant(resize_to_limit: [100, nil])
+      }, status: @person ? :ok : :not_found
     end
 
     def create
       @person = Person.new(person_params)
-      if @person.save
-        render json: @person, status: :created
-      else
-        render json: @person.errors, status: :unprocessable_entity
-      end
+      render_json(@person.save, @person)
     end
 
     def update
-      if @person.update(person_params)
-        render json: @person, status: :ok
-      else
-        render json: @person.errors, status: :unprocessable_entity
-      end
+      render_json(@person.update(person_params), @person)
     end
 
     def destroy
       @person.destroy
       render json: { status: :deleted }, status: :ok
+    end
+
+    def avatar
+      if @person&.main_image&.attached?
+        redirect_to rails_blob_url(@person.main_image)
+      else
+        head :not_found
+      end
     end
 
     private
@@ -47,6 +49,7 @@ module Api::V1
     def person_params
       params.require(:person).permit(
         :family_tree_id, :sex_id, :last_name, :first_name, :middle_name, :maiden_name, :father_id, :mother_id, :birthdate, :deathdate,
+        :confirm_last_name, :confirm_first_name, :confirm_middle_name, :confirm_maiden_name, :confirm_birthdate,
         :address, :contact, :document, :info, :link_vk, :link_fb, :link_ig, :link_ok, :link_tg, :link_tw, :link_tt, :link_ch
       )
     end

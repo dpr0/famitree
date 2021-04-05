@@ -66,4 +66,7 @@
         i class="#{klass}"
     = f.text_field link, type: 'text', class: 'form-control'
 
+= f.label :main_image
+= f.file_field :main_image
+
 = f.submit 'Сохранить', class: 'btn btn-primary'

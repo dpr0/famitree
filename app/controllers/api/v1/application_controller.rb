@@ -3,6 +3,14 @@
 module Api::V1
   class ApplicationController < ActionController::Base
 
+    def render_json(bool, model)
+      if bool
+        render json: model, status: :ok
+      else
+        render json: model.errors, status: :unprocessable_entity
+      end
+    end
+
     private
 
     def authenticate_request

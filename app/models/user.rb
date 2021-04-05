@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :family_tree_users
   has_many :family_trees, through: :family_tree_users, inverse_of: :users, dependent: :destroy
   belongs_to :person, required: false
+  has_one_attached :avatar
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth[:provider], uid: auth[:uid]).first

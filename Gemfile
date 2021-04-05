@@ -22,11 +22,11 @@ gem 'omniauth'
 gem 'omniauth-yandex'
 gem 'omniauth-telegram'
 gem 'jwt'
+gem 'image_processing'
 # gem 'telegram-bot'
 # gem 'telegram-bot-types'
 # gem 'flag-icons-rails'
 # gem 'cancancan'
-# gem 'image_processing'
 
 group :development do
   gem 'bcrypt_pbkdf'

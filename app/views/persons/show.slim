@@ -100,4 +100,8 @@ section.text-center
         .row
           .col-12
             = @person.info
+        - if @person.main_image.persisted?
+          .row
+            .col-12
+              = image_tag @person.main_image.variant(resize_to_limit: [100, nil])
       .col-2
