@@ -12,7 +12,7 @@ module Api::V1
 
     def show
       if @family_tree
-        render json: { family_tree: @family_tree, persons: @family_tree.persons }, status: :ok
+        render json: { family_tree: @family_tree, persons: @family_tree.persons, root_person_id: current_user.person_id }, status: :ok
       else
         render json: {}, status: :not_found
       end
