@@ -7,19 +7,24 @@ class Person < ApplicationRecord
   belongs_to :family_tree, required: false
   has_many :relations
   has_many :facts
-  has_one_attached :main_image
+  has_many :photos
+  has_one_attached :avatar
 
   validate :acceptable_image
 
   def acceptable_image
-    return unless main_image.attached?
+    return unless avatar.attached?
 
-    errors.add(:main_image, 'is too big') unless main_image.byte_size <= 1.megabyte
-    errors.add(:main_image, 'must be a JPEG or PNG') unless ['image/jpeg', 'image/png'].include?(main_image.content_type)
+    errors.add(:avatar, 'is too big') unless avatar.byte_size <= 1.megabyte
+    errors.add(:avatar, 'must be a JPEG or PNG') unless ['image/jpeg', 'image/png'].include?(avatar.content_type)
   end
 
   def full_name
     maiden = maiden_name.present? ? "(#{maiden_name})" : ''
     "#{last_name}#{maiden} #{first_name} #{middle_name}"
+  end
+
+  def versions
+    Version.where(model: self.class.name, model_id: id).order(created_at: :DESC)
   end
 end

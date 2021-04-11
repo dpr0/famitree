@@ -9,7 +9,11 @@ module Api::V1
 
     def show
       render json: {
-          person: @person, facts: @person.facts, main_image: @person.main_image.variant(resize_to_limit: [100, nil])
+          person: @person, avatar: @person.avatar.variant(resize_to_limit: [100, nil]),
+          childs: Person.where(father_id: @person.id).or(Person.where(mother_id: @person.id)),
+          facts: @person.facts,
+          photos: @person.photos,
+          versions: @person.versions
       }, status: @person ? :ok : :not_found
     end
 
@@ -28,8 +32,8 @@ module Api::V1
     end
 
     def avatar
-      if @person&.main_image&.attached?
-        redirect_to rails_blob_url(@person.main_image)
+      if @person&.avatar&.attached?
+        redirect_to rails_blob_url(@person.avatar)
       else
         head :not_found
       end

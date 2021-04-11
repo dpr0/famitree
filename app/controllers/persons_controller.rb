@@ -41,7 +41,6 @@ class PersonsController < ApplicationController
 
   def update
     respond_to do |format|
-      byebug
       if @person.update(person_params)
         format.html { redirect_to family_tree_path(@person.family_tree_id), notice: 'Родственник обновлён.' }
         format.json { render :show, status: :ok, location: @person }
@@ -92,7 +91,7 @@ class PersonsController < ApplicationController
   def person_params
     params.require(:person).permit(
       :family_tree_id, :sex_id, :last_name, :first_name, :middle_name, :maiden_name, :father_id, :mother_id, :birthdate, :deathdate,
-      :confirm_last_name, :confirm_first_name, :confirm_middle_name, :confirm_maiden_name, :confirm_birthdate, :main_image,
+      :confirm_last_name, :confirm_first_name, :confirm_middle_name, :confirm_maiden_name, :confirm_birthdate, :avatar,
       :address, :contact, :document, :info, :link_vk, :link_fb, :link_ig, :link_ok, :link_tg, :link_tw, :link_tt, :link_ch
     )
   end

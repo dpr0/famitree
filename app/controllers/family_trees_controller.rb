@@ -80,6 +80,6 @@ class FamilyTreesController < ApplicationController
   end
 
   def family_tree_params
-    params.require(:family_tree).permit(:name)
+    params.require(:family_tree).permit(:name, :user_id)
   end
 end
