@@ -13,7 +13,7 @@ module Api::V1
     end
 
     def update
-      render_json(@fact.update(person_params), @fact)
+      render_json(@fact.update(fact_params), @fact)
     end
 
     def destroy
@@ -29,11 +29,11 @@ module Api::V1
     end
 
     def fact_params
-      params.require(:fact).permit(:person_id, :date, :info)
+      params.require(:fact).permit(:person_id, :date, :info, :info_type_id)
     end
 
     def load_person
-      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id), id: fact_params[:person_id])
+      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: fact_params[:person_id])
       render(json: { error: "person: #{fact_params[:person_id]} - access denied"}, status: :unprocessable_entity) and return unless @person
     end
   end
