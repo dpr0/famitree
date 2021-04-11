@@ -7,12 +7,17 @@ module Api::V1
     before_action :load_person
     before_action :load_fact, only: %i[update destroy]
 
+    def show
+      render json: { fact: @fact, versions: Version.changes(@fact) }, status: @person ? :ok : :not_found
+    end
+
     def create
       @fact = Fact.new(fact_params)
       render_json(@fact.save, @fact)
     end
 
     def update
+      Version.prepare(@fact, fact_params).add
       render_json(@fact.update(fact_params), @fact)
     end
 

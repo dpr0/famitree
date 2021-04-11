@@ -9,11 +9,12 @@ module Api::V1
 
     def show
       render json: {
-          person: @person, avatar: @person.avatar.variant(resize_to_limit: [100, nil]),
-          childs: Person.where(father_id: @person.id).or(Person.where(mother_id: @person.id)),
-          facts: @person.facts,
-          photos: @person.photos,
-          versions: @person.versions
+          person:   @person,
+          avatar:   @person.avatar.variant(resize_to_limit: [100, nil]),
+          childs:   Person.where(father_id: @person.id).or(Person.where(mother_id: @person.id)),
+          facts:    @person.facts,
+          photos:   @person.photos,
+          versions: Version.changes(@person)
       }, status: @person ? :ok : :not_found
     end
 
@@ -23,6 +24,7 @@ module Api::V1
     end
 
     def update
+      Version.prepare(@person, person_params).add
       render_json(@person.update(person_params), @person)
     end
 

@@ -12,7 +12,7 @@ module Api::V1
 
     def show
       if @family_tree
-        render json: { family_tree: @family_tree, persons: @family_tree.persons, root_person_id: @family_tree.root_person_id }, status: :ok
+        render json: { family_tree: @family_tree, persons: @family_tree.persons, root_person_id: @family_tree.root_person_id, versions: Version.changes(@family_tree) }, status: :ok
       else
         render json: {}, status: :not_found
       end
@@ -29,9 +29,11 @@ module Api::V1
     end
 
     def update
+      version = Version.prepare(@family_tree, family_tree_params)
       if !@family_tree_user&.owner?
         render json: {error: 'you are not owner'}, status: :unprocessable_entity
       elsif @family_tree.update(family_tree_params)
+        version.add
         render json: @family_tree, status: :ok
       else
         render json: @family_tree.errors, status: :unprocessable_entity

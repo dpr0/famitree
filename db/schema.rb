@@ -175,7 +175,7 @@ ActiveRecord::Schema.define(version: 2021_04_11_212000) do
   create_table "versions", force: :cascade do |t|
     t.string "model"
     t.integer "model_id"
-    t.json "changes"
+    t.json "model_changes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

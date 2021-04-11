@@ -23,8 +23,4 @@ class Person < ApplicationRecord
     maiden = maiden_name.present? ? "(#{maiden_name})" : ''
     "#{last_name}#{maiden} #{first_name} #{middle_name}"
   end
-
-  def versions
-    Version.where(model: self.class.name, model_id: id).order(created_at: :DESC)
-  end
 end

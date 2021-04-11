@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       resources :persons,      only: [:show, :create, :update, :destroy] do
         get :avatar, on: :member
       end
-      resources :facts,        only: [:create, :update, :destroy]
+      resources :facts,        only: [:show, :create, :update, :destroy]
       resources :users, only: [:show] do
         post :login, on: :collection
         get :check, on: :collection
