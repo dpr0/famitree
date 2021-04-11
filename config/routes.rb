@@ -4,6 +4,12 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
+      namespace :dictionary do
+        get :roles
+        get :info_types
+        get :relation_types
+        get :sex
+      end
       resources :family_trees, only: [:index, :show, :create, :update, :destroy]
       resources :persons,      only: [:show, :create, :update, :destroy] do
         get :avatar, on: :member
