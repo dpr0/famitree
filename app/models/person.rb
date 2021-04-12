@@ -9,8 +9,9 @@ class Person < ApplicationRecord
   belongs_to :family_tree, required: false
   has_many :relations
   has_many :facts
+  has_many :photos
   has_one_attached :avatar
-  has_many_attached :photos
+  has_many_attached :images
 
   validate :acceptable_image
 
@@ -28,5 +29,11 @@ class Person < ApplicationRecord
 
   def avatar_url
     url_for(avatar) if avatar.persisted?
+  end
+
+  def images_urls
+    images.map do |i|
+      url_for(i) if i.persisted?
+    end
   end
 end

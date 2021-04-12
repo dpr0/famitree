@@ -10,12 +10,13 @@ module Api::V1
     def show
       render json: {
           person:   @person,
+          images:   @person.images_urls,
           facts:    @person.facts,
-          # photos:   @person.photos,
           avatar:   @person.avatar_url,
           childs:   Person.where(father_id: @person.id).or(Person.where(mother_id: @person.id)),
           versions: Version.changes(@person)
-      }, status: @person ? :ok : :not_found
+      },
+      status: @person ? :ok : :not_found
     end
 
     def create
