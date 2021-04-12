@@ -16,7 +16,7 @@ class Version < ApplicationRecord
     save if model_changes.present?
   end
 
-  def changes(model)
+  def self.changes(model)
     where(model: model.class.name, model_id: model.id).order(created_at: :desc)
   end
 end
