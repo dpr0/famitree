@@ -19,12 +19,13 @@ class User < ApplicationRecord
     if user
       user.uid ||= auth[:uid]
       user.name = auth[:name] if auth[:name].present?
-      user.person ||= Person.create!({last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name, }.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
       user.save!
       if user.family_trees.count == 0
         tree = user.family_trees.new(name: user.name, user_id: user.id, root_person_id: user.person.id)
         tree.save
         user.family_tree_users.create(role_id: 1, family_tree_id: tree.id)
+        user_params = {last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name, family_tree_id: tree.id}
+        user.person ||= Person.create!(user_params.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
       end
     else
       # user = User.new(auth.to_enum.to_h.merge(password: Devise.friendly_token[0, 20], email: "#{auth[:phone]}@#{auth[:provider]}"))
