@@ -20,6 +20,7 @@ class User < ApplicationRecord
       user.uid ||= auth[:uid]
       user.name = auth[:name] if auth[:name].present?
       user.person ||= Person.create!({last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name, }.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
+      user.family_trees.create!(name: auth[:name]) if user.family_trees.count == 0
       user.save!
     else
       # user = User.new(auth.to_enum.to_h.merge(password: Devise.friendly_token[0, 20], email: "#{auth[:phone]}@#{auth[:provider]}"))

@@ -94,7 +94,7 @@ GEM
       capistrano-bundler
       puma (~> 4.0)
     concurrent-ruby (1.1.8)
-    connection_pool (2.2.3)
+    connection_pool (2.2.5)
     crass (1.0.6)
     devise (4.7.3)
       bcrypt (~> 3.0)
@@ -163,7 +163,7 @@ GEM
     omniauth-oauth2 (1.7.1)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
-    omniauth-telegram (0.2.0)
+    omniauth-telegram (0.2.1)
       omniauth (>= 1.0)
     omniauth-yandex (0.0.2)
       omniauth (~> 1.0)

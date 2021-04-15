@@ -62,7 +62,7 @@ module Api::V1
     end
 
     def load_family_tree
-      @family_tree = current_user.family_tree_users.find_by(family_tree_id: @person.family_tree_id)
+      @family_tree = current_user.family_tree_users.find_by(family_tree_id: person_params[:family_tree_id] || @person.family_tree_id)
       render(json: { error: "family_tree_id: #{params[:family_tree_id]} - access denied"}, status: :unprocessable_entity) and return unless @family_tree
     end
   end
