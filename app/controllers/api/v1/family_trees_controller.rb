@@ -6,18 +6,100 @@ module Api::V1
     before_action :authenticate_request
     before_action :find_family_tree, only: %i[show update destroy]
 
+    resource_description do
+      short 'Семейные деревья'
+    end
+
+    def_param_group :family_tree do
+      property :id,             Integer, desc: ''
+      property :user_id,        Integer, desc: ''
+      property :name,           String,  desc: ''
+      property :created_at,     Date,    desc: ''
+      property :updated_at,     Date,    desc: ''
+      property :root_person_id, Integer, desc: ''
+    end
+
+    def_param_group :versions do
+      property :id,         Integer, desc: ''
+      property :model,      String,  desc: ''
+      property :model_id,   Integer, desc: ''
+      property :changes,    Hash,    desc: ''
+      property :created_at, Date,    desc: ''
+      property :updated_at, Date,    desc: ''
+    end
+
+    # GET /api/v1/family_trees -
+    # GET /api/v1/family_trees/:id - просмотр своего дерева по айди
+    # POST /api/v1/family_trees { "name": "111" } - создать новое дерево
+    # PATCH /api/v1/family_trees/:id { "name": "111" } - обновить дерево
+    # DELETE /api/v1/family_trees/:id - удалить свое дерево и его связи
+
+    api :GET, '/v1/family_trees'
+    returns array_of: :family_tree, code: 200, desc: 'просмотр всех своих деревьев'
     def index
       render json: family_trees, status: :ok
     end
 
+    api :GET, '/v1/family_trees/:id'
+    returns code: 200, desc: '' do
+      property :family_tree, Hash, desc: '' do
+        param_group :family_tree
+      end
+      property :persons, array_of: Hash,   desc: '' do
+        property :id,             Integer, desc: ''
+        property :last_name,      String,  desc: ''
+        property :first_name,     String,  desc: ''
+        property :middle_name,    String,  desc: ''
+        property :maiden_name,    String,  desc: ''
+        property :sex_id,         Integer, desc: ''
+        property :father_id,      Integer, desc: ''
+        property :mother_id,      Integer, desc: ''
+        property :family_tree_id, Integer, desc: ''
+        property :birthdate,      Date,    desc: ''
+        property :deathdate,      Date,    desc: ''
+        property :address,        String,  desc: ''
+        property :contact,        String,  desc: ''
+        property :document,       String,  desc: ''
+        property :info,           String,  desc: ''
+        property :created_at,     Date,    desc: ''
+        property :updated_at,     Date,    desc: ''
+        property :link_vk,        String,  desc: ''
+        property :link_fb,        String,  desc: ''
+        property :link_ig,        String,  desc: ''
+        property :link_ok,        String,  desc: ''
+        property :link_tg,        String,  desc: ''
+        property :link_tw,        String,  desc: ''
+        property :link_tt,        String,  desc: ''
+        property :link_ch,        String,  desc: ''
+        property :confirmed_last_name,   [true, false],  desc: ''
+        property :confirmed_first_name,  [true, false],  desc: ''
+        property :confirmed_middle_name, [true, false],  desc: ''
+        property :confirmed_maiden_name, [true, false],  desc: ''
+        property :confirmed_birthdate,   [true, false],  desc: ''
+        property :confirmed_deathdate,   [true, false],  desc: ''
+      end
+      property :root_person_id, Integer, desc: ''
+      property :persons_versions, array_of: Hash, desc: '' do param_group :versions end
+      property :facts_versions,   array_of: Hash, desc: '' do param_group :versions end
+    end
     def show
+      persons = @family_tree.persons
       if @family_tree
-        render json: { family_tree: @family_tree, persons: @family_tree.persons, root_person_id: @family_tree.root_person_id, versions: Version.changes(@family_tree) }, status: :ok
+        render json: {
+            family_tree:      @family_tree,
+            persons:          persons,
+            root_person_id:   @family_tree.root_person_id,
+            persons_versions: Version.where(model: 'Person', model_id: persons.ids).order(created_at: :desc).limit(50),
+            facts_versions:   Version.where(model: 'Fact',   model_id: Fact.where(person_id: persons.ids).ids).order(created_at: :desc).limit(50)
+        }, status: :ok
       else
         render json: {}, status: :not_found
       end
     end
 
+    api :POST, '/v1/family_trees'
+    param :name, String, required: true
+    returns code: 200, desc: '' do param_group :family_tree end
     def create
       @family_tree = FamilyTree.new(family_tree_params.merge(user_id: current_user.id, root_person_id: current_user.person.id))
       if @family_tree.save
@@ -28,6 +110,10 @@ module Api::V1
       end
     end
 
+    api :PATCH, '/v1/family_trees/:id'
+    param :name, String
+    param :root_person_id, Integer
+    returns code: 200, desc: '' do param_group :family_tree end
     def update
       version = Version.prepare(@family_tree, family_tree_params)
       if !@family_tree_user&.owner?
@@ -40,6 +126,8 @@ module Api::V1
       end
     end
 
+    api :DELETE, '/v1/family_trees/:id'
+    returns code: 200, desc: ''
     def destroy
       if !@family_tree_user.owner?
         render json: { status: :not_deleted, error: 'you are not owner' }, status: :unprocessable_entity

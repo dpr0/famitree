@@ -7,6 +7,11 @@ module Api::V1
     before_action :load_person, only: %i[show update destroy avatar]
     before_action :load_family_tree, only: %i[create update]
 
+    resource_description do
+      short 'Родственники'
+    end
+
+    api :GET, '/v1/persons/:id'
     def show
       render json: {
           person:   @person,
@@ -19,21 +24,25 @@ module Api::V1
       status: @person ? :ok : :not_found
     end
 
+    api :POST, '/v1/persons'
     def create
       @person = Person.new(person_params)
       render_json(@person.save, @person)
     end
 
+    api :PATCH, '/v1/persons/:id'
     def update
       Version.prepare(@person, person_params).add
       render_json(@person.update(person_params), @person)
     end
 
+    api :DELETE, '/v1/persons/:id'
     def destroy
       @person.destroy
       render json: { status: :deleted }, status: :ok
     end
 
+    api :GET, '/v1/persons/:id/avatar'
     def avatar
       if @person&.avatar&.attached?
         redirect_to rails_blob_url(@person.avatar)

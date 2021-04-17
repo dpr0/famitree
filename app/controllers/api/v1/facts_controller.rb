@@ -7,20 +7,60 @@ module Api::V1
     before_action :load_person
     before_action :load_fact, only: %i[update destroy]
 
+    resource_description do
+      short 'Факты (Биография)'
+    end
+
+    def_param_group :fact do
+      property :id, Integer, desc: ''
+      param_group :fact_short
+      property :created_at, Date, desc: ''
+      property :updated_at, Date, desc: ''
+    end
+
+    def_param_group :fact_short do
+      param :person_id,    Integer, required: true
+      param :date,         Date
+      param :info,         String
+      param :info_type_id, Integer
+    end
+
+    api :GET, '/v1/facts/:id'
+    returns code: 200, desc: '' do
+      property :fact, Hash, desc: '' do
+        param_group :fact
+      end
+      property :versions, array_of: Hash, desc: '' do
+        property :id,         Integer, desc: ''
+        property :model,      String,  desc: ''
+        property :model_id,   Integer, desc: ''
+        property :changes,    Hash,    desc: ''
+        property :created_at, Date,    desc: ''
+        property :updated_at, Date,    desc: ''
+      end
+    end
     def show
       render json: { fact: @fact, versions: Version.changes(@fact) }, status: @person ? :ok : :not_found
     end
 
+    api :POST, '/v1/facts'
+    param_group :fact_short
+    returns code: 200, desc: '' do param_group :fact end
     def create
       @fact = Fact.new(fact_params)
       render_json(@fact.save, @fact)
     end
 
+    api :PATCH, '/v1/facts/:id'
+    param_group :fact_short
+    returns code: 200, desc: '' do param_group :fact end
     def update
       Version.prepare(@fact, fact_params).add
       render_json(@fact.update(fact_params), @fact)
     end
 
+    api :DELETE, '/v1/facts/:id'
+    returns code: 200, desc: ''
     def destroy
       @fact.destroy
       render json: { status: :deleted }, status: :ok
