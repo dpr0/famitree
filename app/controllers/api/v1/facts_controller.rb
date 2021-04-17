@@ -14,13 +14,13 @@ module Api::V1
     def_param_group :fact do
       property :id, Integer, desc: ''
       param_group :fact_short
-      property :created_at, Date, desc: ''
-      property :updated_at, Date, desc: ''
+      property :created_at, DateTime, desc: ''
+      property :updated_at, DateTime, desc: ''
     end
 
     def_param_group :fact_short do
       param :person_id,    Integer, required: true
-      param :date,         Date
+      param :date,         String
       param :info,         String
       param :info_type_id, Integer
     end
@@ -35,8 +35,8 @@ module Api::V1
         property :model,      String,  desc: ''
         property :model_id,   Integer, desc: ''
         property :changes,    Hash,    desc: ''
-        property :created_at, Date,    desc: ''
-        property :updated_at, Date,    desc: ''
+        property :created_at, DateTime,desc: ''
+        property :updated_at, DateTime,desc: ''
       end
     end
     def show

@@ -14,8 +14,8 @@ module Api::V1
       property :id,             Integer, desc: ''
       property :user_id,        Integer, desc: ''
       property :name,           String,  desc: ''
-      property :created_at,     Date,    desc: ''
-      property :updated_at,     Date,    desc: ''
+      property :created_at,     DateTime,desc: ''
+      property :updated_at,     DateTime,desc: ''
       property :root_person_id, Integer, desc: ''
     end
 
@@ -24,8 +24,8 @@ module Api::V1
       property :model,      String,  desc: ''
       property :model_id,   Integer, desc: ''
       property :changes,    Hash,    desc: ''
-      property :created_at, Date,    desc: ''
-      property :updated_at, Date,    desc: ''
+      property :created_at, DateTime,desc: ''
+      property :updated_at, DateTime,desc: ''
     end
 
     # GET /api/v1/family_trees -
@@ -61,8 +61,8 @@ module Api::V1
         property :contact,        String,  desc: ''
         property :document,       String,  desc: ''
         property :info,           String,  desc: ''
-        property :created_at,     Date,    desc: ''
-        property :updated_at,     Date,    desc: ''
+        property :created_at,     DateTime,desc: ''
+        property :updated_at,     DateTime,desc: ''
         property :link_vk,        String,  desc: ''
         property :link_fb,        String,  desc: ''
         property :link_ig,        String,  desc: ''
