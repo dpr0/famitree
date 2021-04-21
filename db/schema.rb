@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_11_212000) do
+ActiveRecord::Schema.define(version: 2021_04_21_020000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_04_11_212000) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "info_type_id"
+    t.datetime "deleted_at"
   end
 
   create_table "family_trees", force: :cascade do |t|
@@ -115,6 +116,7 @@ ActiveRecord::Schema.define(version: 2021_04_11_212000) do
     t.boolean "confirmed_maiden_name", default: true
     t.boolean "confirmed_birthdate", default: true
     t.boolean "confirmed_deathdate", default: true
+    t.datetime "deleted_at"
   end
 
   create_table "photos", force: :cascade do |t|

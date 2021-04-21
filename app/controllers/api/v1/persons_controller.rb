@@ -18,7 +18,7 @@ module Api::V1
           images:   @person.images_urls,
           facts:    @person.facts,
           avatar:   @person.avatar_url,
-          childs:   Person.where(father_id: @person.id).or(Person.where(mother_id: @person.id)),
+          childs:   Person.where(father_id: @person.id, deleted_at: nil).or(Person.where(mother_id: @person.id, deleted_at: nil)),
           versions: Version.changes(@person)
       },
       status: @person ? :ok : :not_found
@@ -38,7 +38,9 @@ module Api::V1
 
     api :DELETE, '/v1/persons/:id'
     def destroy
-      @person.destroy
+      @person.update_with_version(deleted_at: Time.now)
+      Person.where(father_id: @person.id, deleted_at: nil).each { |child| child.update_with_version(father_id: nil) }
+      Person.where(mother_id: @person.id, deleted_at: nil).each { |child| child.update_with_version(mother_id: nil) }
       render json: { status: :deleted }, status: :ok
     end
 
@@ -57,7 +59,7 @@ module Api::V1
       @person = if params[:id] == current_user.person_id
                   current_user.person
                 else
-                  Person.where(family_tree_id: current_user.family_tree_users.map(&:family_tree_id)).find_by(id: params[:id])
+                  Person.where(deleted_at: nil, family_tree_id: current_user.family_tree_users.map(&:family_tree_id)).find_by(id: params[:id])
                 end
       render(json: { error: "person: #{params[:id]} - access denied"}, status: :unprocessable_entity) and return unless @person
     end

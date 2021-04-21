@@ -36,4 +36,9 @@ class Person < ApplicationRecord
       url_for(i) if i.persisted?
     end
   end
+
+  def update_with_version(params)
+    Version.prepare(self, params).add
+    update(params)
+  end
 end
