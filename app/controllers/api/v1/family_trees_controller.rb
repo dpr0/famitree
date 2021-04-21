@@ -83,14 +83,14 @@ module Api::V1
       property :facts_versions,   array_of: Hash, desc: '' do param_group :versions end
     end
     def show
-      persons = @family_tree.persons
+      persons = @family_tree.persons.where(deleted_at: nil)
       if @family_tree
         render json: {
             family_tree:      @family_tree,
             persons:          persons,
             root_person_id:   @family_tree.root_person_id,
             persons_versions: Version.where(model: 'Person', model_id: persons.ids).order(created_at: :desc).limit(50),
-            facts_versions:   Version.where(model: 'Fact',   model_id: Fact.where(person_id: persons.ids).ids).order(created_at: :desc).limit(50)
+            facts_versions:   Version.where(model: 'Fact',   model_id: Fact.where(deleted_at: nil, person_id: persons.ids).ids).order(created_at: :desc).limit(50)
         }, status: :ok
       else
         render json: {}, status: :not_found
