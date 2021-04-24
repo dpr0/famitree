@@ -11,28 +11,24 @@ module Api::V1
     end
 
     def_param_group :family_tree do
-      property :id,             Integer, desc: ''
-      property :user_id,        Integer, desc: ''
-      property :name,           String,  desc: ''
-      property :created_at,     DateTime,desc: ''
-      property :updated_at,     DateTime,desc: ''
-      property :root_person_id, Integer, desc: ''
+      property :id,             Integer,  desc: ''
+      property :user_id,        Integer,  desc: ''
+      property :name,           String,   desc: ''
+      property :created_at,     DateTime, desc: ''
+      property :updated_at,     DateTime, desc: ''
+      property :root_person_id, Integer,  desc: ''
     end
 
     def_param_group :versions do
-      property :id,         Integer, desc: ''
-      property :model,      String,  desc: ''
-      property :model_id,   Integer, desc: ''
-      property :changes,    Hash,    desc: ''
-      property :created_at, DateTime,desc: ''
-      property :updated_at, DateTime,desc: ''
+      property :id,             Integer,  desc: ''
+      property :model,          String,   desc: ''
+      property :model_id,       Integer,  desc: ''
+      property :user_id,        Integer,  desc: ''
+      property :family_tree_id, Integer,  desc: ''
+      property :changes,        Hash,     desc: ''
+      property :created_at,     DateTime, desc: ''
+      property :updated_at,     DateTime, desc: ''
     end
-
-    # GET /api/v1/family_trees -
-    # GET /api/v1/family_trees/:id - просмотр своего дерева по айди
-    # POST /api/v1/family_trees { "name": "111" } - создать новое дерево
-    # PATCH /api/v1/family_trees/:id { "name": "111" } - обновить дерево
-    # DELETE /api/v1/family_trees/:id - удалить свое дерево и его связи
 
     api :GET, '/v1/family_trees'
     returns array_of: :family_tree, code: 200, desc: 'просмотр всех своих деревьев'
@@ -111,6 +107,7 @@ module Api::V1
     end
 
     api :PATCH, '/v1/family_trees/:id'
+    param :id, Integer
     param :name, String
     param :root_person_id, Integer
     returns code: 200, desc: '' do param_group :family_tree end
@@ -139,9 +136,9 @@ module Api::V1
     end
 
     api :GET, '/v1/family_trees/:id/timeline'
-    returns array_of: :family_tree, code: 200, desc: 'просмотр всех своих деревьев'
+    returns array_of: :versions, code: 200, desc: 'Лента новостей'
     def timeline
-      @versions = Version.where(family_tree_id: @family_tree.id).limit(params[:limit].to_i || 50)
+      @versions = Version.where(family_tree_id: @family_tree.id).limit(params[:limit] || 50)
       render json: @versions, status: :ok
     end
 
