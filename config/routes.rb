@@ -11,11 +11,13 @@ Rails.application.routes.draw do
         get :relation_types
         get :sex
       end
-      resources :family_trees, only: [:index, :show, :create, :update, :destroy]
-      resources :persons,      only: [:show, :create, :update, :destroy] do
+      resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
+        get :timeline, on: :member
+      end
+      resources :persons, only: [:show, :create, :update, :destroy] do
         get :avatar, on: :member
       end
-      resources :facts,        only: [:show, :create, :update, :destroy]
+      resources :facts, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show] do
         post :login, on: :collection
         get :check, on: :collection

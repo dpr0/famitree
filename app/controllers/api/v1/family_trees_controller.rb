@@ -4,7 +4,7 @@ module Api::V1
   class FamilyTreesController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :find_family_tree, only: %i[show update destroy]
+    before_action :find_family_tree, only: %i[show update destroy timeline]
 
     resource_description do
       short 'Семейные деревья'
@@ -88,7 +88,7 @@ module Api::V1
         render json: {
             family_tree:      @family_tree,
             persons:          persons,
-            root_person_id:   @family_tree.root_person_id,
+            root_person_id:   @family_tree.family_tree_users.where(user_id: @current_user.id).root_person_id,
             persons_versions: Version.where(model: 'Person', model_id: persons.ids).order(created_at: :desc).limit(50),
             facts_versions:   Version.where(model: 'Fact',   model_id: Fact.where(deleted_at: nil, person_id: persons.ids).ids).order(created_at: :desc).limit(50)
         }, status: :ok
@@ -115,7 +115,7 @@ module Api::V1
     param :root_person_id, Integer
     returns code: 200, desc: '' do param_group :family_tree end
     def update
-      version = Version.prepare(@family_tree, family_tree_params)
+      version = Version.prepare(@family_tree.id, @current_user, @family_tree, family_tree_params)
       if !@family_tree_user&.owner?
         render json: {error: 'you are not owner'}, status: :unprocessable_entity
       elsif @family_tree.update(family_tree_params)
@@ -136,6 +136,13 @@ module Api::V1
       else
         render json: { status: :not_deleted }, status: :unprocessable_entity
       end
+    end
+
+    api :GET, '/v1/family_trees/:id/timeline'
+    returns array_of: :family_tree, code: 200, desc: 'просмотр всех своих деревьев'
+    def timeline
+      @versions = Version.where(family_tree_id: @family_tree.id).limit(params[:limit].to_i || 50)
+      render json: @versions, status: :ok
     end
 
     private

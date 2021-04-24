@@ -37,8 +37,8 @@ class Person < ApplicationRecord
     end
   end
 
-  def update_with_version(params)
-    Version.prepare(self, params).add
+  def update_with_version(current_user, params)
+    Version.prepare(self.family_tree.id, current_user, self, params).add
     update(params)
   end
 end

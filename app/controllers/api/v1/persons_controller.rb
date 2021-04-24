@@ -32,15 +32,14 @@ module Api::V1
 
     api :PATCH, '/v1/persons/:id'
     def update
-      Version.prepare(@person, person_params).add
-      render_json(@person.update(person_params), @person)
+      render_json(@person.update_with_version(@current_user, person_params), @person)
     end
 
     api :DELETE, '/v1/persons/:id'
     def destroy
-      @person.update_with_version(deleted_at: Time.now)
-      Person.where(father_id: @person.id, deleted_at: nil).each { |child| child.update_with_version(father_id: nil) }
-      Person.where(mother_id: @person.id, deleted_at: nil).each { |child| child.update_with_version(mother_id: nil) }
+      @person.update_with_version(@current_user, deleted_at: Time.now)
+      Person.where(father_id: @person.id, deleted_at: nil).each { |child| child.update_with_version(@current_user, father_id: nil) }
+      Person.where(mother_id: @person.id, deleted_at: nil).each { |child| child.update_with_version(@current_user, mother_id: nil) }
       render json: { status: :deleted }, status: :ok
     end
 

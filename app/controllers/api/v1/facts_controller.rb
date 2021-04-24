@@ -55,7 +55,7 @@ module Api::V1
     param_group :fact_short
     returns code: 200, desc: '' do param_group :fact end
     def update
-      Version.prepare(@fact, fact_params).add
+      Version.prepare(@fact.person.family_tree.id, @current_user.id, @fact, fact_params).add
       render_json(@fact.update(fact_params), @fact)
     end
 

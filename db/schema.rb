@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_21_020000) do
+ActiveRecord::Schema.define(version: 2021_04_23_160000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_020000) do
     t.integer "user_id"
     t.integer "role_id"
     t.datetime "created_at"
+    t.integer "root_person_id"
     t.index ["family_tree_id", "user_id"], name: "index_family_trees_users_on_family_tree_id_and_user_id"
     t.index ["user_id", "family_tree_id"], name: "index_family_trees_users_on_user_id_and_family_tree_id"
   end
@@ -180,6 +181,8 @@ ActiveRecord::Schema.define(version: 2021_04_21_020000) do
     t.json "model_changes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.integer "family_tree_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
