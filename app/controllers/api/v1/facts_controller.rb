@@ -22,6 +22,7 @@ module Api::V1
       param :person_id,    Integer, required: true
       param :date,         String
       param :info,         String
+      param :location,     String
       param :info_type_id, Integer
     end
 

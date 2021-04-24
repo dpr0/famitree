@@ -16,7 +16,6 @@ module Api::V1
       property :name,           String,   desc: ''
       property :created_at,     DateTime, desc: ''
       property :updated_at,     DateTime, desc: ''
-      property :root_person_id, Integer,  desc: ''
     end
 
     def_param_group :versions do
