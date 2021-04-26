@@ -83,7 +83,7 @@ module Api::V1
         render json: {
             family_tree:      @family_tree,
             persons:          persons,
-            root_person_id:   @family_tree.family_tree_users.where(user_id: @current_user.id).root_person_id,
+            root_person_id:   @family_tree.family_tree_users.find_by(user_id: @current_user.id).root_person_id,
             persons_versions: Version.where(model: 'Person', model_id: persons.ids).order(created_at: :desc).limit(50),
             facts_versions:   Version.where(model: 'Fact',   model_id: Fact.where(deleted_at: nil, person_id: persons.ids).ids).order(created_at: :desc).limit(50)
         }, status: :ok
