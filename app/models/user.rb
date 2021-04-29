@@ -22,9 +22,9 @@ class User < ApplicationRecord
       user.person ||= Person.create!({last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
       user.save!
       if user.family_trees.count == 0
-        tree = user.family_trees.new(name: user.name, user_id: user.id, root_person_id: user.person.id)
+        tree = user.family_trees.new(name: user.name, user_id: user.id)
         tree.save
-        user.family_tree_users.create(role_id: 1, family_tree_id: tree.id)
+        user.family_tree_users.create(role_id: 1, family_tree_id: tree.id, root_person_id: user.person.id)
         user.person.update(family_tree_id: tree.id)
       end
     else
