@@ -10,8 +10,10 @@ class Person < ApplicationRecord
   has_many :relations
   has_many :facts
   has_many :photos
+  has_many :archives
   has_one_attached :avatar
   has_many_attached :images
+  has_many_attached :attachments
 
   validate :acceptable_image
 
@@ -34,11 +36,17 @@ class Person < ApplicationRecord
   def images_urls
     images.map do |i|
       url_for(i) if i.persisted?
-    end
+    end.compact
+  end
+
+  def attachments_urls
+    attachments.map do |i|
+      url_for(i) if i.persisted?
+    end.compact
   end
 
   def update_with_version(current_user, params)
-    Version.prepare(self.family_tree.id, current_user, self, params).add
+    Version.prepare(self.family_tree.id, current_user.id, self, params).add
     update(params)
   end
 end

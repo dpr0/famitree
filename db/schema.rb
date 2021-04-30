@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_24_114000) do
+ActiveRecord::Schema.define(version: 2021_04_30_100200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,19 @@ ActiveRecord::Schema.define(version: 2021_04_24_114000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "archives", force: :cascade do |t|
+    t.integer "person_id"
+    t.date "date"
+    t.string "info"
+    t.string "location"
+    t.string "filename"
+    t.string "content_type"
+    t.string "url"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "authorizations", force: :cascade do |t|
@@ -118,15 +131,18 @@ ActiveRecord::Schema.define(version: 2021_04_24_114000) do
     t.boolean "confirmed_birthdate", default: true
     t.boolean "confirmed_deathdate", default: true
     t.datetime "deleted_at"
+    t.string "avatar_url"
   end
 
   create_table "photos", force: :cascade do |t|
     t.integer "person_id"
-    t.integer "attachment_id"
     t.date "date"
     t.string "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "url"
+    t.string "location"
+    t.datetime "deleted_at"
   end
 
   create_table "relation_types", force: :cascade do |t|

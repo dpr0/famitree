@@ -111,7 +111,7 @@ module Api::V1
     param :root_person_id, Integer
     returns code: 200, desc: '' do param_group :family_tree end
     def update
-      version = Version.prepare(@family_tree.id, @current_user, @family_tree, family_tree_params)
+      version = Version.prepare(@family_tree.id, @current_user.id, @family_tree, family_tree_params)
       if !@family_tree_user&.owner?
         render json: {error: 'you are not owner'}, status: :unprocessable_entity
       elsif @family_tree.update(family_tree_params)

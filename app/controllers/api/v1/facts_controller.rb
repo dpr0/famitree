@@ -24,6 +24,7 @@ module Api::V1
       param :info,         String
       param :location,     String
       param :info_type_id, Integer
+      param :attachment,   ActionDispatch::Http::UploadedFile
     end
 
     api :GET, '/v1/facts/:id'
@@ -32,12 +33,12 @@ module Api::V1
         param_group :fact
       end
       property :versions, array_of: Hash, desc: '' do
-        property :id,         Integer, desc: ''
-        property :model,      String,  desc: ''
-        property :model_id,   Integer, desc: ''
-        property :changes,    Hash,    desc: ''
-        property :created_at, DateTime,desc: ''
-        property :updated_at, DateTime,desc: ''
+        property :id,         Integer,  desc: ''
+        property :model,      String,   desc: ''
+        property :model_id,   Integer,  desc: ''
+        property :changes,    Hash,     desc: ''
+        property :created_at, DateTime, desc: ''
+        property :updated_at, DateTime, desc: ''
       end
     end
     def show
@@ -45,19 +46,21 @@ module Api::V1
     end
 
     api :POST, '/v1/facts'
-    param_group :fact_short
-    returns code: 200, desc: '' do param_group :fact end
+    returns code: 200, desc: '' do
+      property :fact, Hash, desc: '' do param_group :fact_short end
+    end
     def create
       @fact = Fact.new(fact_params)
-      render_json(@fact.save, @fact)
+      render_json(@fact.save, @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
     api :PATCH, '/v1/facts/:id'
-    param_group :fact_short
-    returns code: 200, desc: '' do param_group :fact end
+    returns code: 200, desc: '' do
+      property :fact, Hash, desc: '' do param_group :fact_short end
+    end
     def update
       Version.prepare(@fact.person.family_tree.id, @current_user.id, @fact, fact_params).add
-      render_json(@fact.update(fact_params), @fact)
+      render_json(@fact.update(fact_params), @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
     api :DELETE, '/v1/facts/:id'
@@ -67,6 +70,17 @@ module Api::V1
       render json: { status: :deleted }, status: :ok
     end
 
+    # api :POST, '/v1/facts/:id/attach_file'
+    # param :id, String, required: true
+    # param :file, ActionDispatch::Http::UploadedFile, required: true
+    # def attach_file
+    #   @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: @fact.person_id)
+    #   render(json: { error: "person: #{@fact.person_id} - access denied"}, status: :unprocessable_entity) and return unless @person
+    #
+    #   attached = @fact.attachments.attach(params[:file])
+    #   render json: { url: url_for(@fact.attachments.blobs.last) }, status: attached ? :ok : :not_acceptable
+    # end
+
     private
 
     def load_fact
@@ -75,7 +89,7 @@ module Api::V1
     end
 
     def fact_params
-      params.require(:fact).permit(:person_id, :date, :info, :info_type_id)
+      params.require(:fact).permit(:person_id, :date, :info, :info_type_id, :location, :attachment)
     end
 
     def load_person

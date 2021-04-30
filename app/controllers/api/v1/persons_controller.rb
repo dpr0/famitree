@@ -4,7 +4,7 @@ module Api::V1
   class PersonsController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :load_person, only: %i[show update destroy avatar]
+    before_action :load_person, only: %i[show update destroy]
     before_action :load_family_tree, only: %i[create update]
 
     resource_description do
@@ -14,12 +14,12 @@ module Api::V1
     api :GET, '/v1/persons/:id'
     def show
       render json: {
-          person:   @person,
-          images:   @person.images_urls,
-          facts:    @person.facts,
-          avatar:   @person.avatar_url,
-          childs:   Person.where(father_id: @person.id, deleted_at: nil).or(Person.where(mother_id: @person.id, deleted_at: nil)),
-          versions: Version.changes(@person)
+          person:      @person,
+          facts:       @person.facts.map    { |fact|       fact.attributes.merge(attachment:    fact.attachment_url) },
+          photos:      @person.photos.map   { |photo|     photo.attributes.merge(attachment:   photo.attachment_url) },
+          archives:    @person.archives.map { |archive| archive.attributes.merge(attachment: archive.attachment_url) },
+          childs:      Person.where(father_id: @person.id, deleted_at: nil).or(Person.where(mother_id: @person.id, deleted_at: nil)),
+          versions:    Version.changes(@person)
       },
       status: @person ? :ok : :not_found
     end
@@ -43,14 +43,22 @@ module Api::V1
       render json: { status: :deleted }, status: :ok
     end
 
-    api :GET, '/v1/persons/:id/avatar'
-    def avatar
-      if @person&.avatar&.attached?
-        redirect_to rails_blob_url(@person.avatar)
-      else
-        head :not_found
-      end
-    end
+    # api :GET, '/v1/persons/:id/avatar'
+    # def avatar
+    #   if @person&.avatar&.attached?
+    #     redirect_to rails_blob_url(@person.avatar)
+    #   else
+    #     head :not_found
+    #   end
+    # end
+
+    # api :POST, '/v1/persons/:id/attach_file'
+    # param :id, String, required: true
+    # param :file, ActionDispatch::Http::UploadedFile, required: true
+    # def attach_file
+    #   attached = @person.attachments.attach(params[:file])
+    #   render json: { url: url_for(@person.attachments.blobs.last) }, status: attached ? :ok : :not_acceptable
+    # end
 
     private
 
@@ -66,7 +74,7 @@ module Api::V1
     def person_params
       params.require(:person).permit(
         :family_tree_id, :sex_id, :last_name, :first_name, :middle_name, :maiden_name, :father_id, :mother_id, :birthdate, :deathdate,
-        :confirm_last_name, :confirm_first_name, :confirm_middle_name, :confirm_maiden_name, :confirm_birthdate, :avatar, :images,
+        :confirm_last_name, :confirm_first_name, :confirm_middle_name, :confirm_maiden_name, :confirm_birthdate,
         :address, :contact, :document, :info, :link_vk, :link_fb, :link_ig, :link_ok, :link_tg, :link_tw, :link_tt, :link_ch
       )
     end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Fact < ApplicationRecord
+class Archive < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :person

@@ -15,7 +15,8 @@ Rails.application.routes.draw do
         get :timeline, on: :member
       end
       resources :persons, only: [:show, :create, :update, :destroy] do
-        get :avatar, on: :member
+        resources :archives, only: [:create, :update, :destroy]
+        resources :photos,   only: [:create, :update, :destroy]
       end
       resources :facts, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show] do
