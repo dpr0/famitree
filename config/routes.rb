@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  default_url_options host: 'famitree.ru'
   apipie
   devise_for :users, controllers: { omniauth_callbacks: 'callbacks' }
   root 'users#new'
