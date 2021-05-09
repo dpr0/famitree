@@ -14,6 +14,7 @@ class FamilyTreesController < ApplicationController
     @relations = Relation.where(person_id: @persons.ids).or(Relation.where(persona_id: @persons.ids)).all
     @person_relations = @relations.where(person_id: @persons.where(sex_id: Sex[:male].id).ids)
     @persona_relations = @relations.where(persona_id: @persons.where(sex_id: Sex[:female].id).ids)
+    @hash = childs(@persons, @persons.first).first
   end
 
   def new
@@ -68,6 +69,11 @@ class FamilyTreesController < ApplicationController
   end
 
   private
+
+  def childs(persons, person)
+    chs = person.sex_id == 1 ? persons.where(father_id: person.id) : persons.where(mother_id: person.id)
+    chs.present? ? chs.map { |ch| { name: ch.first_name, children: childs(persons, ch) } } : []
+  end
 
   def family_trees
     @family_tree_users ||= FamilyTreeUser.where(user_id: current_user.id).sort_by(&:role_id)

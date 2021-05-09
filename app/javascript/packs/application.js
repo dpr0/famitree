@@ -6,6 +6,7 @@ import "@fortawesome/fontawesome-free/js/all";
 require("firebase")
 require("firebaseui-ru")
 require('admin-lte')
+require('d3')
 
 Rails.start()
 ActiveStorage.start()
