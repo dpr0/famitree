@@ -25,8 +25,14 @@ class Person < ApplicationRecord
   end
 
   def full_name
-    maiden = maiden_name.present? ? "(#{maiden_name})" : ''
+    maiden = maiden_name.present? && maiden_name != last_name ? " (#{maiden_name})" : ''
     "#{last_name}#{maiden} #{first_name} #{middle_name}"
+  end
+
+  def info
+    birth = birthdate.present? && confirmed_birthdate ? "#{birthdate}" : ''
+    death = deathdate.present? && confirmed_deathdate ? " - #{deathdate}" : ''
+    "#{birth}#{death}"
   end
 
   def avatar_url

@@ -4,7 +4,7 @@
 | &nbsp
 = link_to person.full_name, person_path(person.id), class: sex_color(person.sex_id)
 ul
-  - @relations.select { |x| x.person_id == person.id || x.persona_id == person.id}.each do |rel|
+  - @relations.select { |x| x.person_id == person.id || x.persona_id == person.id }.each do |rel|
     li
       = "#{relation_name(rel.relation_type_id)} с "
       - r1 = @persons.find { |x| x.id == rel.persona_id }
