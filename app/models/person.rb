@@ -29,6 +29,10 @@ class Person < ApplicationRecord
     "#{last_name}#{maiden} #{first_name} #{middle_name}"
   end
 
+  def fio_name
+    "#{maiden_name.present? ? maiden_name : last_name} #{first_name} #{middle_name}"
+  end
+
   def info
     birth = birthdate.present? && confirmed_birthdate ? "#{birthdate}" : ''
     death = deathdate.present? && confirmed_deathdate ? " - #{deathdate}" : ''

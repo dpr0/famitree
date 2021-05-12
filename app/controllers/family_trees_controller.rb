@@ -12,9 +12,9 @@ class FamilyTreesController < ApplicationController
     (redirect_to family_trees_path and return) unless @family_tree
     @persons = @family_tree.persons.order(:birthdate)
     @relations = Relation.where(person_id: @persons.ids).or(Relation.where(persona_id: @persons.ids)).all
-    # @person_relations = @relations.where(person_id: @persons.where(sex_id: Sex[:male].id).ids)
-    # @persona_relations = @relations.where(persona_id: @persons.where(sex_id: Sex[:female].id).ids)
-    service = PersonsService.new(@persons, @relations)
+    @person_relations  = @relations.where(person_id:  @persons.where(sex_id: Sex[  :male].id).ids)
+    @persona_relations = @relations.where(persona_id: @persons.where(sex_id: Sex[:female].id).ids)
+    service = PersonsService.new(@persons, @relations, @person_relations, @persona_relations)
     @hash = service.create(@persons.first)
   end
 
