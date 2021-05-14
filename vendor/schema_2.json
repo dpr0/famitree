@@ -1,0 +1,3758 @@
+{
+  "type": "record",
+  "name": "Emergency_Notices",
+  "doc": "avro schema for Emergency_Notices object",
+  "fields": [
+    {
+      "name": "register_number",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Номер извещения"
+    },
+    {
+      "name": "status_id",
+      "type": [
+        "int",
+        "null"
+      ],
+      "description": "Статус"
+    },
+    {
+      "name": "employee_id",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "ID принявшего"
+    },
+    {
+      "name": "employee_name",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "ФИО принявшего"
+    },
+    {
+      "name": "registered_lpu",
+      "type": {
+        "type": "record",
+        "name": "registered_lpu",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "name",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Название"
+          },
+          {
+            "name": "guid",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Уникальный идентификатор"
+          },
+          {
+            "name": "type_guid",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "communicated_fio",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "ФИО сообщившего"
+    },
+    {
+      "name": "communicated_phone",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Телефон сообщившего"
+    },
+    {
+      "name": "notification_type",
+      "type": {
+        "type": "record",
+        "name": "notification_type",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "guid",
+            "type": [
+              "int",
+              "null"
+            ],
+            "description": ""
+          },
+          {
+            "name": "name",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "alarm_dt",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Время сигнализации"
+    },
+    {
+      "name": "register_dt",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Время регистрации"
+    },
+    {
+      "name": "common",
+      "type": {
+        "type": "record",
+        "name": "common",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "took_illness_territory",
+            "type": {
+              "type": "record",
+              "name": "took_illness_territory",
+              "namespace": "Emergency_Notices.common",
+              "fields": [
+                {
+                  "name": "region",
+                  "type": {
+                    "type": "record",
+                    "name": "region",
+                    "namespace": "Emergency_Notices.common.took_illness_territory",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "region_code",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "description": ""
+                },
+                {
+                  "name": "district",
+                  "type": {
+                    "type": "record",
+                    "name": "district",
+                    "namespace": "Emergency_Notices.common.took_illness_territory",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "level",
+                        "type": [
+                          "int",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "parent_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "took_illness_area",
+            "type": {
+              "type": "record",
+              "name": "took_illness_area",
+              "namespace": "Emergency_Notices.common",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "took_illness_dt",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "vaccination_list",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "vaccination_list",
+            "fields": [
+              {
+                "name": "drug",
+                "type": {
+                  "type": "record",
+                  "name": "drug",
+                  "namespace": "Emergency_Notices.vaccination_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "vaccine_type",
+                "type": {
+                  "type": "record",
+                  "name": "vaccine_type",
+                  "namespace": "Emergency_Notices.vaccination_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "number",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "immunization_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "serial",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "result",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Результат"
+              }
+            ],
+            "description": "Прививки"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "vaccination",
+      "type": {
+        "type": "record",
+        "name": "vaccination",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "ignorance_reason",
+            "type": {
+              "type": "record",
+              "name": "ignorance_reason",
+              "namespace": "Emergency_Notices.vaccination",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "vaccination_info",
+            "type": {
+              "type": "record",
+              "name": "vaccination_info",
+              "namespace": "Emergency_Notices.vaccination",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "non_vaccination_cause",
+            "type": {
+              "type": "record",
+              "name": "non_vaccination_cause",
+              "namespace": "Emergency_Notices.vaccination",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "quantity_ml",
+            "type": [
+              "int",
+              "null"
+            ],
+            "description": ""
+          },
+          {
+            "name": "globulin_dt",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          },
+          {
+            "name": "additional",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          },
+          {
+            "name": "titer",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "contacts",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "contacts",
+            "fields": [
+              {
+                "name": "category",
+                "type": {
+                  "type": "record",
+                  "name": "category",
+                  "namespace": "Emergency_Notices.contacts",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "place",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Место контакта"
+              },
+              {
+                "name": "count",
+                "type": [
+                  "int",
+                  "null"
+                ],
+                "description": "Количество"
+              }
+            ],
+            "description": "Контактные Свердловск"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "departures",
+      "type": {
+        "type": "record",
+        "name": "departures",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "country",
+            "type": {
+              "type": "record",
+              "name": "country",
+              "namespace": "Emergency_Notices.departures",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "region",
+            "type": {
+              "type": "record",
+              "name": "region",
+              "namespace": "Emergency_Notices.departures.region",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "region_code",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "region_other",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Регион - другое"
+          },
+          {
+            "name": "departure_dt",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Дата отправления"
+          },
+          {
+            "name": "arrival_dt",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Дата прибытия"
+          },
+          {
+            "name": "country_from",
+            "type": {
+              "type": "record",
+              "name": "country_from",
+              "namespace": "Emergency_Notices.departures",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "desinfection",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "desinfection",
+            "fields": [
+              {
+                "name": "plan_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата наряда"
+              },
+              {
+                "name": "fact_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата проведения"
+              },
+              {
+                "name": "place",
+                "type": {
+                  "type": "record",
+                  "name": "place",
+                  "namespace": "Emergency_Notices.desinfection",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "int",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "type",
+                "type": {
+                  "type": "record",
+                  "name": "type",
+                  "namespace": "Emergency_Notices.desinfection",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "int",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "executor",
+                "type": {
+                  "type": "record",
+                  "name": "executor",
+                  "namespace": "Emergency_Notices.desinfection",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "int",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "total_hem_probes",
+                "type": [
+                  "int",
+                  "null"
+                ],
+                "description": "Количество сан-хим. проб: всего'"
+              },
+              {
+                "name": "unsuccessful_hem_probes",
+                "type": [
+                  "int",
+                  "null"
+                ],
+                "description": "Количество сан-хим. проб: неудачных"
+              },
+              {
+                "name": "total_bac_probes",
+                "type": [
+                  "int",
+                  "null"
+                ],
+                "description": "Количество бак.проб: всего"
+              },
+              {
+                "name": "unsuccessful_bac_probes",
+                "type": [
+                  "int",
+                  "null"
+                ],
+                "description": "Количество бак.проб: неудачных"
+              }
+            ],
+            "description": "Сведения о дезинфекции"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "bites",
+      "type": {
+        "type": "record",
+        "name": "bites",
+        "namespace": "Emergency_Notices",
+        "items": {
+          "type": "record",
+          "name": "bites",
+          "fields": [
+            {
+              "name": "bite_type",
+              "type": {
+                "type": "record",
+                "name": "bite_type",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "animal_type",
+              "type": {
+                "type": "record",
+                "name": "animal_type",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "bite_category",
+              "type": {
+                "type": "record",
+                "name": "bite_category",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "bite_location",
+              "type": {
+                "type": "record",
+                "name": "bite_location",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "course_broken",
+              "type": {
+                "type": "record",
+                "name": "course_broken",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "animal_species",
+              "type": {
+                "type": "record",
+                "name": "animal_species",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "animal_vaccine",
+              "type": {
+                "type": "record",
+                "name": "animal_vaccine",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "animal_sickness",
+              "type": {
+                "type": "record",
+                "name": "animal_sickness",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "interruption_reason",
+              "type": {
+                "type": "record",
+                "name": "interruption_reason",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "course_completeness",
+              "type": {
+                "type": "record",
+                "name": "course_completeness",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "animal_home_address",
+              "type": {
+                "type": "record",
+                "name": "animal_home_address",
+                "namespace": "Emergency_Notices.bites",
+                "fields": [
+                  {
+                    "name": "city",
+                    "type": {
+                      "type": "record",
+                      "name": "city",
+                      "namespace": "Emergency_Notices.bites.animal_home_address",
+                      "fields": [
+                        {
+                          "name": "guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "name",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "level",
+                          "type": [
+                            "int",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "type_guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "type_name",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "parent_guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "region",
+                    "type": {
+                      "type": "record",
+                      "name": "region",
+                      "namespace": "Emergency_Notices.bites.animal_home_address",
+                      "fields": [
+                        {
+                          "name": "guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "name",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "region_code",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "street",
+                    "type": {
+                      "type": "record",
+                      "name": "street",
+                      "namespace": "Emergency_Notices.bites.animal_home_address",
+                      "fields": [
+                        {
+                          "name": "guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "name",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "level",
+                          "type": [
+                            "int",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "type_guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "type_name",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "parent_guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "house",
+                    "type": {
+                      "type": "record",
+                      "name": "house",
+                      "namespace": "Emergency_Notices.bites.animal_home_address",
+                      "fields": [
+                        {
+                          "name": "guid",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "add_num_1",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "add_num_2",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "house_num",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "add_type_1",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        },
+                        {
+                          "name": "add_type_2",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "office",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "observation_period_from",
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": ""
+            },
+            {
+              "name": "observation_period_to",
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": ""
+            }
+          ],
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "anamnes",
+      "type": {
+        "type": "record",
+        "name": "anamnes",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "disease_dt",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Дата заболевания"
+          },
+          {
+            "name": "patient_feeling",
+            "type": {
+              "type": "record",
+              "name": "patient_feeling",
+              "namespace": "Emergency_Notices.anamnes",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "int",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "temperature",
+            "type": [
+              "float",
+              "null"
+            ],
+            "description": "Температура"
+          },
+          {
+            "name": "stools",
+            "type": {
+              "type": "record",
+              "name": "stools",
+              "namespace": "Emergency_Notices.anamnes",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "int",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "vomming",
+            "type": {
+              "type": "record",
+              "name": "vomming",
+              "namespace": "Emergency_Notices.anamnes",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "int",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "detection_circumstances",
+            "type": {
+              "type": "record",
+              "name": "detection_circumstances",
+              "namespace": "Emergency_Notices.anamnes",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "detection_circumstances_other",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          },
+          {
+            "name": "clinical_appearences",
+            "type": {
+              "type": "record",
+              "name": "clinical_appearences",
+              "namespace": "Emergency_Notices.anamnes",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "int",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "repeated_case_work",
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Повторный случай  Место работы, учебы, ДДУ"
+          },
+          {
+            "name": "repeated_case_home",
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Повторный случай  Место жительства"
+          },
+          {
+            "name": "last_work_visit_dt",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Дата последнего посещения работы (учебы, ДДУ)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "diagnosis",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "diagnosis",
+            "fields": [
+              {
+                "name": "treatment_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата обращения"
+              },
+              {
+                "name": "factor",
+                "type": [
+                  {
+                    "type": "record",
+                    "name": "factor",
+                    "namespace": "Emergency_Notices.diagnosis",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "null"
+                ]
+              },
+              {
+                "name": "canceled",
+                "type": [
+                  "boolean",
+                  "null"
+                ],
+                "description": "Отменен"
+              },
+              {
+                "name": "canceled_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Отменен"
+              },
+              {
+                "name": "confirmed_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата подтверждения"
+              },
+              {
+                "name": "lab_confirmed",
+                "type": [
+                  "boolean",
+                  "null"
+                ],
+                "description": "Подтвержден лабораторно"
+              },
+              {
+                "name": "confirmed_lpu",
+                "type": [
+                  {
+                    "type": "record",
+                    "name": "confirmed_lpu",
+                    "namespace": "Emergency_Notices.diagnosis",
+                    "fields": [
+                      {
+                        "name": "full_name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Название"
+                      },
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Уникальный идентификатор"
+                      }
+                    ]
+                  },
+                  "null"
+                ]
+              },
+              {
+                "name": "confirmed_phone",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Тел подтвердившего"
+              },
+              {
+                "name": "confirmed_doctor_fio",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "ФИО подтвердившего"
+              },
+              {
+                "name": "confirmed_doctor_rank",
+                "type": [
+                  {
+                    "type": "record",
+                    "name": "confirmed_doctor_rank",
+                    "namespace": "Emergency_Notices.diagnosis",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "null"
+                ]
+              },
+              {
+                "name": "confirmed_lpu_depatament",
+                "type": [
+                  {
+                    "type": "record",
+                    "name": "confirmed_lpu_depatament",
+                    "namespace": "Emergency_Notices.diagnosis",
+                    "fields": [
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "code",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "organization_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "null"
+                ]
+              },
+              {
+                "name": "determined_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата установления"
+              },
+              {
+                "name": "determined_lpu",
+                "type": {
+                  "type": "record",
+                  "name": "determined_lpu",
+                  "namespace": "Emergency_Notices.diagnosis",
+                  "fields": [
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Название"
+                    },
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Уникальный идентификатор"
+                    },
+                    {
+                      "name": "type_guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "determined_phone",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Тел установившего"
+              },
+              {
+                "name": "determined_doctor_fio",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "ФИО  установившего"
+              },
+              {
+                "name": "determined_doctor_rank",
+                "type": {
+                  "type": "record",
+                  "name": "determined_doctor_rank",
+                  "namespace": "Emergency_Notices.diagnosis",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "determined_lpu_depatament",
+                "type": [
+                  {
+                    "type": "record",
+                    "name": "determined_lpu_depatament",
+                    "namespace": "Emergency_Notices.diagnosis",
+                    "fields": [
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "code",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "organization_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "null"
+                ]
+              },
+              {
+                "name": "disease",
+                "type": {
+                  "type": "record",
+                  "name": "disease",
+                  "namespace": "Emergency_Notices.diagnosis",
+                  "fields": [
+                    {
+                      "name": "code",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "group_guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "form",
+                "type": [
+                  {
+                    "type": "record",
+                    "name": "form",
+                    "namespace": "Emergency_Notices.diagnosis",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "null"
+                ]
+              },
+              {
+                "name": "phase",
+                "type": [
+                  {
+                    "type": "record",
+                    "name": "phase",
+                    "namespace": "Emergency_Notices.diagnosis",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "null"
+                ]
+              }
+            ],
+            "description": "Диагнозы"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "patients",
+      "type": {
+        "type": "record",
+        "name": "patients",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "first_name",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Имя"
+          },
+          {
+            "name": "middle_name",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Отчество"
+          },
+          {
+            "name": "last_name",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Фамилия"
+          },
+          {
+            "name": "fact_address",
+            "type": {
+              "type": "record",
+              "name": "fact_address",
+              "namespace": "Emergency_Notices.patients",
+              "fields": [
+                {
+                  "name": "city",
+                  "type": {
+                    "type": "record",
+                    "name": "city",
+                    "namespace": "Emergency_Notices.patients.fact_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "level",
+                        "type": [
+                          "int",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "parent_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "region",
+                  "type": {
+                    "type": "record",
+                    "name": "region",
+                    "namespace": "Emergency_Notices.patients.fact_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "region_code",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "street",
+                  "type": {
+                    "type": "record",
+                    "name": "street",
+                    "namespace": "Emergency_Notices.patients.fact_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "level",
+                        "type": [
+                          "int",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "parent_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "house",
+                  "type": {
+                    "type": "record",
+                    "name": "house",
+                    "namespace": "Emergency_Notices.patients.fact_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_num_1",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_num_2",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "house_num",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_type_1",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_type_2",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "office",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "address_registration_eq_fact_address",
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Адрес регистранции соответствует фактическому адресоу"
+          },
+          {
+            "name": "registration_address",
+            "type": {
+              "type": "record",
+              "name": "registration_address",
+              "namespace": "Emergency_Notices.patients",
+              "fields": [
+                {
+                  "name": "city",
+                  "type": {
+                    "type": "record",
+                    "name": "city",
+                    "namespace": "Emergency_Notices.patients.registration_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "level",
+                        "type": [
+                          "int",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "parent_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "region",
+                  "type": {
+                    "type": "record",
+                    "name": "region",
+                    "namespace": "Emergency_Notices.patients.registration_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "region_code",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "street",
+                  "type": {
+                    "type": "record",
+                    "name": "street",
+                    "namespace": "Emergency_Notices.patients.registration_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "level",
+                        "type": [
+                          "int",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "type_name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "parent_guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "house",
+                  "type": {
+                    "type": "record",
+                    "name": "house",
+                    "namespace": "Emergency_Notices.patients.registration_address",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_num_1",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_num_2",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "house_num",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_type_1",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "add_type_2",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "office",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "work",
+            "type": {
+              "type": "record",
+              "name": "work",
+              "namespace": "Emergency_Notices.patients",
+              "fields": [
+                {
+                  "name": "full_name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Название"
+                },
+                {
+                  "name": "full_address",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Адрес организации"
+                }
+              ]
+            }
+          },
+          {
+            "name": "accommodations",
+            "type": {
+              "type": "record",
+              "name": "accommodations",
+              "namespace": "Emergency_Notices.patients",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "patient_phone",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Телефон пациента"
+          },
+          {
+            "name": "patient_group_info",
+            "type": {
+              "type": "record",
+              "name": "patient_group_info",
+              "namespace": "Emergency_Notices.patients",
+              "fields": [
+                {
+                  "name": "social_affiliation",
+                  "type": {
+                    "type": "record",
+                    "name": "social_affiliation",
+                    "namespace": "Emergency_Notices.patients.patient_group_info",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "population_category",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Категория населения"
+                },
+                {
+                  "name": "population_category_specified",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Категория населения - другое"
+                },
+                {
+                  "name": "is_decreed_group",
+                  "type": {
+                    "type": "record",
+                    "name": "is_decreed_group",
+                    "namespace": "Emergency_Notices.patients.patient_group_info",
+                    "fields": [
+                      {
+                        "name": "guid",
+                        "type": [
+                          "int",
+                          "null"
+                        ],
+                        "description": ""
+                      },
+                      {
+                        "name": "name",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "residence_type",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Житель города/села']"
+                },
+                {
+                  "name": "created_at_dt",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "birth_date",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Дата рождения"
+          },
+          {
+            "name": "gender",
+            "type": [
+              "int",
+              "null"
+            ],
+            "description": "Пол"
+          },
+          {
+            "name": "work_organization_other",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "being_in_lpu",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "being_in_lpu",
+            "fields": [
+              {
+                "name": "period_from",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Период с"
+              },
+              {
+                "name": "period_to",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Период по"
+              },
+              {
+                "name": "operation_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата операции"
+              },
+              {
+                "name": "ivl_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата ИВЛ"
+              },
+              {
+                "name": "injection_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата инъекции"
+              },
+              {
+                "name": "endoscopic_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата эндоскопических манипуляций, катетеризации"
+              },
+              {
+                "name": "blood_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата переливания крови"
+              },
+              {
+                "name": "birth_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата родов"
+              },
+              {
+                "name": "notice_bein_in_lpu_manipulations",
+                "type": {
+                  "type": "record",
+                  "name": "notice_bein_in_lpu_manipulations",
+                  "namespace": "Emergency_Notices.being_in_lpu",
+                  "fields": [
+                    {
+                      "name": "gynecological",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "dental",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "laboratory",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "other",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "lpu",
+                "type": {
+                  "type": "record",
+                  "name": "lpu",
+                  "namespace": "Emergency_Notices.being_in_lpu",
+                  "fields": [
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Название"
+                    },
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Уникальный идентификатор"
+                    },
+                    {
+                      "name": "type_guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              }
+            ],
+            "description": "Сведения о нахождении в ЛПУ"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "consider_lpu",
+      "type": {
+        "type": "record",
+        "name": "consider_lpu",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "lpu_building",
+            "type": {
+              "type": "record",
+              "name": "lpu_building",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "code",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "organization_guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "sick_flow",
+            "type": {
+              "type": "record",
+              "name": "sick_flow",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "sick_outcome",
+            "type": {
+              "type": "record",
+              "name": "sick_outcome",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "outcome_date",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Даиа исхода"
+          },
+          {
+            "name": "sick_place",
+            "type": {
+              "type": "record",
+              "name": "sick_place",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "sick_cause",
+            "type": {
+              "type": "record",
+              "name": "sick_cause",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "nosocomial_infection",
+            "type": {
+              "type": "record",
+              "name": "nosocomial_infection",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "measures",
+            "type": {
+              "type": "record",
+              "name": "measures",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "more_info",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Дополнительно"
+          },
+          {
+            "name": "lpu",
+            "type": {
+              "type": "record",
+              "name": "lpu",
+              "namespace": "Emergency_Notices.consider_lpu",
+              "fields": [
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Название"
+                },
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Уникальный идентификатор"
+                },
+                {
+                  "name": "type_guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "laboratory_test_list",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "laboratory_test_list",
+            "fields": [
+              {
+                "name": "type",
+                "type": {
+                  "type": "record",
+                  "name": "type",
+                  "namespace": "Emergency_Notices.laboratory_test_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "took_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата взятия"
+              },
+              {
+                "name": "received_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Дата получения"
+              },
+              {
+                "name": "result",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Результат"
+              },
+              {
+                "name": "agent",
+                "type": {
+                  "type": "record",
+                  "name": "agent",
+                  "namespace": "Emergency_Notices.laboratory_test_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "number",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Номер протоколв"
+              },
+              {
+                "name": "lpu",
+                "type": {
+                  "type": "record",
+                  "name": "lpu",
+                  "namespace": "Emergency_Notices.laboratory_test_list",
+                  "fields": [
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Название"
+                    },
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Уникальный идентификатор"
+                    },
+                    {
+                      "name": "type_guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              }
+            ],
+            "description": "Результаты лабораторных исследований"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "guid",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Уникальный  идентификатор"
+    },
+    {
+      "name": "feed_characters",
+      "type": {
+        "type": "record",
+        "name": "feed_characters",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "feed_characters_list",
+            "type": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "record",
+                  "name": "feed_characters_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ],
+                  "description": ""
+                }
+              },
+              "null"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "products_list",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "products_list",
+            "fields": [
+              {
+                "name": "product_type",
+                "type": {
+                  "type": "record",
+                  "name": "product_type",
+                  "namespace": "Emergency_Notices.products_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "product",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Продукт, препарат"
+              },
+              {
+                "name": "quantity",
+                "type": [
+                  "int",
+                  "null"
+                ],
+                "description": "Количество"
+              },
+              {
+                "name": "place",
+                "type": {
+                  "type": "record",
+                  "name": "place",
+                  "namespace": "Emergency_Notices.products_list",
+                  "fields": [
+                    {
+                      "name": "full_name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Название"
+                    },
+                    {
+                      "name": "full_address",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Адрес организации"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "territory",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Территория места приобретения"
+              },
+              {
+                "name": "manufacturer_type",
+                "type": {
+                  "type": "record",
+                  "name": "manufacturer_type",
+                  "namespace": "Emergency_Notices.products_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "manufacturer",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Производитель"
+              },
+              {
+                "name": "manufacturer_territory",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Территория производителя"
+              }
+            ],
+            "description": "Сведения о продуктах"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "products",
+      "type": {
+        "type": "record",
+        "name": "products",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "injured_product",
+            "type": {
+              "type": "record",
+              "name": "injured_product",
+              "namespace": "Emergency_Notices.products",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "int",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "poll_result",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Результат опроса лиц"
+          }
+        ]
+      }
+    },
+    {
+      "name": "water",
+      "type": {
+        "type": "record",
+        "name": "water",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "water_source",
+            "type": {
+              "type": "record",
+              "name": "water_source",
+              "namespace": "Emergency_Notices.water",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "used_water",
+            "type": {
+              "type": "record",
+              "name": "used_water",
+              "namespace": "Emergency_Notices.water",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "int",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "water_characters",
+      "type": {
+        "type": "record",
+        "name": "water_characters",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "water_characters_list",
+            "type": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "record",
+                  "name": "water_characters_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ],
+                  "description": ""
+                }
+              },
+              "null"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "hospitalisation",
+      "type": {
+        "type": "record",
+        "name": "hospitalisation",
+        "namespace": "Emergency_Notices",
+        "fields": [
+          {
+            "name": "self_care",
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": ""
+          },
+          {
+            "name": "home_reasons",
+            "type": {
+              "type": "record",
+              "name": "home_reasons",
+              "namespace": "Emergency_Notices.hospitalisation",
+              "fields": [
+                {
+                  "name": "guid",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                },
+                {
+                  "name": "name",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "region",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Номер региона"
+    },
+    {
+      "name": "hospitalisation_list",
+      "type": [
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "hospitalisation_list",
+            "fields": [
+              {
+                "name": "hospitalization_dt",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "hospitalization_lpu_other",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "day_hospital",
+                "type": [
+                  "boolean",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "subm_pos",
+                "type": {
+                  "type": "record",
+                  "name": "subm_pos",
+                  "namespace": "Emergency_Notices.hospitalisation_list",
+                  "fields": [
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    },
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "subm_fio",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "subm_phone",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": ""
+              },
+              {
+                "name": "hospitalization_lpu",
+                "type": {
+                  "type": "record",
+                  "name": "hospitalization_lpu",
+                  "namespace": "Emergency_Notices.hospitalisation_list",
+                  "fields": [
+                    {
+                      "name": "name",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Название"
+                    },
+                    {
+                      "name": "guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Уникальный идентификатор"
+                    },
+                    {
+                      "name": "type_guid",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": ""
+                    }
+                  ]
+                }
+              }
+            ],
+            "description": "Госпитализации"
+          }
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "laboratory_test",
+      "type": [
+        {
+          "type": "record",
+          "name": "laboratory_test",
+          "namespace": "Emergency_Notices",
+          "fields": [
+            {
+              "name": "lab_contingent",
+              "type": {
+                "type": "record",
+                "name": "lab_contingent",
+                "namespace": "Emergency_Notices.laboratory_test",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            },
+            {
+              "name": "lab_investigation_scope",
+              "type": {
+                "type": "record",
+                "name": "lab_investigation_scope",
+                "namespace": "Emergency_Notices.laboratory_test",
+                "fields": [
+                  {
+                    "name": "guid",
+                    "type": [
+                      "int",
+                      "null"
+                    ],
+                    "description": ""
+                  },
+                  {
+                    "name": "name",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": ""
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "null"
+      ]
+    },
+    {
+      "name": "manual_registered_dt",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "revisions_count",
+      "type": [
+        "int",
+        "null"
+      ],
+      "description": ""
+    }
+  ]
+}

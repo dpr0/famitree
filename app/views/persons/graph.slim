@@ -1,8 +1,12 @@
 .row
   .col-12
     #tt_01 style="opacity:0"
-      a#link_tt_01
-      img#img_tt_01
+      p
+        a#link_tt_01
+      p
+        #predki_tt_01
+      p
+        img#img_tt_01
       p
         span#value_tt_01
       p
@@ -10,7 +14,6 @@
     #diag
 
 javascript:
-    var mouseout_delay = 7000;
     var arrow_length = 120;
     var root = #{@hash.to_json.html_safe}
     var i = 0, duration = 500, rectW = 240, rectH = 50;
@@ -54,52 +57,33 @@ javascript:
             .attr("width", rectW).attr("height", rectH)
             .attr("stroke", "black").attr("stroke-width", 1)
             .style("fill", d => d.sex_id == 1 ? (d._children ? "#4FA9DC" : "#53c5ff") : (d._children ? "#CB86BF" : "#ffaef3"))
+            // .on("mouseout",  d => {})
+            // .on("mouseover", d => {})
 
-        nodeEnter.append("circle")
-            .attr('r', 5)
-            .on("mouseover", function (d) {
-                d3.select("#tt_01")
-                    .style("left", "30px")
-                    .style("top", "30px");
-                d3.select("#value_tt_01")
-                    .text(d.address);
-                d3.select("#info_tt_01")
-                    .text(d.info);
-                d3.select("#img_tt_01")
-                    .attr("src", d.avatar)
-                    .attr("width", 500);
-                d3.select('#link_tt_01')
-                    .attr("href", d.url)
-                    .text('Показать');
-
-                d3.select(this).style("fill", 'blue');
-                d3.select("#tt_01").style('opacity', 1);
-            })
-            .on("mouseout", function (d) {
-                d3.select("#tt_01").transition().delay(mouseout_delay).style('opacity', 0);
-                d3.select(this).transition().delay(mouseout_delay).style("fill", "gray");
-            });
+        // nodeEnter.append("circle")
+        //     .attr('r', 5)
+        //         d3.select(this).style("fill", 'blue');
+        //     })
+        //     .on("mouseout", function (d) {
+        //         d3.select(this).transition().delay(mouseout_delay).style("fill", "gray");
+        //     });
 
         nodeEnter.append("text")
             .attr("x", rectW / 2).attr("y", rectH / 2 - 14)
-            .attr("dy", ".35em")
-            .attr("text-anchor", "middle")
+            .attr("dy", ".35em").attr("text-anchor", "middle")
             .text(d => d.name);
         nodeEnter.append("text")
             .attr("x", rectW / 2).attr("y", rectH / 2)
-            .attr("dy", ".35em")
-            .attr("text-anchor", "middle")
+            .attr("dy", ".35em").attr("text-anchor", "middle")
             .text(d => d.dates);
         nodeEnter.append("text")
             .attr("x", rectW / 2).attr("y", rectH / 2 + 14)
-            .attr("dy", ".35em")
-            .attr("text-anchor", "middle")
+            .attr("dy", ".35em").attr("text-anchor", "middle")
             .text(d => d.relations);
 
         // nodeEnter.append("image")
         //     .attr("xlink:href", d => d.avatar)
-        //     .attr("x", "1px")
-        //     .attr("y", "50px")
+        //     .attr("x", "1px").attr("y", "50px")
         //     .attr("height", "50px")
 
         // Transition nodes to their new position.
@@ -152,10 +136,22 @@ javascript:
         if (d.children) {
             d._children = d.children;
             d.children = null;
+            // d3.select("#tt_01").transition().delay(mouseout_delay).style('opacity', 0)
         } else {
             d.children = d._children;
             d._children = null;
         }
+        d3.select("#tt_01").style("left", "30px").style("top", "30px");
+        d3.select("#value_tt_01").text(d.address);
+        d3.select("#info_tt_01").text(d.info);
+        d3.select("#img_tt_01").attr("src", d.avatar).attr("width", 480);
+        d3.select('#link_tt_01').attr("href", d.url).text('Показать профиль персоны');
+        d3.select('#predki_tt_01').selectAll("*").remove();
+        debugger
+        d.rel_predki.forEach(predok => {
+            d3.select('#predki_tt_01').append('p').append('a').attr("href", `/persons/${predok.id}/graph`).text(`Показать дерево супруга/супруги (${predok.last_name})`);
+        });
+        d3.select("#tt_01").style('opacity', 1);
         update(d);
     }
 

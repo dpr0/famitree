@@ -39,6 +39,10 @@ class Person < ApplicationRecord
     "#{birth}#{death}"
   end
 
+  def parent_ids
+    [father_id, mother_id].compact
+  end
+
   def url_for_avatar
     url_for(avatar) if avatar.persisted?
   end

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  default_url_options host: 'famitree.ru'
+  default_url_options host: Rails.env == 'development' ? 'localhost:3000' : 'famitree.ru'
   apipie
   devise_for :users, controllers: { omniauth_callbacks: 'callbacks' }
   root 'users#new'
@@ -28,7 +28,9 @@ Rails.application.routes.draw do
   end
 
   resources :family_trees
-  resources :persons
+  resources :persons do
+    get :graph, on: :member
+  end
   resources :users, only: [:new, :show] do
     post :create_user, on: :collection
     get :welcome, on: :collection

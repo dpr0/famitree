@@ -10,7 +10,10 @@ class FamilyTreesController < ApplicationController
 
   def show
     (redirect_to family_trees_path and return) unless @family_tree
+    @root_id = current_user.family_tree_users.find_by(user_id: current_user.id).root_person_id
     @persons = @family_tree.persons.order(:birthdate)
+    predki = predki([@root_id])
+    @predki = @persons.select { |p| predki.include? p.id }
   end
 
   def new
@@ -78,5 +81,17 @@ class FamilyTreesController < ApplicationController
 
   def family_tree_params
     params.require(:family_tree).permit(:name, :user_id)
+  end
+
+  def predki(ids)
+    @predki ||= []
+    ids.compact.map do |id|
+      person = @persons.find { |p| p.id == id }
+      father = @persons.find { |p| p.id == person.father_id } if person.father_id
+      mother = @persons.find { |p| p.id == person.mother_id } if person.mother_id
+      @predki << person.id if person.father_id.nil? && person.mother_id.nil?
+      predki([father&.father_id, father&.mother_id, mother&.father_id, mother&.mother_id])
+    end
+    @predki
   end
 end
