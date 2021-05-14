@@ -147,7 +147,6 @@ javascript:
         d3.select("#img_tt_01").attr("src", d.avatar).attr("width", 480);
         d3.select('#link_tt_01').attr("href", d.url).text('Показать профиль персоны');
         d3.select('#predki_tt_01').selectAll("*").remove();
-        debugger
         d.rel_predki.forEach(predok => {
             d3.select('#predki_tt_01').append('p').append('a').attr("href", `/persons/${predok.id}/graph`).text(`Показать дерево супруга/супруги (${predok.last_name})`);
         });
