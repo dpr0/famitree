@@ -2,7 +2,7 @@
 
 class PersonsController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_person, only: %i[edit show update destroy]
+  before_action :load_person, only: %i[edit show update destroy graph]
   before_action :family_trees, only: %i[new edit]
   before_action :mens_and_womens, only: %i[edit new]
 
@@ -19,6 +19,15 @@ class PersonsController < ApplicationController
 
   def show
     redirect_to family_trees_path unless @person
+  end
+
+  def graph
+    @persons = @family_tree.persons.order(:birthdate)
+    @relations = Relation.where(person_id: @persons.ids).or(Relation.where(persona_id: @persons.ids)).all
+    @person_relations  = @relations.where(person_id:  @persons.where(sex_id: Sex[  :male].id).ids)
+    @persona_relations = @relations.where(persona_id: @persons.where(sex_id: Sex[:female].id).ids)
+    service = PersonsService.new(@persons, @relations, @person_relations, @persona_relations)
+    @hash = service.create(@person)
   end
 
   def new; end
