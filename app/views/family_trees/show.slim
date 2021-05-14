@@ -1,6 +1,13 @@
 .row
   .col-12
     - if params[:diag] == 'true'
+      #tt_01 style="opacity:0"
+        a#link_tt_01
+        img#img_tt_01
+        p
+          span#value_tt_01
+        p
+          span#info_tt_01
       #diag
     - else
       - @persons.each do |person|
@@ -15,6 +22,7 @@
               = render 'person', person: person
 
 javascript:
+    var mouseout_delay = 7000;
     var arrow_length = 120;
     var root = #{@hash.to_json.html_safe}
     var i = 0, duration = 500, rectW = 240, rectH = 50;
@@ -44,17 +52,10 @@ javascript:
     update(root);
 
     function update(source) {
-
-        // Compute the new tree layout.
         var nodes = tree.nodes(root),
             links = tree.links(nodes);
-
-        // Normalize for fixed-depth.
-        nodes.forEach( d => d.y = d.depth * arrow_length );
-
-        // Update the nodes…
-        var node = svg.selectAll("g.node").data(nodes, d => d.id || (d.id = ++i) );
-
+        nodes.forEach( d => d.y = d.depth * arrow_length ); // Normalize for fixed-depth.
+        var node = svg.selectAll("g.node").data(nodes, d => d.id || (d.id = ++i) ); // Update the nodes…
         // Enter any new nodes at the parent's previous position.
         var nodeEnter = node.enter().append("g")
             .attr("class", "node")
@@ -64,7 +65,32 @@ javascript:
         nodeEnter.append("rect")
             .attr("width", rectW).attr("height", rectH)
             .attr("stroke", "black").attr("stroke-width", 1)
-            .style("fill", d => d.sex_id == 1 ? (d._children ? "#4FA9DC" : "#53c5ff") : (d._children ? "#CB86BF" : "#ffaef3"));
+            .style("fill", d => d.sex_id == 1 ? (d._children ? "#4FA9DC" : "#53c5ff") : (d._children ? "#CB86BF" : "#ffaef3"))
+
+        nodeEnter.append("circle")
+            .attr('r', 5)
+            .on("mouseover", function (d) {
+                d3.select("#tt_01")
+                    .style("left", d.x + 200 + "px")
+                    .style("top", d.y + "px");
+                d3.select("#value_tt_01")
+                    .text(d.address);
+                d3.select("#info_tt_01")
+                    .text(d.info);
+                d3.select("#img_tt_01")
+                    .attr("src", d.avatar)
+                    .attr("width", 500);
+                d3.select('#link_tt_01')
+                    .attr("href", d.url)
+                    .text('Показать');
+
+                d3.select(this).style("fill", 'blue');
+                d3.select("#tt_01").style('opacity', 1);
+            })
+            .on("mouseout", function (d) {
+                d3.select("#tt_01").transition().delay(mouseout_delay).style('opacity', 0);
+                d3.select(this).transition().delay(mouseout_delay).style("fill", "gray");
+            });
 
         nodeEnter.append("text")
             .attr("x", rectW / 2).attr("y", rectH / 2 - 14)
@@ -75,12 +101,18 @@ javascript:
             .attr("x", rectW / 2).attr("y", rectH / 2)
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
-            .text(d => d.info);
+            .text(d => d.dates);
         nodeEnter.append("text")
             .attr("x", rectW / 2).attr("y", rectH / 2 + 14)
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
             .text(d => d.relations);
+
+        // nodeEnter.append("image")
+        //     .attr("xlink:href", d => d.avatar)
+        //     .attr("x", "1px")
+        //     .attr("y", "50px")
+        //     .attr("height", "50px")
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition().duration(duration)

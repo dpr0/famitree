@@ -3,13 +3,13 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import firebase from 'firebase/app';
 import "@fortawesome/fontawesome-free/js/all";
-require("firebase")
-require("firebaseui-ru")
-require('admin-lte')
-require('d3')
+require("firebase");
+require("firebaseui-ru");
+require('admin-lte');
+require('d3');
 
-Rails.start()
-ActiveStorage.start()
+Rails.start();
+ActiveStorage.start();
 
 var config = {
     apiKey: "AIzaSyAa9v2fyoyUP7h0QmYuYvTaAhEGlNv0WaE",
@@ -48,4 +48,4 @@ ui.start('#firebaseui-auth-container', {
     credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
 });
 
-$( () => $('[data-toggle="tooltip"]').tooltip() )
+$( () => $('[data-toggle="tooltip"]').tooltip() );

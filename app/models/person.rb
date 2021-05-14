@@ -33,13 +33,13 @@ class Person < ApplicationRecord
     "#{maiden_name.present? ? maiden_name : last_name} #{first_name} #{middle_name}"
   end
 
-  def info
+  def dates
     birth = birthdate.present? && confirmed_birthdate ? "#{birthdate}" : ''
     death = deathdate.present? && confirmed_deathdate ? " - #{deathdate}" : ''
     "#{birth}#{death}"
   end
 
-  def avatar_url
+  def url_for_avatar
     url_for(avatar) if avatar.persisted?
   end
 

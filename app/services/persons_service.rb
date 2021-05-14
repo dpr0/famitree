@@ -34,14 +34,18 @@ class PersonsService
     {
         sex_id: p.sex_id,
         name: p.fio_name,
+        full_name: p.full_name,
         children: childs(p),
         relations: rel_str.last,
-        person: p.attributes,
-        info: p.info
+        address: p.address,
+        info: p.info,
+        dates: p.dates,
+        avatar: p.url_for_avatar,
+        url: "/persons/#{p.id}"
     }
   end
 
   def relation_name(rel_type_id)
-    rel_type_id == RelationType[:married].id ? RelationType[:married].name : RelationType[:divorced].name
+    RelationType[rel_type_id == RelationType[:married].id ? :married : :divorced].name
   end
 end
