@@ -20,7 +20,7 @@ class Person < ApplicationRecord
   validate :acceptable_avatar
   validate :acceptable_images
 
-  IMAGE_TYPES = ['image/jpeg', 'image/png']
+  IMAGE_TYPES = %w(image/jpeg image/png)
 
   def acceptable_avatar
     check_errors(avatar) if avatar.attached?

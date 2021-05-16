@@ -13,6 +13,8 @@
     #diag
 
 javascript:
+    $("body").css({"overflow":"hidden"});
+
     var arrow_length = 120;
     var root = #{@hash.to_json.html_safe}
     var i = 0, duration = 500, rectW = 240, rectH = 50;

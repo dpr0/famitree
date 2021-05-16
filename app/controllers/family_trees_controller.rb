@@ -10,7 +10,7 @@ class FamilyTreesController < ApplicationController
 
   def show
     (redirect_to family_trees_path and return) unless @family_tree
-    @root_id = current_user.family_tree_users.find_by(user_id: current_user.id).root_person_id
+    @root_id = current_user.family_tree_users.find_by(user_id: current_user.id, family_tree_id: params[:id]).root_person_id
     @persons = @family_tree.persons.order(:birthdate)
     @relations = Relation.where(person_id: @persons.ids).or(Relation.where(persona_id: @persons.ids)).all
     predki = PersonsService.new(@persons, @relations).only_predki([@root_id])
