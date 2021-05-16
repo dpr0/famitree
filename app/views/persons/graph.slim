@@ -132,10 +132,11 @@ javascript:
     }
 
     function click(d) { // Toggle children on click.
-        // d3.select("#tt_01").transition().delay(10000).style('opacity', 0)
         if (d.children) {
             d._children = d.children;
             d.children = null;
+            // d3.select("#tt_01").transition().delay(1000).style('opacity', 0)
+            d3.select("#tt_01").transition().style('opacity', 0)
         } else {
             d.children = d._children;
             d._children = null;
