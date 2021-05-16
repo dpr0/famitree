@@ -143,7 +143,9 @@ javascript:
         d3.select("#tt_01").style("left", "30px").style("top", "30px");
         d3.select("#value_tt_01").text(d.address);
         d3.select("#info_tt_01").text(d.info);
-        d3.select("#img_tt_01").attr("src", d.avatar).attr("height", 200);
+        if (d.avatar && d.avatar.length > 0) {
+            d3.select("#img_tt_01").attr("src", d.avatar).attr("height", 200);
+        }
         d3.select('#link_tt_01').attr("href", d.url).text('Показать профиль персоны');
         d3.select('#predki_tt_01').selectAll("*").remove();
         if (d.rel_predki.length > 0) {
