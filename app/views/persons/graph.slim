@@ -42,15 +42,11 @@ javascript:
     update(root);
 
     function update(source) {
-        var nodes = tree.nodes(root),
-            links = tree.links(nodes);
+        var nodes = tree.nodes(root), links = tree.links(nodes);
         nodes.forEach( d => d.y = d.depth * arrow_length ); // Normalize for fixed-depth.
         var node = svg.selectAll("g.node").data(nodes, d => d.id || (d.id = ++i) ); // Update the nodes…
-        // Enter any new nodes at the parent's previous position.
-        var nodeEnter = node.enter().append("g")
-            .attr("class", "node")
-            .attr("transform", d => "translate(" + source.x0 + "," + source.y0 + ")")
-            .on("click", click);
+        var nodeEnter = node.enter().append("g") // Enter any new nodes at the parent's previous position.
+            .attr("class", "node").attr("transform", d => "translate(" + source.x0 + "," + source.y0 + ")") .on("click", click);
 
         nodeEnter.append("rect")
             .attr("width", rectW).attr("height", rectH)
@@ -58,14 +54,6 @@ javascript:
             .style("fill", d => d.sex_id == 1 ? (d._children ? "#4FA9DC" : "#53c5ff") : (d._children ? "#CB86BF" : "#ffaef3"))
             // .on("mouseout",  d => {})
             // .on("mouseover", d => {})
-
-        // nodeEnter.append("circle")
-        //     .attr('r', 5)
-        //         d3.select(this).style("fill", 'blue');
-        //     })
-        //     .on("mouseout", function (d) {
-        //         d3.select(this).transition().delay(mouseout_delay).style("fill", "gray");
-        //     });
 
         nodeEnter.append("text")
             .attr("x", rectW / 2).attr("y", rectH / 2 - 14)
@@ -103,11 +91,9 @@ javascript:
         // nodeExit.select("rect")
         //     .attr("width", rectW /2).attr("height", rectH)
         //     .attr("stroke", "black").attr("stroke-width", 1);
-
         // nodeExit.select("text");
 
-        // Update the links…
-        var link = svg.selectAll("path.link").data(links, d => d.target.id);
+        var link = svg.selectAll("path.link").data(links, d => d.target.id); // Update the links…
 
         // Enter any new links at the parent's previous position.
         link.enter().insert("path", "g")
@@ -131,7 +117,7 @@ javascript:
         nodes.forEach(d => { d.x0 = d.x; d.y0 = d.y; }); // Stash the old positions for transition.
     }
 
-    function click(d) { // Toggle children on click.
+    function click(d) {
         if (d.children) {
             d._children = d.children;
             d.children = null;
@@ -144,9 +130,7 @@ javascript:
         d3.select("#tt_01").style("left", "30px").style("top", "30px");
         d3.select("#value_tt_01").text(d.address);
         d3.select("#info_tt_01").text(d.info);
-        if (d.avatar && d.avatar.length > 0) {
-            d3.select("#img_tt_01").attr("src", d.avatar).attr("height", 200);
-        }
+        if (d.avatar && d.avatar.length > 0) d3.select("#img_tt_01").attr("src", d.avatar).attr("height", 200);
         d3.select('#link_tt_01').attr("href", d.url).text('Показать профиль персоны');
         d3.select('#predki_tt_01').selectAll("*").remove();
         if (d.rel_predki.length > 0) {

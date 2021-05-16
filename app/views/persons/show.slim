@@ -23,7 +23,7 @@ section.text-center
           .row
             .col-12
               .image
-                = image_tag @person.avatar.variant(resize_to_limit: [100, nil]), class: 'img-circle elevation-2'
+                = image_tag @person.avatar.variant(resize_to_limit: [100, nil])
         .row
           .col-6.text-right
             | Семейное дерево
@@ -107,6 +107,11 @@ section.text-center
         .row
           .col-12
             - @person.images.each do |image|
-              - if image.persisted?
+              - if image.persisted? && image.blob.content_type.in?(Person::IMAGE_TYPES)
                 = image_tag image.variant(resize_to_limit: [100, nil])
+        .row
+          .col-12
+            - @person.attachments.each do |att|
+              - if att.persisted?
+                = link_to image.blob.filename.to_s, url_for(att), target: '_blank'
       .col-2

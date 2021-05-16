@@ -17,13 +17,17 @@ class Person < ApplicationRecord
   has_many_attached :images
   has_many_attached :attachments
 
-  validate :acceptable_image
+  validate :acceptable_avatar
+  validate :acceptable_images
 
-  def acceptable_image
-    return unless avatar.attached?
+  IMAGE_TYPES = ['image/jpeg', 'image/png']
 
-    errors.add(:avatar, 'is too big') if avatar.byte_size > 1.megabyte
-    errors.add(:avatar, 'must be a JPEG or PNG') unless ['image/jpeg', 'image/png'].include?(avatar.content_type)
+  def acceptable_avatar
+    check_errors(avatar) if avatar.attached?
+  end
+
+  def acceptable_images
+    images.each { |image| check_errors(image) }
   end
 
   def full_name
@@ -64,5 +68,12 @@ class Person < ApplicationRecord
   def update_with_version(current_user, params)
     Version.prepare(self.family_tree.id, current_user.id, self, params).add
     update(params)
+  end
+
+  private
+
+  def check_errors(image)
+    errors.add(:image, 'Изображение более 1mb') if image.byte_size > 1.megabyte
+    errors.add(:image, 'Изображение должно быть JPEG или PNG') unless IMAGE_TYPES.include?(image.content_type)
   end
 end

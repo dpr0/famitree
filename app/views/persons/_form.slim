@@ -5,10 +5,11 @@
       - @person.errors.full_messages.each do |message|
         li = message
 
-.input-group.mb-3
-  .input-group-prepend.w-50
-    span.input-group-text.w-100 Семейное дерево
-  = f.collection_select :family_tree_id, @family_trees, :id, :name, class: 'form-control'
+- if @family_trees
+  .input-group.mb-3
+    .input-group-prepend.w-50
+      span.input-group-text.w-100 Семейное дерево
+    = f.collection_select :family_tree_id, @family_trees, :id, :name, class: 'form-control'
 .input-group.mb-3
   .input-group-prepend.w-50
     span.input-group-text.w-100 Пол

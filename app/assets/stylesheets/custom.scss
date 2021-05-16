@@ -54,10 +54,6 @@ a.faded:hover img{
   stroke-width: 1.5px;
 }
 
-body {
-  overflow: hidden;
-}
-
 #tt_01 {
   position: absolute;
   width: 500px;
@@ -87,4 +83,8 @@ body {
   font-family: sans-serif;
   font-size: 12px;
   line-height: 20px;
+}
+
+#error_explanation {
+  background-color: #000000 !important;
 }
