@@ -13,6 +13,12 @@ class PersonsService
     hash_for(person)
   end
 
+  def only_predki(ids)
+    @predki = []
+    predki(ids)
+    @predki
+  end
+
   private
 
   def hash_for(p)
@@ -22,6 +28,7 @@ class PersonsService
     rel_str = relations_ids.map { |id| "#{relation_name(rel_type_by(p.id, id))} с #{@persons.find { |x| x.id == id }.fio_name}" }
     @predki = []
     r_persons.present? ? predki(r_persons.map { |r| r.parent_ids }.flatten) : []
+    rel_predki = @persons.select { |pp| @predki.include? pp.id }.map { |pp| {last_name: pp.last_name, id: pp.id} }
     {
         sex_id:    p.sex_id,
         name:      p.fio_name,
@@ -33,12 +40,12 @@ class PersonsService
         dates:     p.dates,
         avatar:    p.url_for_avatar,
         url:       "/persons/#{p.id}",
-        rel_predki: @persons.select { |pp| @predki.include? pp.id }.map { |pp| {last_name: pp.last_name, id: pp.id} }
+        rel_predki: rel_predki
     }
   end
 
   def childs(person)
-    chs = person.sex_id == Sex[:male].id ? @persons.select { |x| x.father_id == person.id } : @persons.select { |x| x.mother_id == person.id }
+    chs = @persons.select { |x| (person.sex_id == Sex[:male].id ? x.father_id : x.mother_id) == person.id }
     chs.present? ? chs.map { |ch| hash_for(ch) } : []
   end
 

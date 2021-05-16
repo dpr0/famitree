@@ -76,13 +76,13 @@ class PersonsController < ApplicationController
   private
 
   def load_person
-    @person = if params[:id] == current_user.person_id
+    @person = if params[:id] == current_user&.person_id
                 current_user.person
               else
                 Person.where(family_tree_id: current_user.family_tree_users.map(&:family_tree_id)).find_by(id: params[:id])
               end
     @family_tree = @person&.family_tree
-    @family_tree_user = @family_tree.family_tree_users.find { |ft| ft.family_tree_id == @person.family_tree_id && ft.user_id == current_user.id } if @family_tree
+    @family_tree_user = @family_tree.family_tree_users.find { |ft| ft.family_tree_id == @person.family_tree_id && ft.user_id == current_user&.id } if @family_tree
   end
 
   def family_trees

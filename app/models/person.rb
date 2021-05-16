@@ -5,6 +5,8 @@ class Person < ApplicationRecord
 
   self.table_name = :persons
 
+  default_scope { where(deleted_at: nil) }
+
   has_one :user
   belongs_to :family_tree, required: false
   has_many :relations

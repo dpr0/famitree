@@ -6,6 +6,8 @@ class Fact < ApplicationRecord
   belongs_to :person
   has_one_attached :attachment
 
+  default_scope { where(deleted_at: nil) }
+
   def attachment_url
     url_for(attachment) if attachment.persisted?
   end
