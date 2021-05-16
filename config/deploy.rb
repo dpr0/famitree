@@ -2,9 +2,10 @@
 
 lock '3.16.0'
 
-server 'krsz.ru', port: 2222, roles: %w(app db web), primary: true
+# server 'krsz.ru', port: 2222, roles: %w(app db web), primary: true
+server '178.154.206.198', port: 22, roles: %w(app db web), primary: true
 
-set :rbenv_ruby,      '3.0.0'
+set :rbenv_ruby,      '3.0.1'
 set :application,     'famitree'
 set :repo_url,        'git@github.com:dpr0/famitree.git'
 set :deploy_user,     'deploy'
@@ -22,7 +23,7 @@ set :ssh_options, {
   keys: '~/.ssh/id_rsa',
   forward_agent: true,
   auth_methods: %w(publickey password),
-  port: 2222
+  port: 22#22
 }
 
 namespace :deploy do
