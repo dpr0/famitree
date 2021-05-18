@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         resources :archives, only: [:create, :update, :destroy]
         resources :photos,   only: [:create, :update, :destroy]
       end
+      resources :relations, only: [:create, :update, :destroy]
       resources :facts, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show] do
         post :login, on: :collection
