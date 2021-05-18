@@ -2,8 +2,8 @@
 
 lock '3.16.0'
 
-# server 'krsz.ru', port: 2222, roles: %w(app db web), primary: true
-server '178.154.206.198', port: 22, roles: %w(app db web), primary: true
+host = 'famitree.ru' # '178.154.206.198' #
+server host, port: 2222, roles: %w(app db web), primary: true
 
 set :rbenv_ruby,      '3.0.1'
 set :application,     'famitree'
@@ -23,7 +23,7 @@ set :ssh_options, {
   keys: '~/.ssh/id_rsa',
   forward_agent: true,
   auth_methods: %w(publickey password),
-  port: 22#22
+  port: 2222
 }
 
 namespace :deploy do
