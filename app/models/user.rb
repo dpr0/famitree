@@ -19,7 +19,7 @@ class User < ApplicationRecord
     if user
       user.uid ||= auth[:uid]
       user.name = auth[:name] if auth[:name].present?
-      user.person ||= Person.create!({last_name: user.last_name, first_name: user.first_name, middle_name: user.middle_name}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
+      user.person ||= Person.create!(person_hash(user, auth[:phone]))
       user.save!
       if user.family_trees.count == 0
         tree = user.family_trees.new(name: user.name, user_id: user.id)
@@ -29,7 +29,7 @@ class User < ApplicationRecord
       end
     else
       # user = User.new(auth.to_enum.to_h.merge(password: Devise.friendly_token[0, 20], email: "#{auth[:phone]}@#{auth[:provider]}"))
-      # user.person = Person.create!({last_name: auth[:name]}.merge(auth[:phone] ? {contact: auth[:phone]} : {}))
+      # user.person = Person.create!(person_hash(user, auth[:phone]))
       # user.save!
       return
     end
@@ -62,5 +62,16 @@ class User < ApplicationRecord
 
   def full_name
     "#{last_name} #{first_name} #{middle_name}"
+  end
+
+  private
+
+  def self.person_hash(user, phone = nil)
+    {
+        sex_id: user.sex_id,
+        last_name: user.last_name,
+        first_name: user.first_name,
+        middle_name: user.middle_name
+    }.merge(phone ? {contact: phone} : {})
   end
 end
