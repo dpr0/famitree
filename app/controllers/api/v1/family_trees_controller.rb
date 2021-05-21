@@ -78,12 +78,13 @@ module Api::V1
       property :facts_versions,   array_of: Hash, desc: '' do param_group :versions end
     end
     def show
-      persons = @family_tree.persons #.where(deleted_at: nil)
+      persons = @family_tree.persons
       if @family_tree
         render json: {
             family_tree:      @family_tree,
             persons:          persons,
             root_person_id:   @family_tree.family_tree_users.find_by(user_id: @current_user.id).root_person_id,
+            relations:        Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all,
             persons_versions: Version.where(model: 'Person', model_id: persons.ids).order(created_at: :desc).limit(50),
             facts_versions:   Version.where(model: 'Fact',   model_id: Fact.where(person_id: persons.ids).ids).order(created_at: :desc).limit(50)
         }, status: :ok
