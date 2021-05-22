@@ -12,12 +12,19 @@ Rails.start();
 ActiveStorage.start();
 
 var config = {
-    apiKey: "AIzaSyAa9v2fyoyUP7h0QmYuYvTaAhEGlNv0WaE",
-    authDomain: "famitree-cc4ba.firebaseapp.com",
-    projectId: "famitree-cc4ba",
-    storageBucket: "famitree-cc4ba.appspot.com",
-    messagingSenderId: "331286688493",
-    appId: "1:331286688493:web:26e1267f63f978a09dd2e4"
+    apiKey: "AIzaSyBs8Vz7NmleSQpPrt0sOIrK9kOjcndgda8",
+    authDomain: "familytree-3ccbc.firebaseapp.com",
+    projectId: "familytree-3ccbc",
+    storageBucket: "familytree-3ccbc.appspot.com",
+    messagingSenderId: "145555995263",
+    appId: "1:145555995263:web:f8360e36c5e501bce65d4a",
+    measurementId: "G-MHPDCERQDW"
+    // apiKey: "AIzaSyAa9v2fyoyUP7h0QmYuYvTaAhEGlNv0WaE",
+    // authDomain: "famitree-cc4ba.firebaseapp.com",
+    // projectId: "famitree-cc4ba",
+    // storageBucket: "famitree-cc4ba.appspot.com",
+    // messagingSenderId: "331286688493",
+    // appId: "1:331286688493:web:26e1267f63f978a09dd2e4"
 };
 firebase.initializeApp(config);
 firebase.analytics();
@@ -48,4 +55,5 @@ ui.start('#firebaseui-auth-container', {
     credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
 });
 
+console.log(process)
 // $( () => $('[data-toggle="tooltip"]').tooltip() );

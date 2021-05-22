@@ -139,7 +139,14 @@ module Api::V1
     api :GET, '/v1/family_trees/:id/timeline'
     returns array_of: :versions, code: 200, desc: 'Лента новостей'
     def timeline
-      @versions = Version.where(family_tree_id: @family_tree.id).limit(params[:limit] || 50)
+      @versions = Version.where(family_tree_id: @family_tree.id).limit(params[:limit] || 50).offset(params[:offset] || 0).group_by do |x|
+        z = x.created_at
+        if params[:time_zone]&.to_i != 0
+          tz = ActiveSupport::TimeZone.seconds_to_utc_offset(params[:time_zone].to_i)
+          z = z.change(offset: tz).utc if tz
+        end
+        z.to_date
+      end
       render json: @versions, status: :ok
     end
 
