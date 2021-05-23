@@ -27,19 +27,24 @@ module Api::V1
     api :POST, '/v1/persons'
     def create
       @person = Person.new(person_params)
-      render_json(@person.save, @person)
+      saved = @person.save
+      Version.prepare(method_name(caller(0)), @person.family_tree.id, current_user.id, @person, params).add if saved
+      render_json(saved, @person)
     end
 
     api :PATCH, '/v1/persons/:id'
     def update
-      render_json(@person.update_with_version(@current_user, person_params), @person)
+      render_json(@person.update_with_version(method_name(caller(0)), @current_user, person_params), @person)
     end
 
     api :DELETE, '/v1/persons/:id'
     def destroy
-      @person.update_with_version(@current_user, deleted_at: Time.now)
-      Person.where(father_id: @person.id).each { |child| child.update_with_version(@current_user, father_id: nil) }
-      Person.where(mother_id: @person.id).each { |child| child.update_with_version(@current_user, mother_id: nil) }
+      params = { deleted_at: Time.now }
+      method_name = method_name(caller(0))
+      @person.update_with_version(method_name, @current_user, params)
+
+      Person.where(father_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, father_id: nil) }
+      Person.where(mother_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, mother_id: nil) }
       render json: { status: :deleted }, status: :ok
     end
 

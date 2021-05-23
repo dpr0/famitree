@@ -13,6 +13,10 @@ module Api::V1
 
     private
 
+    def method_name(calller)
+      calller[0].split("`").pop.gsub("'", '')
+    end
+
     def authenticate_request
       @current_user = User.auth_by_token(request.headers)
       render json: { error: 'Not Authorized' }, status: 401 unless @current_user

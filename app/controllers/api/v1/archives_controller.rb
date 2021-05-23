@@ -37,6 +37,7 @@ module Api::V1
       @archive = Archive.new(archive_params)
       saved = @archive.save
       @archive.update(url: @archive.attachment_url, content_type: @archive.attachment.content_type, filename: @archive.attachment.filename.to_s)
+      Version.prepare(method_name(caller(0)), @archive.person.family_tree.id, current_user.id, @archive, archive_params).add if saved
       render_json(saved, @archive.attributes)
     end
 
@@ -45,7 +46,7 @@ module Api::V1
       property :archive, Hash, desc: '' do param_group :archive_short end
     end
     def update
-      Version.prepare(@archive.person.family_tree.id, @current_user.id, @archive, archive_params).add
+      Version.prepare(method_name(caller(0)), @archive.person.family_tree.id, @current_user.id, @archive, archive_params).add
       saved = @archive.update(archive_params)
       @archive.update(url: @archive.attachment_url, content_type: @archive.attachment.content_type, filename: @archive.attachment.filename.to_s)
       render_json(saved, @archive.attributes)
@@ -54,7 +55,9 @@ module Api::V1
     api :DELETE, '/v1/person/:person_id/archives/:id'
     returns code: 200, desc: ''
     def destroy
-      @archive.update(deleted_at: Time.now)
+      params = { deleted_at: Time.now }
+      @archive.update(params)
+      Version.prepare(method_name(caller(0)), @archive.person.family_tree.id, @current_user.id, @archive, params).add
       render json: { status: :deleted }, status: :ok
     end
 

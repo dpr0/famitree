@@ -65,8 +65,8 @@ class Person < ApplicationRecord
     end.compact
   end
 
-  def update_with_version(current_user, params)
-    Version.prepare(self.family_tree.id, current_user.id, self, params).add
+  def update_with_version(event_type, current_user, params)
+    Version.prepare(event_type, self.family_tree.id, current_user.id, self, params).add
     update(params)
   end
 

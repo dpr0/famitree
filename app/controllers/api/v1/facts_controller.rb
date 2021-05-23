@@ -51,7 +51,9 @@ module Api::V1
     end
     def create
       @fact = Fact.new(fact_params)
-      render_json(@fact.save, @fact.attributes.merge(attachment_url: @fact.attachment_url))
+      saved = @fact.save
+      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, current_user.id, @fact, fact_params).add if saved
+      render_json(saved, @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
     api :PATCH, '/v1/facts/:id'
@@ -59,27 +61,18 @@ module Api::V1
       property :fact, Hash, desc: '' do param_group :fact_short end
     end
     def update
-      Version.prepare(@fact.person.family_tree.id, @current_user.id, @fact, fact_params).add
+      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, @current_user.id, @fact, fact_params).add
       render_json(@fact.update(fact_params), @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
     api :DELETE, '/v1/facts/:id'
     returns code: 200, desc: ''
     def destroy
-      @fact.destroy
+      params = { deleted_at: Time.now }
+      @fact.update(params)
+      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, @current_user.id, @fact, params).add
       render json: { status: :deleted }, status: :ok
     end
-
-    # api :POST, '/v1/facts/:id/attach_file'
-    # param :id, String, required: true
-    # param :file, ActionDispatch::Http::UploadedFile, required: true
-    # def attach_file
-    #   @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: @fact.person_id)
-    #   render(json: { error: "person: #{@fact.person_id} - access denied"}, status: :unprocessable_entity) and return unless @person
-    #
-    #   attached = @fact.attachments.attach(params[:file])
-    #   render json: { url: url_for(@fact.attachments.blobs.last) }, status: attached ? :ok : :not_acceptable
-    # end
 
     private
 

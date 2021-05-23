@@ -36,6 +36,7 @@ module Api::V1
       saved = @photo.save
       @photo.update(url: @photo.attachment_url)
       @person.update(avatar_url: @photo.attachment_url) if params[:avatar] == 'true'
+      Version.prepare(method_name(caller(0)), @photo.person.family_tree.id, current_user.id, @photo, photo_params).add if saved
       render_json(saved, @photo.attributes)
     end
 
@@ -44,7 +45,7 @@ module Api::V1
       property :photo, Hash, desc: '' do param_group :photo_short end
     end
     def update
-      Version.prepare(@photo.person.family_tree.id, @current_user.id, @photo, photo_params).add
+      Version.prepare(method_name(caller(0)), @photo.person.family_tree.id, @current_user.id, @photo, photo_params).add
       saved = @photo.update(photo_params)
       @photo.update(url: @photo.attachment_url)
       @person.update(avatar_url: @photo.attachment_url) if params[:avatar] == 'true'
