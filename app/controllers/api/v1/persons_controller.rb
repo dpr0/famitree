@@ -42,9 +42,13 @@ module Api::V1
       params = { deleted_at: Time.now }
       method_name = method_name(caller(0))
       @person.update_with_version(method_name, @current_user, params)
-
       Person.where(father_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, father_id: nil) }
       Person.where(mother_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, mother_id: nil) }
+      @person.photos.each   { |x| x.update(params)}
+      @person.facts.each    { |x| x.update(params)}
+      @person.archives.each { |x| x.update(params)}
+      relations = Relation.where(person_id: @person.id).or(Relation.where(persona_id: @person.id)).all
+      relations.each(&:destroy)
       render json: { status: :deleted }, status: :ok
     end
 

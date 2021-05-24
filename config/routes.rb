@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  default_url_options protocol: :https, host: ENV['HOST'] || 'localhost:3000'
+  # default_url_options protocol: :https, host: ENV['HOST'] || 'localhost:3000'
+  default_url_options only_path: true
   apipie
   devise_for :users, controllers: { omniauth_callbacks: 'callbacks' }
   root 'users#new'
@@ -18,9 +19,9 @@ Rails.application.routes.draw do
       resources :persons, only: [:show, :create, :update, :destroy] do
         resources :archives, only: [:create, :update, :destroy]
         resources :photos,   only: [:create, :update, :destroy]
+        resources :facts,    only: [:create, :update, :destroy, :show]
       end
       resources :relations, only: [:create, :update, :destroy]
-      resources :facts, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show] do
         post :login, on: :collection
         get :check, on: :collection

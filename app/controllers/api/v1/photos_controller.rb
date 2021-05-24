@@ -19,7 +19,6 @@ module Api::V1
     end
 
     def_param_group :photo_short do
-      param :person_id,    Integer, required: true
       param :date,         String
       param :info,         String
       param :location,     String
@@ -32,7 +31,7 @@ module Api::V1
       property :photo, Hash, desc: '' do param_group :photo_short end
     end
     def create
-      @photo = Photo.new(photo_params)
+      @photo = @person.photos.new(photo_params)
       saved = @photo.save
       @photo.update(url: @photo.attachment_url)
       @person.update(avatar_url: @photo.attachment_url) if params[:avatar] == 'true'
@@ -67,12 +66,12 @@ module Api::V1
     end
 
     def photo_params
-      params.require(:photo).permit(:person_id, :date, :info, :info_type_id, :location, :attachment)
+      params.require(:photo).permit(:date, :info, :info_type_id, :location, :attachment)
     end
 
     def load_person
-      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: photo_params[:person_id])
-      render(json: { error: "person: #{photo_params[:person_id]} - access denied"}, status: :unprocessable_entity) and return unless @person
+      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: params[:person_id])
+      render(json: { error: "person: #{params[:person_id]} - access denied"}, status: :unprocessable_entity) and return unless @person
     end
   end
 end

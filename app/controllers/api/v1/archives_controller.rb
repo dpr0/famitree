@@ -34,7 +34,7 @@ module Api::V1
       property :archive, Hash, desc: '' do param_group :archive_short end
     end
     def create
-      @archive = Archive.new(archive_params)
+      @archive = @person.archives.new(archive_params)
       saved = @archive.save
       @archive.update(url: @archive.attachment_url, content_type: @archive.attachment.content_type, filename: @archive.attachment.filename.to_s)
       Version.prepare(method_name(caller(0)), @archive.person.family_tree.id, current_user.id, @archive, archive_params).add if saved
@@ -69,12 +69,12 @@ module Api::V1
     end
 
     def archive_params
-      params.require(:archive).permit(:person_id, :date, :info, :location, :attachment)
+      params.require(:archive).permit(:date, :info, :location, :attachment)
     end
 
     def load_person
-      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: archive_params[:person_id])
-      render(json: { error: "person: #{archive_params[:person_id]} - access denied"}, status: :unprocessable_entity) and return unless @person
+      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: params[:person_id])
+      render(json: { error: "person: #{params[:person_id]} - access denied"}, status: :unprocessable_entity) and return unless @person
     end
   end
 end

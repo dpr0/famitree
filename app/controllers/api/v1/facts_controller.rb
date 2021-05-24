@@ -45,18 +45,18 @@ module Api::V1
       render json: { fact: @fact, versions: Version.changes(@fact) }, status: @person ? :ok : :not_found
     end
 
-    api :POST, '/v1/facts'
+    api :POST, '/v1/person/:person_id/facts'
     returns code: 200, desc: '' do
       property :fact, Hash, desc: '' do param_group :fact_short end
     end
     def create
-      @fact = Fact.new(fact_params)
+      @fact = @person.facts.new(fact_params)
       saved = @fact.save
       Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, current_user.id, @fact, fact_params).add if saved
       render_json(saved, @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
-    api :PATCH, '/v1/facts/:id'
+    api :PATCH, '/v1/person/:person_id/facts/:id'
     returns code: 200, desc: '' do
       property :fact, Hash, desc: '' do param_group :fact_short end
     end
@@ -65,7 +65,7 @@ module Api::V1
       render_json(@fact.update(fact_params), @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
-    api :DELETE, '/v1/facts/:id'
+    api :DELETE, '/v1/person/:person_id/facts/:id'
     returns code: 200, desc: ''
     def destroy
       params = { deleted_at: Time.now }
@@ -82,12 +82,12 @@ module Api::V1
     end
 
     def fact_params
-      params.require(:fact).permit(:person_id, :date, :info, :info_type_id, :location, :attachment)
+      params.require(:fact).permit(:date, :info, :info_type_id, :location, :attachment)
     end
 
     def load_person
-      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: fact_params[:person_id])
-      render(json: { error: "person: #{fact_params[:person_id]} - access denied"}, status: :unprocessable_entity) and return unless @person
+      @person = Person.find_by(family_tree_id: current_user.family_tree_users(&:family_tree_id).map(&:family_tree_id), id: params[:person_id])
+      render(json: { error: "person: #{params[:person_id]} - access denied"}, status: :unprocessable_entity) and return unless @person
     end
   end
 end
