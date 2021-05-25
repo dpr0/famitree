@@ -17,6 +17,7 @@ class ApiPersonsService
     @bottom_tree_relations = []
     add_childs(id)
     {
+      root_person_id:               id,
       top_tree_persons:           @top_tree_persons,
       top_tree_relations:       @top_tree_relations,
       bottom_tree_persons:     @bottom_tree_persons,
