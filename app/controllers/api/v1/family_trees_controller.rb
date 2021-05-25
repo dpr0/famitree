@@ -98,7 +98,7 @@ module Api::V1
     end
     def person_tree
       persons = @family_tree.persons.order(:birthdate)
-      root_id = params[:root_person_id].to_i
+      root_id = params[:root_person_id]&.to_i || @family_tree_user.root_person_id
       relations = Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all
       render json: ApiPersonsService.new(persons, relations).find(root_id), status: :ok
     end
