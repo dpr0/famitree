@@ -4,7 +4,7 @@ module Api::V1
   class FamilyTreesController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :find_family_tree, only: %i[show update destroy timeline]
+    before_action :find_family_tree, only: %i[show update destroy timeline person_tree]
 
     resource_description do
       short 'Семейные деревья'
@@ -85,13 +85,22 @@ module Api::V1
             persons:          persons,
             users:            User.where(id: @family_tree.family_tree_users.map(&:user_id)).map { |x| x.slice(:id, :person_id, :name) },
             root_person_id:   @family_tree.family_tree_users.find_by(user_id: @current_user.id).root_person_id,
-            relations:        Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all,
-            persons_versions: Version.where(model: 'Person', model_id: persons.ids).order(created_at: :desc).limit(50),
-            facts_versions:   Version.where(model: 'Fact',   model_id: Fact.where(person_id: persons.ids).ids).order(created_at: :desc).limit(50)
+            relations:        Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all
         }, status: :ok
       else
         render json: {}, status: :not_found
       end
+    end
+
+    api :GET, '/v1/family_trees/:id/person_tree'
+    returns code: 200, desc: '' do
+      property :root_person_id, Integer, desc: ''
+    end
+    def person_tree
+      persons = @family_tree.persons.order(:birthdate)
+      root_id = params[:root_person_id].to_i
+      relations = Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all
+      render json: ApiPersonsService.new(persons, relations).find(root_id), status: :ok
     end
 
     api :POST, '/v1/family_trees'

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       end
       resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
         get :timeline, on: :member
+        get :person_tree, on: :member
       end
       resources :persons, only: [:show, :create, :update, :destroy] do
         resources :archives, only: [:create, :update, :destroy]

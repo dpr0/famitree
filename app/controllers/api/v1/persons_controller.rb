@@ -52,23 +52,6 @@ module Api::V1
       render json: { status: :deleted }, status: :ok
     end
 
-    # api :GET, '/v1/persons/:id/avatar'
-    # def avatar
-    #   if @person&.avatar&.attached?
-    #     redirect_to rails_blob_url(@person.avatar)
-    #   else
-    #     head :not_found
-    #   end
-    # end
-
-    # api :POST, '/v1/persons/:id/attach_file'
-    # param :id, String, required: true
-    # param :file, ActionDispatch::Http::UploadedFile, required: true
-    # def attach_file
-    #   attached = @person.attachments.attach(params[:file])
-    #   render json: { url: url_for(@person.attachments.blobs.last) }, status: attached ? :ok : :not_acceptable
-    # end
-
     private
 
     def load_person
