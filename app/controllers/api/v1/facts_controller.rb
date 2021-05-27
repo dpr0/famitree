@@ -5,7 +5,7 @@ module Api::V1
     protect_from_forgery with: :null_session
     before_action :authenticate_request
     before_action :load_person
-    before_action :load_fact, only: %i[update destroy]
+    before_action :load_fact, only: %i[update destroy show]
 
     resource_description do
       short 'Факты (Биография)'
