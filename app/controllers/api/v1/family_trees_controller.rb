@@ -152,7 +152,7 @@ module Api::V1
         z = x.created_at
         if params[:time_zone]&.to_i != 0
           tz = ActiveSupport::TimeZone.seconds_to_utc_offset(params[:time_zone].to_i)
-          z = z.change(offset: tz).utc if tz
+          z = z.change(offset: tz) if tz
         end
         z.to_date
       end
