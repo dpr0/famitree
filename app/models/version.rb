@@ -2,7 +2,7 @@
 
 class Version < ApplicationRecord
 
-  def self.prepare(event_type, ft_id, current_user_id, model, new_attrs)
+  def self.prepare(event_type, ft_id, current_user, model, new_attrs)
     # new_attrs = new_attrs.to_h.symbolize_keys
     model_id = model.id
     model = model.class.new if event_type == 'create'
@@ -13,7 +13,7 @@ class Version < ApplicationRecord
       new_attrs[k] = new_attrs[k].to_i if k[-3..-1] == '_id'
       result[k] = new_attrs[k] if new_attrs[k] != val
     end
-    new(family_tree_id: ft_id, user_id: current_user_id, model: model.class.name, model_id: model_id, model_changes: result, event_type: event_type)
+    new(family_tree_id: ft_id, person_id: current_user.person.id, model: model.class.name, model_id: model_id, model_changes: result, event_type: event_type)
   end
 
   def add

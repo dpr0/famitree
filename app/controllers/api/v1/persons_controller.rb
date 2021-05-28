@@ -28,7 +28,8 @@ module Api::V1
     def create
       @person = Person.new(person_params)
       saved = @person.save
-      Version.prepare(method_name(caller(0)), @person.family_tree.id, current_user.id, @person, params).add if saved
+      byebug
+      Version.prepare(method_name(caller(0)), @person.family_tree.id, current_user, @person, params).add if saved
       render_json(saved, @person)
     end
 

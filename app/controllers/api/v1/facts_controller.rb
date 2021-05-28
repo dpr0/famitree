@@ -52,7 +52,7 @@ module Api::V1
     def create
       @fact = @person.facts.new(fact_params)
       saved = @fact.save
-      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, current_user.id, @fact, fact_params).add if saved
+      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, current_user, @fact, fact_params).add if saved
       render_json(saved, @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
@@ -61,7 +61,7 @@ module Api::V1
       property :fact, Hash, desc: '' do param_group :fact_short end
     end
     def update
-      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, @current_user.id, @fact, fact_params).add
+      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, @current_user, @fact, fact_params).add
       render_json(@fact.update(fact_params), @fact.attributes.merge(attachment_url: @fact.attachment_url))
     end
 
@@ -70,7 +70,7 @@ module Api::V1
     def destroy
       params = { deleted_at: Time.now }
       @fact.update(params)
-      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, @current_user.id, @fact, params).add
+      Version.prepare(method_name(caller(0)), @fact.person.family_tree.id, @current_user, @fact, params).add
       render json: { status: :deleted }, status: :ok
     end
 

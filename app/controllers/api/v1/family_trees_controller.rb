@@ -83,7 +83,7 @@ module Api::V1
         render json: {
             family_tree:      @family_tree,
             persons:          persons,
-            users:            User.where(id: @family_tree.family_tree_users.map(&:user_id)).map { |x| x.slice(:id, :person_id, :name) },
+            # person_ids:       @family_tree.family_tree_users.map(&:root_person_id),
             root_person_id:   @family_tree.family_tree_users.find_by(user_id: @current_user.id).root_person_id,
             relations:        Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all
         }, status: :ok
@@ -122,7 +122,7 @@ module Api::V1
     param :root_person_id, Integer
     returns code: 200, desc: '' do param_group :family_tree end
     def update
-      version = Version.prepare(method_name(caller(0)), @family_tree.id, @current_user.id, @family_tree, family_tree_params)
+      version = Version.prepare(method_name(caller(0)), @family_tree.id, @current_user, @family_tree, family_tree_params)
       if !@family_tree_user&.owner?
         render json: {error: 'you are not owner'}, status: :unprocessable_entity
       elsif @family_tree.update(family_tree_params)

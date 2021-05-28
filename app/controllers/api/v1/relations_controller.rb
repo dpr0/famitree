@@ -24,7 +24,7 @@ module Api::V1
       if load_persons_ids.map { |x| relation_params.slice(:person_id, :persona_id).values - x }.find(&:empty?)
         @relation = Relation.new(relation_params)
         saved = @relation.save
-        Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, current_user.id, @relation, relation_params).add if saved
+        Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, current_user, @relation, relation_params).add if saved
         render_json(saved, @relation.attributes)
       else
         render json: { error: 'persons_ids not in one family_tree - access denied' }, status: :unprocessable_entity
@@ -38,7 +38,7 @@ module Api::V1
       @relation = Relation.where(person_id: persons_ids).or(Relation.where(persona_id: persons_ids)).find_by(id: params[:id])
       if @relation
         @relation.destroy
-        Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, @current_user.id, @relation, {status: :deleted}).add
+        Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, @current_user, @relation, {status: :deleted}).add
         render json: { status: :deleted }, status: :ok
       else
         render json: { error: "relation: #{params[:id]} - access denied"}, status: :unprocessable_entity
