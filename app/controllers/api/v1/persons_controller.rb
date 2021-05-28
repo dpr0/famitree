@@ -28,7 +28,6 @@ module Api::V1
     def create
       @person = Person.new(person_params)
       saved = @person.save
-      byebug
       Version.prepare(method_name(caller(0)), @person.family_tree.id, current_user, @person, params).add if saved
       render_json(saved, @person)
     end
@@ -40,17 +39,21 @@ module Api::V1
 
     api :DELETE, '/v1/persons/:id'
     def destroy
-      params = { deleted_at: Time.now }
-      method_name = method_name(caller(0))
-      @person.update_with_version(method_name, @current_user, params)
-      Person.where(father_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, father_id: nil) }
-      Person.where(mother_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, mother_id: nil) }
-      @person.photos.each   { |x| x.update(params)}
-      @person.facts.each    { |x| x.update(params)}
-      @person.archives.each { |x| x.update(params)}
-      relations = Relation.where(person_id: @person.id).or(Relation.where(persona_id: @person.id)).all
-      relations.each(&:destroy)
-      render json: { status: :deleted }, status: :ok
+      if @current_user.person == @person
+        render json: { status: :not_deleted, reason: 'person belongs to user' }, status: :ok
+      else
+        params = { deleted_at: Time.now }
+        method_name = method_name(caller(0))
+        @person.update_with_version(method_name, @current_user, params)
+        Person.where(father_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, father_id: nil) }
+        Person.where(mother_id: @person.id).each { |child| child.update_with_version(method_name, @current_user, mother_id: nil) }
+        @person.photos.each   { |x| x.update(params)}
+        @person.facts.each    { |x| x.update(params)}
+        @person.archives.each { |x| x.update(params)}
+        relations = Relation.where(person_id: @person.id).or(Relation.where(persona_id: @person.id)).all
+        relations.each(&:destroy)
+        render json: { status: :deleted }, status: :ok
+      end
     end
 
     private
