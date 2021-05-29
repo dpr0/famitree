@@ -34,7 +34,7 @@ class ApiPersonsService
     mother   = @persons.find   { |x| x.id == pp.mother_id } if pp.mother_id
     relation = @relations.find { |x| x.person_id == father.id && x.persona_id == mother.id } if father && mother
     @top_tree_persons << person_info(pp)
-    @top_tree_relations << { from: id, to: pp.sex_id == Sex[:male].id ? relation.persona_id : relation.person_id, horizontal: true } if relation
+    @top_tree_relations << { from: relation.person_id, to: relation.persona_id, horizontal: true } if relation
     @top_tree_relations << { from: id, to: father.id, horizontal: false } if father
     @top_tree_relations << { from: id, to: mother.id, horizontal: false } if mother
     add_fa_mo(father.id) if father
