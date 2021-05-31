@@ -9,7 +9,7 @@ class PersonsService
     @relations = relations
   end
 
-  def create(person)
+  def graph(person)
     hash_for(person)
   end
 
@@ -56,6 +56,7 @@ class PersonsService
   def predki(ids)
     ids.compact.map do |id|
       person = @persons.find { |p| p.id == id }
+      next unless person
       father = @persons.find { |p| p.id == person.father_id } if person.father_id
       mother = @persons.find { |p| p.id == person.mother_id } if person.mother_id
       @predki << person.id if person.father_id.nil? && person.mother_id.nil?
