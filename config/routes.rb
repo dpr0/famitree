@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         get :roles
         get :info_types
         get :relation_types
+        get :relationship_types
         get :sex
       end
       resources :family_trees, only: [:index, :show, :create, :update, :destroy] do

@@ -26,6 +26,12 @@ module Api::V1
       render_json(true, InfoType.all_cached)
     end
 
+    api :GET, '/v1/dictionary/relationship_types', 'Типы отношений'
+    returns code: 200 do param_group :dict end
+    def relationship_types
+      render_json(true, RelationshipType.all_cached)
+    end
+
     api :GET, '/v1/dictionary/relation_types', 'Типы отношений'
     returns code: 200 do param_group :dict end
     def relation_types
