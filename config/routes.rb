@@ -24,6 +24,7 @@ Rails.application.routes.draw do
         resources :facts,    only: [:create, :update, :destroy, :show]
       end
       resources :relations, only: [:create, :update, :destroy]
+      resources :relationships, only: [:create, :update, :destroy]
       resources :users, only: [:show] do
         post :login, on: :collection
         get :check, on: :collection

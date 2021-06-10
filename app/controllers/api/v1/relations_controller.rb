@@ -51,6 +51,10 @@ module Api::V1
       params.permit(:person_id, :persona_id, :relation_type_id)
     end
 
+    def relationship_params
+      params.permit(:first_person_id, :second_person_id, :relationship_type_id)
+    end
+
     def load_persons_ids
       current_user.family_tree_users(&:family_tree_id).map { |x| x.family_tree.person_ids }
     end
