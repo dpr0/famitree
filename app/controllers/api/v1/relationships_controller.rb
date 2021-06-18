@@ -22,16 +22,15 @@ module Api::V1
     end
     def create
       if load_persons_ids.map { |x| relationship_params.slice(:first_person_id, :second_person_id).values - x }.find(&:empty?)
-
         resp = case RelationshipType.cached_by_id[relationship_params[:relationship_type_id]]&.code
         when 'husband'
           relation_params = { person_id: relationship_params[:second_person_id], persona_id: relationship_params[:first_person_id]}
-          @relation = Relation.new(relation_params)
+          @relation = Relation.new(relation_params.merge(relation_type_id: 1))
           saved = @relation.save
           Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, current_user, @relation, relation_params).add if saved
         when 'wife'
           relation_params = { person_id: relationship_params[:first_person_id], persona_id: relationship_params[:second_person_id]}
-          @relation = Relation.new(relation_params)
+          @relation = Relation.new(relation_params.merge(relation_type_id: 1))
           saved = @relation.save
           Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, current_user, @relation, relation_params).add if saved
         when 'son', 'daughter'
@@ -44,7 +43,6 @@ module Api::V1
           person2 = Person.find_by_id(relationship_params[:second_person_id])
           if person1.father_id || person1.mother_id
             person_params = person1.father_id ? {father_id: person1.father_id} : {mother_id: person1.mother_id}
-            person2.update_with_version('update', @current_user, person_params)
           else
             parent = Person.create(last_name: 'Неизвестно',
                                    first_name: 'Неизвестно',
@@ -57,8 +55,8 @@ module Api::V1
                                    confirmed_deathdate: false)
             person_params = {mother_id: parent.mother_id}
             person1.update_with_version('update', @current_user, person_params)
-            person2.update_with_version('update', @current_user, person_params)
           end
+          person2.update_with_version('update', @current_user, person_params)
         when 'father'
           person = Person.find_by_id(relationship_params[:first_person_id])
           person.update_with_version('update', @current_user, {father_id: relationship_params[:second_person_id]})
