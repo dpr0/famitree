@@ -18,10 +18,10 @@ class ApiPersonsService
     add_childs(id)
     {
       root_person_id:               id,
-      top_tree_persons:           @top_tree_persons,
-      top_tree_relations:       @top_tree_relations,
-      bottom_tree_persons:     @bottom_tree_persons,
-      bottom_tree_relations: @bottom_tree_relations
+      top_tree_persons:           @top_tree_persons.uniq,
+      top_tree_relations:       @top_tree_relations.uniq,
+      bottom_tree_persons:     @bottom_tree_persons.uniq,
+      bottom_tree_relations: @bottom_tree_relations.uniq
     }
   end
 
@@ -30,9 +30,13 @@ class ApiPersonsService
   def add_fa_mo(id)
     pp = @persons.find { |x| x.id == id }
     return unless pp
+
     father   = @persons.find   { |x| x.id == pp.father_id } if pp.father_id
     mother   = @persons.find   { |x| x.id == pp.mother_id } if pp.mother_id
-    relation = @relations.find { |x| x.person_id == father.id && x.persona_id == mother.id } if father && mother
+    # relation = @relations.find { |x| x.person_id == father.id && x.persona_id == mother.id } if father && mother
+    relation = @relations.find { |x| (pp.sex_id == Sex[:male].id ? x.person_id : x.persona_id) == id }
+    @top_tree_persons << person_info(@persons.find { |x| x.id == relation.person_id  }) if relation
+    @top_tree_persons << person_info(@persons.find { |x| x.id == relation.persona_id }) if relation
     @top_tree_persons << person_info(pp)
     @top_tree_relations << { from: relation.person_id, to: relation.persona_id, horizontal: true } if relation
     @top_tree_relations << { from: id, to: father.id, horizontal: false } if father
@@ -44,7 +48,10 @@ class ApiPersonsService
   def add_childs(id)
     pp = @persons.find { |x| x.id == id }
     return unless pp
-    relation = @relations.find { |x| pp.sex_id == Sex[:male].id ? x.person_id : x.persona_id == id }
+
+    relation = @relations.find { |x| (pp.sex_id == Sex[:male].id ? x.person_id : x.persona_id) == id }
+    @bottom_tree_persons << person_info(@persons.find { |x| x.id == relation.person_id  }) if relation
+    @bottom_tree_persons << person_info(@persons.find { |x| x.id == relation.persona_id }) if relation
     @bottom_tree_relations << { from: id, to: pp.sex_id == Sex[:male].id ? relation.persona_id : relation.person_id, horizontal: true } if relation
     @bottom_tree_persons << person_info(pp)
     chs = @persons.select { |x| (pp.sex_id == Sex[:male].id ? x.father_id : x.mother_id) == pp.id }
