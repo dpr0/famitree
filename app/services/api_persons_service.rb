@@ -7,19 +7,18 @@ class ApiPersonsService
   def initialize(persons, relations)
     @persons   = persons
     @relations = relations
+    @top_relations = []
+    @bottom_relations = []
   end
 
   def find(id)
-    @tree_persons = []
-    @top_relations = []
-    @bottom_relations = []
     add_parents(id)
     add_childs(id)
     {
-      root_person_id:                            id,
-      persons:                   @tree_persons.uniq,
-      top_relations:       @top_relations.uniq,
-      bottom_relations: @bottom_relations.uniq
+      root_person_id: id,
+      top_relations: @top_relations.uniq,
+      bottom_relations: @bottom_relations.uniq,
+      persons: @persons.map { |pp| person_info(pp) }
     }
   end
 
@@ -29,12 +28,9 @@ class ApiPersonsService
     pp = @persons.find { |x| x.id == id }
     return unless pp
 
-    father   = @persons.find   { |x| x.id == pp.father_id } if pp.father_id
-    mother   = @persons.find   { |x| x.id == pp.mother_id } if pp.mother_id
+    father = @persons.find { |x| x.id == pp.father_id } if pp.father_id
+    mother = @persons.find { |x| x.id == pp.mother_id } if pp.mother_id
     relation = @relations.find { |x| (pp.sex_id == Sex[:male].id ? x.person_id : x.persona_id) == id }
-    @tree_persons << person_info(pp)
-    @tree_persons << person_info(@persons.find { |x| x.id == relation.person_id  }) if relation
-    @tree_persons << person_info(@persons.find { |x| x.id == relation.persona_id }) if relation
     @top_relations << { from: relation.person_id, to: relation.persona_id, horizontal: true } if relation
     @top_relations << { from: id, to: father.id, horizontal: false } if father
     @top_relations << { from: id, to: mother.id, horizontal: false } if mother
@@ -47,10 +43,7 @@ class ApiPersonsService
     return unless pp
 
     relation = @relations.find { |x| (pp.sex_id == Sex[:male].id ? x.person_id : x.persona_id) == id }
-    @tree_persons << person_info(@persons.find { |x| x.id == relation.person_id  }) if relation
-    @tree_persons << person_info(@persons.find { |x| x.id == relation.persona_id }) if relation
     @bottom_relations << { from: id, to: pp.sex_id == Sex[:male].id ? relation.persona_id : relation.person_id, horizontal: true } if relation
-    @tree_persons << person_info(pp)
     chs = @persons.select { |x| (pp.sex_id == Sex[:male].id ? x.father_id : x.mother_id) == pp.id }
     chs.each do |ch|
       @bottom_relations << { from: id, to: ch.id, horizontal: false }
@@ -62,7 +55,7 @@ class ApiPersonsService
     person = pp.slice(:id, :last_name, :first_name, :middle_name, :maiden_name, :sex_id, :birthdate, :deathdate, :avatar_url).symbolize_keys
     person[:confirmed_data] = pp.confirmed_last_name && pp.confirmed_first_name && pp.confirmed_middle_name &&
         pp.confirmed_birthdate && pp.confirmed_deathdate  && pp.confirmed_maiden_name
-    person[:additional_branch] = false # TODO
+    person[:additional_branch] = @persons.find { |x| pp.id != x.id && (x.father_id == pp.father_id || x.mother_id == pp.mother_id) }
     person
   end
 end

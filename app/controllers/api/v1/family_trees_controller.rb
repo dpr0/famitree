@@ -97,6 +97,8 @@ module Api::V1
       property :root_person_id, Integer, desc: ''
     end
     def person_tree
+      render json: {error: "family tree ##{params[:id]} not found for current user"} and return unless @family_tree
+
       persons = @family_tree.persons.order(:birthdate)
       root_id = params[:root_person_id]&.to_i || @family_tree_user.root_person_id
       relations = Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all

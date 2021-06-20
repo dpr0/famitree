@@ -36,7 +36,11 @@ module Api::V1
         when 'son', 'daughter'
           parent = Person.find_by_id(relationship_params[:first_person_id])
           person = Person.find_by_id(relationship_params[:second_person_id])
-          person_params = parent.sex_id == Sex[:male].id ? {father_id: parent.id} : {mother_id: parent.id}
+          person_params = if parent.sex_id == Sex[:male].id
+                            {father_id: parent.id, mother_id: Relation.find_by(person_id: parent.id)&.persona_id}
+                          else
+                            {father_id: Relation.find_by(persona_id: parent.id)&.person_id, mother_id: parent.id}
+                          end
           person.update_with_version('update', @current_user, person_params)
         when 'brother', 'sister'
           person1 = Person.find_by_id(relationship_params[:first_person_id])
