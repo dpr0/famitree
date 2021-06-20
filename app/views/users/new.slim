@@ -3,6 +3,7 @@ section.text-center
     .row
       .col-12.text-center
         = form_for @user, url: create_user_users_path do |f|
+          = f.invisible_captcha :subtitle
           - if @user.errors.any?
             #error_explanation
               h2 = "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
