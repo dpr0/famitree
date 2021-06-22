@@ -7,7 +7,7 @@ module Api::V1
       if bool
         render json: model, status: :ok
       else
-        render json: model.errors, status: :unprocessable_entity
+        render json: model&.errors, status: :unprocessable_entity
       end
     end
 

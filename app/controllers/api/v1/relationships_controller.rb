@@ -28,11 +28,13 @@ module Api::V1
           @relation = Relation.new(relation_params.merge(relation_type_id: 1))
           saved = @relation.save
           Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, current_user, @relation, relation_params).add if saved
+          saved
         when 'wife'
           relation_params = { person_id: relationship_params[:first_person_id], persona_id: relationship_params[:second_person_id]}
           @relation = Relation.new(relation_params.merge(relation_type_id: 1))
           saved = @relation.save
           Version.prepare(method_name(caller(0)), @relation.person.family_tree.id, current_user, @relation, relation_params).add if saved
+          saved
         when 'son', 'daughter'
           parent = Person.find_by_id(relationship_params[:first_person_id])
           person = Person.find_by_id(relationship_params[:second_person_id])
@@ -42,6 +44,7 @@ module Api::V1
                             {father_id: Relation.find_by(persona_id: parent.id)&.person_id, mother_id: parent.id}
                           end
           person.update_with_version('update', @current_user, person_params)
+          true
         when 'brother', 'sister'
           person1 = Person.find_by_id(relationship_params[:first_person_id])
           person2 = Person.find_by_id(relationship_params[:second_person_id])
@@ -59,16 +62,19 @@ module Api::V1
           end
           person2.update_with_version('update', @current_user, {father_id: person1.father_id}) unless person2.father_id.nil?
           person2.update_with_version('update', @current_user, {mother_id: person1.mother_id}) unless person2.mother_id.nil?
+          true
         when 'father'
           person = Person.find_by_id(relationship_params[:first_person_id])
           person.update_with_version('update', @current_user, {father_id: relationship_params[:second_person_id]})
+          true
         when 'mother'
           person = Person.find_by_id(relationship_params[:first_person_id])
           person.update_with_version('update', @current_user, {mother_id: relationship_params[:second_person_id]})
+          true
         else
           nil
         end
-        render_json(!resp.nil?, {})
+        render_json(!resp.nil?, {created: RelationshipType.cached_by_id[relationship_params[:relationship_type_id]]&.name})
       else
         render json: { error: 'persons_ids not in one family_tree - access denied' }, status: :unprocessable_entity
       end
