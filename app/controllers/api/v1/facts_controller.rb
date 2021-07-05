@@ -27,7 +27,7 @@ module Api::V1
       param :attachment,   ActionDispatch::Http::UploadedFile
     end
 
-    api :GET, '/v1/facts/:id'
+    api :GET, '/v1/person/:person_id/facts/:id'
     returns code: 200, desc: '' do
       property :fact, Hash, desc: '' do
         param_group :fact

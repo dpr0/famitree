@@ -17,10 +17,11 @@ Rails.application.routes.draw do
       resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
         get :timeline, on: :member
         get :person_tree, on: :member
+        post :rollback, on: :member
       end
       resources :persons, only: [:show, :create, :update, :destroy] do
-        resources :archives, only: [:create, :update, :destroy]
-        resources :photos,   only: [:create, :update, :destroy]
+        resources :archives, only: [:create, :update, :destroy, :show]
+        resources :photos,   only: [:create, :update, :destroy, :show]
         resources :facts,    only: [:create, :update, :destroy, :show]
       end
       resources :relations, only: [:create, :update, :destroy]

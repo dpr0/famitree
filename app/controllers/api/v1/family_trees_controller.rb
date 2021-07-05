@@ -4,7 +4,7 @@ module Api::V1
   class FamilyTreesController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :find_family_tree, only: %i[show update destroy timeline person_tree]
+    before_action :find_family_tree, only: %i[show update destroy timeline person_tree rollback]
 
     resource_description do
       short 'Семейные деревья'
@@ -150,7 +150,11 @@ module Api::V1
     api :GET, '/v1/family_trees/:id/timeline'
     returns array_of: :versions, code: 200, desc: 'Лента новостей'
     def timeline
-      @versions = Version.where(family_tree_id: @family_tree.id).limit(params[:limit] || 50).offset(params[:offset] || 0).order(created_at: :desc).group_by do |x|
+      @versions = Version.where(family_tree_id: @family_tree.id, deleted_at: nil)
+                         .limit(params[:limit] || 50)
+                         .offset(params[:offset] || 0)
+                         .order(created_at: :desc)
+                         .group_by do |x|
         z = x.created_at
         if params[:time_zone]&.to_i != 0
           tz = ActiveSupport::TimeZone.seconds_to_utc_offset(params[:time_zone].to_i)
@@ -159,6 +163,28 @@ module Api::V1
         z.to_date
       end
       render json: @versions, status: :ok
+    end
+
+    api :POST, '/v1/family_trees/:id/rollback'
+    returns code: 200, desc: 'Откат последних изменений в семейном дереве'
+    def rollback
+      version = Version.where(family_tree_id: @family_tree.id, deleted_at: nil).last
+      if !@family_tree_user.owner?
+        render json: { status: :access_denied, error: 'you are not owner' }, status: :unprocessable_entity
+      elsif version
+        del_hash = {deleted_at: Time.now}
+        model = version.model.constantize.find_by(id: version.model_id)
+        version.update del_hash
+        model.update  case version.event_type
+                      when 'create' then del_hash
+                      when 'destroy' then { deleted_at: nil}
+                      else version.model_changes # 'update'
+                      end
+        render json: { status: :deleted }, status: :ok
+      else
+        render json: { status: :not_deleted }, status: :unprocessable_entity
+      end
+      render json: {}, status: :ok
     end
 
     private

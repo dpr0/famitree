@@ -5,7 +5,7 @@ module Api::V1
     protect_from_forgery with: :null_session
     before_action :authenticate_request
     before_action :load_person
-    before_action :load_photo, only: %i[update destroy]
+    before_action :load_photo, only: %i[update destroy show]
 
     resource_description do
       short 'Фото (Галерея)'
@@ -24,6 +24,24 @@ module Api::V1
       param :location,     String
       param :url,          String
       param :attachment,   ActionDispatch::Http::UploadedFile
+    end
+
+    api :GET, '/v1/person/:person_id/photos/:id'
+    returns code: 200, desc: '' do
+      property :photo, Hash, desc: '' do
+        param_group :photo
+      end
+      property :versions, array_of: Hash, desc: '' do
+        property :id,         Integer,  desc: ''
+        property :model,      String,   desc: ''
+        property :model_id,   Integer,  desc: ''
+        property :changes,    Hash,     desc: ''
+        property :created_at, DateTime, desc: ''
+        property :updated_at, DateTime, desc: ''
+      end
+    end
+    def show
+      render json: { fact: @photo, versions: Version.changes(@photo) }, status: @person ? :ok : :not_found
     end
 
     api :POST, '/v1/person/:person_id/photos'
@@ -54,7 +72,9 @@ module Api::V1
     api :DELETE, '/v1/person/:person_id/photos/:id'
     returns code: 200, desc: ''
     def destroy
-      @photo.update(deleted_at: Time.now)
+      params = { deleted_at: Time.now }
+      @photo.update(params)
+      Version.prepare(method_name(caller(0)), @photo.person.family_tree.id, @current_user, @photo, params).add
       render json: { status: :deleted }, status: :ok
     end
 

@@ -5,7 +5,7 @@ module Api::V1
     protect_from_forgery with: :null_session
     before_action :authenticate_request
     before_action :load_person
-    before_action :load_archive, only: %i[update destroy]
+    before_action :load_archive, only: %i[update destroy show]
 
     resource_description do
       short 'Архив'
@@ -27,6 +27,24 @@ module Api::V1
       param :filename,     String
       param :content_type, String
       param :attachment,   ActionDispatch::Http::UploadedFile
+    end
+
+    api :GET, '/v1/person/:person_id/archives/:id'
+    returns code: 200, desc: '' do
+      property :archive, Hash, desc: '' do
+        param_group :archive
+      end
+      property :versions, array_of: Hash, desc: '' do
+        property :id,         Integer,  desc: ''
+        property :model,      String,   desc: ''
+        property :model_id,   Integer,  desc: ''
+        property :changes,    Hash,     desc: ''
+        property :created_at, DateTime, desc: ''
+        property :updated_at, DateTime, desc: ''
+      end
+    end
+    def show
+      render json: { fact: @archive, versions: Version.changes(@archive) }, status: @person ? :ok : :not_found
     end
 
     api :POST, '/v1/person/:person_id/archives'

@@ -2,7 +2,8 @@
 
 lock '3.16.0'
 
-host = 'famitree.ru' # '178.154.206.198' #
+host = 'famitree.ru'
+# host = '178.154.206.198'
 server host, port: 2222, roles: %w(app db web), primary: true
 
 set :rbenv_ruby,      '3.0.1'
