@@ -21,6 +21,6 @@ class Version < ApplicationRecord
   end
 
   def self.changes(model)
-    where(model: model.class.name, model_id: model.id).order(created_at: :desc)
+    where(model: model.class.name, model_id: model.id, deleted_at: nil).order(created_at: :desc)
   end
 end

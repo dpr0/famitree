@@ -172,13 +172,13 @@ module Api::V1
       if !@family_tree_user.owner?
         render json: { status: :access_denied, error: 'you are not owner' }, status: :unprocessable_entity
       elsif version
-        del_hash = {deleted_at: Time.now}
+        del_hash = { deleted_at: Time.now }
         model = version.model.constantize.find_by(id: version.model_id)
         version.update del_hash
         model.update  case version.event_type
                       when 'create' then del_hash
                       when 'destroy' then { deleted_at: nil}
-                      else version.model_changes # 'update'
+                      else version.model_changes # if 'update'
                       end
         render json: { status: :success }, status: :ok
       else
