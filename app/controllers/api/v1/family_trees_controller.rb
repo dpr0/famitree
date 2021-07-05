@@ -180,9 +180,9 @@ module Api::V1
                       when 'destroy' then { deleted_at: nil}
                       else version.model_changes # 'update'
                       end
-        render json: { status: :deleted }, status: :ok
+        render json: { status: :success }, status: :ok
       else
-        render json: { status: :not_deleted }, status: :unprocessable_entity
+        render json: { status: :unprocessable_entity }, status: :unprocessable_entity
       end
       render json: {}, status: :ok
     end
