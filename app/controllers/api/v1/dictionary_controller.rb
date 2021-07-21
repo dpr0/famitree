@@ -20,7 +20,13 @@ module Api::V1
       render_json(true, Role.all_cached)
     end
 
-    api :GET, '/v1/dictionary/info_types', 'Типы фактов'
+    api :GET, '/v1/dictionary/fact_types', 'Типы фактов'
+    returns code: 200 do param_group :dict end
+    def fact_types
+      render_json(true, FactType.all_cached)
+    end
+
+    api :GET, '/v1/dictionary/info_types', 'Типы инфо'
     returns code: 200 do param_group :dict end
     def info_types
       render_json(true, InfoType.all_cached)

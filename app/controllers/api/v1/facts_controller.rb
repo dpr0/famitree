@@ -23,7 +23,7 @@ module Api::V1
       param :date,         String
       param :info,         String
       param :location,     String
-      param :info_type_id, Integer
+      param :fact_type_id, Integer
       param :attachment,   ActionDispatch::Http::UploadedFile
     end
 
@@ -82,7 +82,7 @@ module Api::V1
     end
 
     def fact_params
-      params.require(:fact).permit(:date, :info, :info_type_id, :location, :attachment)
+      params.require(:fact).permit(:date, :info, :fact_type_id, :location, :attachment)
     end
 
     def load_person

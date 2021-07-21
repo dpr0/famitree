@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       namespace :dictionary do
         get :roles
         get :info_types
+        get :fact_types
         get :relation_types
         get :relationship_types
         get :sex

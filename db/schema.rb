@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_05_144000) do
+ActiveRecord::Schema.define(version: 2021_07_21_033000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,15 +66,22 @@ ActiveRecord::Schema.define(version: 2021_07_05_144000) do
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
+  create_table "fact_types", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.string "for_man"
+    t.string "for_woman"
+  end
+
   create_table "facts", force: :cascade do |t|
     t.integer "person_id"
     t.date "date"
     t.string "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "info_type_id"
     t.datetime "deleted_at"
     t.string "location"
+    t.integer "fact_type_id"
   end
 
   create_table "family_trees", force: :cascade do |t|
