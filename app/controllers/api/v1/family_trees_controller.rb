@@ -174,7 +174,7 @@ module Api::V1
                       .order(:date)
       @calendar = facts.map do |fact|
         {
-            type: FactType.cached_by_ids[fact.fact_type_id],
+            type: FactType.cached_by_id[fact.fact_type_id].name,
             date: fact.date,
             info: fact.info,
             person_id: fact.person_id,
