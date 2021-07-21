@@ -23,7 +23,7 @@ module Api::V1
     api :GET, '/v1/dictionary/fact_types', 'Типы фактов'
     returns code: 200 do param_group :dict end
     def fact_types
-      render_json(true, FactType.all_cached)
+      render_json(true, FactType.all)
     end
 
     api :GET, '/v1/dictionary/info_types', 'Типы инфо'
