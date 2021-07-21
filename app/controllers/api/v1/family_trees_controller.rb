@@ -4,7 +4,7 @@ module Api::V1
   class FamilyTreesController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :find_family_tree, only: %i[show update destroy timeline person_tree rollback]
+    before_action :find_family_tree, only: %i[show update destroy timeline calendar person_tree rollback]
 
     resource_description do
       short 'Семейные деревья'
@@ -163,6 +163,25 @@ module Api::V1
         z.to_date
       end
       render json: @versions, status: :ok
+    end
+
+    api :GET, '/v1/family_trees/:id/calendar'
+    returns array_of: :versions, code: 200, desc: 'События'
+    def calendar
+      persons = @family_tree.persons
+      facts = Fact.where(person_id: persons.ids)
+                      .where(fact_type_id: [FactType[:birth].id, FactType[:marriage].id, FactType[:death].id])
+                      .order(:date)
+      @calendar = facts.map do |fact|
+        {
+            type: FactType.cached_by_ids[fact.fact_type_id],
+            date: fact.date,
+            info: fact.info,
+            person_id: fact.person_id,
+            person_name: persons.find { |p| p.id == fact.person_id }.full_name
+        }
+      end
+      render json: @calendar, status: :ok
     end
 
     api :POST, '/v1/family_trees/:id/rollback'

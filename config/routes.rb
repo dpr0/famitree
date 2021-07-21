@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       end
       resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
         get :timeline, on: :member
+        get :calendar, on: :member
         get :person_tree, on: :member
         post :rollback, on: :member
       end
