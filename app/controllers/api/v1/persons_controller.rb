@@ -51,6 +51,7 @@ module Api::V1
         @person.photos.each   { |x| x.update(params) }
         @person.facts.each    { |x| x.update(params) }
         @person.archives.each { |x| x.update(params) }
+        @person.infos.each    { |x| x.update(params) }
         relations = Relation.where(person_id: @person.id).or(Relation.where(persona_id: @person.id)).all
         relations.each(&:destroy)
         render json: { status: :deleted }, status: :ok

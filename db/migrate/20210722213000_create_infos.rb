@@ -6,6 +6,7 @@ class CreateInfos < ActiveRecord::Migration[6.1]
       t.integer :person_id
       t.integer :info_type_id
       t.string :value
+      t.datetime :deleted_at
       t.timestamps null: false
     end
   end

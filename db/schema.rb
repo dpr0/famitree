@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 2021_07_22_213000) do
     t.integer "person_id"
     t.integer "info_type_id"
     t.string "value"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
