@@ -4,7 +4,7 @@ module Api::V1
   class PersonsController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_request
-    before_action :load_person, only: %i[show update destroy]
+    before_action :load_person, only: %i[show update destroy info]
     before_action :load_family_tree, only: %i[create update]
 
     resource_description do
@@ -18,6 +18,7 @@ module Api::V1
           facts:       @person.facts.map    { |fact|       fact.attributes.merge(attachment:    fact.attachment_url) },
           photos:      @person.photos.map   { |photo|     photo.attributes.merge(attachment:   photo.attachment_url) },
           archives:    @person.archives.map { |archive| archive.attributes.merge(attachment: archive.attachment_url) },
+          infos:       @person.infos.map    { |info|          { info_type_id: info.info_type_id, value: info.value } },
           childs:      Person.where(father_id: @person.id).or(Person.where(mother_id: @person.id)),
           versions:    Version.changes(@person)
       },
@@ -54,6 +55,20 @@ module Api::V1
         relations.each(&:destroy)
         render json: { status: :deleted }, status: :ok
       end
+    end
+
+    api :PATCH, '/v1/persons/:id/info'
+    def info
+      status = if InfoType.cached_by_id[params[:info_type_id]].nil?
+        :error
+      elsif info = @person.infos.find_by(info_type_id: params[:info_type_id])
+        info.update(value: params[:value])
+        :updated
+      else
+        @person.infos.create(info_type_id: params[:info_type_id], value: params[:value])
+        :created
+      end
+      render json: { status: status }, status: :ok
     end
 
     private

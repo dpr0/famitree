@@ -16,15 +16,16 @@ Rails.application.routes.draw do
         get :sex
       end
       resources :family_trees, only: [:index, :show, :create, :update, :destroy] do
-        get :timeline, on: :member
-        get :calendar, on: :member
+        get :timeline,    on: :member
+        get :calendar,    on: :member
         get :person_tree, on: :member
-        post :rollback, on: :member
+        post :rollback,   on: :member
       end
       resources :persons, only: [:show, :create, :update, :destroy] do
         resources :archives, only: [:create, :update, :destroy, :show]
         resources :photos,   only: [:create, :update, :destroy, :show]
         resources :facts,    only: [:create, :update, :destroy, :show]
+        patch :info, on: :member
       end
       resources :relations, only: [:create, :update, :destroy]
       resources :relationships, only: [:create, :update, :destroy]

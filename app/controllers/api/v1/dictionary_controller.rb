@@ -21,7 +21,11 @@ module Api::V1
     end
 
     api :GET, '/v1/dictionary/fact_types', 'Типы фактов'
-    returns code: 200 do param_group :dict end
+    returns code: 200 do
+      param_group :dict
+      param :for_man, String
+      param :for_woman, String
+    end
     def fact_types
       render_json(true, FactType.all)
     end

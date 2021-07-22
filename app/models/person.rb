@@ -13,6 +13,7 @@ class Person < ApplicationRecord
   has_many :facts
   has_many :photos
   has_many :archives
+  has_many :infos
   has_one_attached :avatar
   has_many_attached :images
   has_many_attached :attachments
