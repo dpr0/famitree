@@ -203,7 +203,6 @@ module Api::V1
       else
         render json: { status: :unprocessable_entity }, status: :unprocessable_entity
       end
-      render json: {}, status: :ok
     end
 
     private
