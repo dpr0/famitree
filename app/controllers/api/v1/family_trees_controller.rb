@@ -167,12 +167,15 @@ module Api::V1
 
     api :GET, '/v1/family_trees/:id/calendar'
     returns array_of: :versions, code: 200, desc: 'События'
+    param :month, String
+    param :day,   String
     def calendar
-      persons = @family_tree.persons
-      facts = Fact.where(person_id: persons.ids)
-                      .where(fact_type_id: [FactType[:birth].id, FactType[:marriage].id, FactType[:death].id])
-                      .order(:date)
-      @calendar = facts.map do |fact|
+      persons   = @family_tree.persons
+      facts     =  Fact.where(person_id: persons.ids)
+                       .where(fact_type_id: [FactType[:birth].id, FactType[:marriage].id, FactType[:death].id])
+      facts     = facts.where("EXTRACT(MONTH FROM date) = ?", params[:month]) if params[:month]
+      facts     = facts.where("EXTRACT(DAY   FROM date) = ?", params[:day])   if params[:day]
+      @calendar = facts.order(:date).map do |fact|
         {
             type: FactType.cached_by_id[fact.fact_type_id].name,
             date: fact.date,
