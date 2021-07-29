@@ -3,7 +3,7 @@
 lock '3.16.0'
 
 host = 'famitree.ru'
-# host = '178.154.206.198'
+# host = 'biograf.app'
 server host, port: 2222, roles: %w(app db web), primary: true
 
 set :rbenv_ruby,      '3.0.1'
@@ -11,7 +11,7 @@ set :application,     'famitree'
 set :repo_url,        'git@github.com:dpr0/famitree.git'
 set :deploy_user,     'deploy'
 set :linked_files,    fetch(:linked_files, []).push('config/cable.yml', 'config/database.yml', 'config/secrets.yml', 'config/master.key', 'config/credentials.yml.enc', '.env')
-set :linked_dirs,     fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/session_store', 'vendor/bundle', 'public/system', 'public/uploads')
+set :linked_dirs,     fetch(:linked_dirs, []).push('storage', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/session_store', 'vendor/bundle', 'public/system', 'public/uploads')
 set :keep_releases,   5
 set :user,            'deploy'
 set :use_sudo,        false
