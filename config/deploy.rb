@@ -27,7 +27,7 @@ set :keep_releases,   5
 set :user,            'deploy'
 set :use_sudo,        false
 set :stage,           :production
-set :branch,          :development
+set :branch,          :master_new
 set :deploy_to,       "/home/#{fetch(:user)}/#{fetch(:application)}"
 # set :assets_roles,    []
 set :ruby_string,     '$HOME/.rbenv/bin/rbenv exec bundle exec'
