@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: :show
-  invisible_captcha only: [:create_user], honeypot: :subtitle
+  # invisible_captcha only: [:create_user], honeypot: :subtitle
 
   def new
     redirect_to user_path(current_user.id) if user_signed_in?
@@ -41,6 +41,6 @@ class UsersController < ApplicationController
   private
 
   def create_user_params
-    params.require(:user).permit(:last_name, :first_name, :middle_name, :birthdate, :sex_id, :phone)
+    params.require(:user).permit(:last_name, :first_name, :middle_name, :birthdate, :sex_id, :phone, :email)
   end
 end
