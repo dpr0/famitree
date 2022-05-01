@@ -1,8 +1,84 @@
-section#parallax-computers.hero.is-large
-  .hero-body
-    .container
-      .columns.is-mobile
-        .column.is-12.is-right
+body
+  main
+    .first__block
+      .container
+        .first__block_wrapper
+          .first__block_text
+            #down.logo
+              = image_tag "logo.svg"
+            .first__block_text_txt BioGRAF — это мобильное приложение для сохранения истории семьи, доступное даже детям и бабушкам. Данные хранятся на российских серверах и надежно защищены.
+            a.first__block_button href="#head1"  Зарегистрироваться
+          .first__block_img
+            .background__first
+    .second__block
+      .container
+        .second__block_wrapper
+          .second__block_img
+            = image_tag "phone.png"
+          .second__block_text
+            .second__block_title Древо всегда под рукой
+            .second__block_text_txt Легко выстраивать, хранить и пополнять семейное древо новыми историями, делиться с родственниками и предоставлять им доступ для совместного наполнения. Где бы они ни находились.
+    .third__block
+      .container
+        .third__block_wrapper
+          .third__block_text
+            .third__block_title
+              | Можно
+              span и нужно!
+              | подключить
+            ul
+              li
+                = image_tag "badge.svg"
+                p Детей
+              li
+                = image_tag "badge.svg"
+                p Троюродного брата
+              li
+                = image_tag "badge.svg"
+                p Внучатых племянников
+              li
+                = image_tag "badge.svg"
+                p Бабушку и дедушку
+              li
+                = image_tag "badge.svg"
+                p ...
+            .third__block_txt Каждый внесет свою небольшую лепту — а вы получите уникальный архив, который в реальной жизни собрать не так-то просто
+          .third__block_img
+            = image_tag "image-swiper.png"
+            .third__block_img_text
+              | Бабушка наверняка еще помнит, какого цвета глаза у вашего прадедушки, какой у него был характер и чему самому важному он ее научил - не упустите момент, пока вы еще можете это узнать.
+    .fourth__block
+      .container
+        .fourth__block_wrapper
+          .swiper__container
+            .swiper.swiper-second
+              .swiper-wrapper
+                .swiper-slide В 1991 году распался Советский Союз и прочие заранее подобранные администратором факты мировой истории
+                .swiper-slide В 1980г.  в Москве прошли Летние Олимпийские игры
+                .swiper-slide В 2016г.  состоялся первый ракетный пуск с космодрома «Восточный», первого постсоветского гражданского космодрома России
+              .swiper-button-prev
+              .swiper-button-next
+          .fourth__block_text
+            .fourth__block__title
+              | Все события
+              span как
+              | на ладони
+            .fourth__block_txt Приложение само подскажет, какие исторические события застали Ваши предки...
+    .fifth__block
+      .container
+        .fifth__block_wrapper
+          .fifth__block_text
+            .fifth__block_title
+              | и в памяти
+              span телефона
+            .fifth__block_txt ...а с удобным календарем вы точно не забудете поздравить троюродного брата с юбилеем.
+          .fifth__block_img
+            = image_tag "image1.png"
+    #head1.sixth__block
+      .sixth__block__wrapper
+        = image_tag "logo_2.svg"
+        .mini__form_wrapper
+          .mini__form_title Получить статус владельца семейного дерева
           = form_for @user, url: create_user_users_path do |f|
             = f.invisible_captcha :subtitle
             - if @user.errors.any?
@@ -11,93 +87,77 @@ section#parallax-computers.hero.is-large
                 ul
                   - @user.errors.full_messages.each do |message|
                     li = message
-            .field.is-horizontal
-              .field-label.is-normal
-                label.label Фамилия
-              .field-body
-                .field
-                  .control
-                    = f.text_field :last_name, class: 'input is-medium'
-            .field.is-horizontal
-              .field-label.is-normal
-                label.label Имя
-              .field-body
-                .field
-                  .control
-                    = f.text_field :first_name, class: 'input is-medium'
-            .field.is-horizontal
-              .field-label.is-normal
-                label.label Отчество
-              .field-body
-                .field
-                  .control
-                    = f.text_field :middle_name, class: 'input is-medium'
-            .field.is-horizontal
-              .field-label.is-normal
-                label.label Дата рождения
-              .field-body
-                .field
-                  .control
-                    = f.date_field :birthdate, class: 'input is-medium'
-            .field.is-horizontal
-              .field-label.is-normal
-                label.label Пол
-              .field-body
-                .field
-                  = f.label :sex_id, 'М', class: 'has-text-primary'
-                  = f.check_box :sex_id, { class: 'switch is-medium is-outlined is-right' }, 2, 1
-                  = f.label :sex_id, 'Ж', class: 'has-text-primary'
+            p Фамилия
+            = f.text_field :last_name, class: 'input is-medium'
+            p Имя
+            = f.text_field :first_name, class: 'input is-medium'
+            p Отчество
+            = f.text_field :middle_name, class: 'input is-medium'
+            p Дата рождения
+            = f.date_field :birthdate, class: 'input is-medium'
+            p Пол
+            .field
+              = f.label :sex_id, 'М'
+              = f.check_box :sex_id, { class: 'switch is-medium is-outlined is-right' }, 2, 1
+              = f.label :sex_id, 'Ж'
+            br
+            p Телефон
+            = f.telephone_field :phone, class: 'input is-medium', id: '#phoneMini', maxlength: 14, placeholder: '+7 (XXX) XXX-XXXX', required: true
+            = f.button 'Получить', type: 'submit'
 
-            .field.is-horizontal
-              .field-label.is-normal
-                label.label Телефон
-              .field-body
-                .field
-                  .control.has-icons-left.has-icons-right
-                    = f.telephone_field :phone, class: 'input is-medium', id: 'phone-number', maxlength: 14, placeholder: '+7 (XXX) XXX-XXXX', required: true
-                    span.icon.is-medium.is-left
-                      i.fa.fa-phone.fa-lg
-                    span.icon.is-medium.is-right
-                      i.fas.fa-check.fa-lg
-            .field.is-horizontal
-              .field-label.is-normal
-                label.label &nbsp
-              .field-body
-                .field
-                  .control
-                    .buttons
-                      = f.button 'Зарегистрировать', type: 'submit', class: 'button is-primary is-fullwidth'
+    .seventh__block
+      .container
+        .seventh__block_wrapper
+          .seventh__block_title Почему BioGRAF отличается от предшественников
+          .cards__wrapper
+            .seventh__block_card
+              .card__img
+                = image_tag "like.svg"
+                .card__title Большой лимит в бесплатном приложении
+                .card__text Пилотная версия для ограниченного количества пользователей приложения будет иметь большой лимит на добавление персон, при этом плата за установку приложения и использование всего функционала, реализованного на данном этапе, взиматься не будет
+            .seventh__block_card
+              .card__img
+                = image_tag "shield.svg"
+                .card__title Конфиденциально и надежно
+                .card__text Проект придуман и реализован молодыми независимыми энтузиастами, сервера находятся в нашей стране: мы стремимся защитить данные, что бы ни происходило на мировой политической сцене
+            .seventh__block_card
+              .card__img
+                = image_tag "copy.svg"
+                .card__title Резервное копирование для сохранения архива
+                .card__text Мы создаем регулярные резервные копии данных, а функция экспорта в следующих версиях позволит пользователю дополнительно защитить их, в любой момент скопировав с сервера в свой телефон, в компьютер, на флешку или другой носитель
+            .seventh__block_card
+              .card__img
+                = image_tag "mobile.svg"
+                .card__title Совместимость с другими приложениями
+                .card__text Начиная со второй версии приложения, появится возможность импортировать файлы формата gedcom и в считанные минуты перенести архив, созданный в других приложениях, в семейное древо BioGRAF, где можно дополнить его другими “живыми” фактами
+            .seventh__block_card
+              .card__img
+                = image_tag "user.svg"
+                .card__title Люди перестанут быть карточками
+                .card__text BioGRAF мы создали для того, чтобы информация о наших предках и других родственниках перестала быть набором строчек в таблице или карточек на схеме. Важно сохранить живую историю каждого члена семьи так, чтобы потомкам действительно захотелось ее узнать
+            .seventh__block_card
+              .card__img
+                = image_tag "heart.svg"
+                .card__title Вы влияете на развитие приложения
+                .card__text Мы начинали этот проект для сохранения своей собственной семейной истории. У нас нет ботов, мы лично читаем все комментарии, внимательно прислушиваемся к идеям, а самые удачные стараемся реализовать в следующих обновлениях
+    .eight__block
+      .container
+        .eight__block__wrapper
+          .eight__block_text
+            .eight__block_title Тестируем!
+            .eight__block_txt
+              p Сейчас тестируем пилотную версию "лайт" для тех, кто начинает собирать семейную историю или хочет ее удобно систематизировать, наполнив "живыми" фактами.
+              p В дальнейшем добавим функционал, который понравится профессиональным генеалогам и тем, кто хочет продвинуться дальше домашних бесед с родственниками.
+            a.first__block_button href="#head1"  Зарегистрироваться
+          .eight__block_img
+            = image_tag "image2.png"
 
-      .columns.is-mobile
-        #diag
-        = render 'persons/graph'
-
-javascript:
-    document.addEventListener('keydown', function(e) {
-        var $phone = document.getElementById('phone-number')
-        var key = e.which || e.charCode || e.keyCode || 0;
-
-        // Don't let them remove the starting '('
-        if ($phone.value.length === 1 && (key === 8 || key === 46)) {
-            $phone.value = ('(');
-            return false;
-        }
-        // Reset if they highlight and type over first char.
-        else if ($phone.value.charAt(0) !== '(') {
-            $phone.value = ('(' + String.fromCharCode(e.keyCode) + '');
-        }
-
-        // Auto-format- do not expose the mask as the user begins to type
-        if (key !== 8 && key !== 9) {
-            if ($phone.value.length === 4) $phone.value = ($phone.value + ')')
-            if ($phone.value.length === 5) $phone.value = ($phone.value + ' ')
-            if ($phone.value.length === 9) $phone.value = ($phone.value + '-')
-        }
-
-        // Allow numeric (and tab, backspace, delete) keys only
-        return (key === 8 ||
-            key === 9 ||
-            key === 46 ||
-            (key >= 48 && key <= 57) ||
-            (key >= 96 && key <= 105));
-    })
+/ section#parallax-computers.hero.is-large
+/   .hero-body
+/     .container
+/       .columns.is-mobile
+/         .column.is-12.is-right
+/
+/       .columns.is-mobile
+/         #diag
+/         = render 'persons/graph'

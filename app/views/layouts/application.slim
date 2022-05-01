@@ -7,10 +7,11 @@ html
     = javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true
     = favicon_link_tag asset_path('favicon.ico')
 
-    title Megapolis football site
+    title bioGraf
     meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="yandex-verification" content="#{ENV['YANDEX_VERIFICATION']}"
-    meta name="viewport"            content="width=device-width,initial-scale=1"
+    meta name="viewport"            content="width=device-width, initial-scale=1.0"
     meta name="description"         content="#{ENV['HOST']}"
     meta name="twitter:card"        content="summary_large_image"
     meta property="og:url"          content="https://#{ENV['HOST']}/"
@@ -21,14 +22,19 @@ html
     meta property="og:description"  content="#{ENV['HOST']}"
     meta property="og:image"        content="#{asset_path('og-image.png')}"
     meta content="IE=edge"          http-equiv="X-UA-Compatible"
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com"
     link rel="canonical"  href="https://#{ENV['HOST']}"
     link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;800&display=swap"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&family=Montserrat:ital,wght@0,400;0,600;1,200&display=swap"
+    link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"
 
   body
-    = render 'layouts/header'
+    / = render 'layouts/header'
     = yield
-    = render 'layouts/footer'
+    / = render 'layouts/footer'
+    = render 'layouts/footer_2'
 
 javascript:
     if ("#{Rails.env}" == 'production') {
