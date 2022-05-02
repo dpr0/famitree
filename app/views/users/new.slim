@@ -94,7 +94,7 @@ body
             p Отчество
             = f.text_field :middle_name, class: 'input'
             p Дата рождения
-            = f.date_field :birthdate, class: 'input'
+            = f.date_field :birthdate, class: 'input', value: Date.current.to_s
             / p Пол
             / .field
             /   = f.label :sex_id, 'М'
