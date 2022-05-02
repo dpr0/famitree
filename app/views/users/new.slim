@@ -88,23 +88,23 @@ body
                   - @user.errors.full_messages.each do |message|
                     li = message
             p Фамилия
-            = f.text_field :last_name, class: 'input is-medium'
+            = f.text_field :last_name, class: 'input'
             p Имя
-            = f.text_field :first_name, class: 'input is-medium'
+            = f.text_field :first_name, class: 'input'
             p Отчество
-            = f.text_field :middle_name, class: 'input is-medium'
+            = f.text_field :middle_name, class: 'input'
             p Дата рождения
-            = f.date_field :birthdate, class: 'input is-medium'
-            p Пол
-            .field
-              = f.label :sex_id, 'М'
-              = f.check_box :sex_id, { class: 'switch is-medium is-outlined is-right' }, 2, 1
-              = f.label :sex_id, 'Ж'
+            = f.date_field :birthdate, class: 'input'
+            / p Пол
+            / .field
+            /   = f.label :sex_id, 'М'
+            /   = f.check_box :sex_id, { class: 'switch is-medium is-outlined is-right' }, 2, 1
+            /   = f.label :sex_id, 'Ж'
             br
             p Email
-            = f.email_field :email, class: 'input is-medium'
+            = f.email_field :email, class: 'input'
             p Телефон
-            = f.telephone_field :phone, class: 'input is-medium', id: '#phoneMini', maxlength: 14, placeholder: '+7 (XXX) XXX-XXXX', required: true
+            = f.telephone_field :phone, class: 'input', id: '#phoneMini', maxlength: 14, placeholder: '+7 (XXX) XXX-XXXX', required: true
             = f.button 'Получить', type: 'submit'
 
     .seventh__block
