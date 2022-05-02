@@ -246,7 +246,7 @@ body {
 }
 
 .swiper-button-next {
-    color: #F45A45;
+    color: #F45A45 !important;
     right: 15px;
 }
 
@@ -256,7 +256,7 @@ body {
 }
 
 .swiper-button-prev {
-    color: #F45A45;
+    color: #F45A45 !important;
     right: 15px;
 }
 
