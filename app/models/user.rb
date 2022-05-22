@@ -39,8 +39,8 @@ class User < ApplicationRecord
   def self.create_user(hash)
     hash[:birthdate] = hash[:birthdate]&.to_date
     phone = hash[:phone].gsub(/[^\d]/, '')
-    hash[:phone] = phone.size == 10 ? "+7#{phone}" : nil
-    hash[:email] = "+7#{phone}@phone" if phone
+    hash[:phone] = phone.size == 11 ? "+#{phone}" : nil
+    hash[:email] = "+#{phone}@phone" if hash[:email].blank? && phone
     hash[:provider] = 'phone'
     user = User.new(hash)
     user.name = user.full_name

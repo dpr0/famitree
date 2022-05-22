@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: :show
-  # invisible_captcha only: [:create_user], honeypot: :subtitle
+  invisible_captcha only: [:create_user], honeypot: :subtitle
 
   def new
     redirect_to user_path(current_user.id) if user_signed_in?

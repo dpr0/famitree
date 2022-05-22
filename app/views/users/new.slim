@@ -83,7 +83,7 @@ body
         = image_tag "logo_2.svg"
         .mini__form_wrapper
           .mini__form_title Получить статус владельца семейного дерева
-          = form_for @user, url: create_user_users_path do |f|
+          = form_for @user, url: create_user_users_path, data: {turbo: false} do |f|
             = f.invisible_captcha :subtitle
             - if @user.errors.any?
               #error_explanation
