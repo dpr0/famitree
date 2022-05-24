@@ -256,6 +256,7 @@ body {
 }
 
 .swiper-button-prev {
+    font-size: 20px;
     color: #F45A45 !important;
     right: 15px;
 }
@@ -1034,22 +1035,24 @@ footer {
     }
 
     .swiper-button-prev::after {
-        font-size: 15px;
+        font-size: 15px !important;
         font-weight: 900;
     }
 
     .swiper-button-next::after {
-        font-size: 15px;
+        font-size: 15px !important;
         font-weight: 900;
     }
 
     .swiper-button-next {
+        font-size: 15px !important;
         color: #F45A45;
         right: 0px;
     }
 
     .swiper-button-prev {
-        left: -5px;
+        font-size: 15px !important;
+        left: -5px !important;
     }
 
     .fifth__block_wrapper {
@@ -1238,9 +1241,17 @@ footer {
 }
 
 @media (max-width: 320px) {
+    .swiper-button-prev {
+        font-size: 15px !important;
+        left: -5px !important;
+    }
+
+    .swiper-button-next {
+        font-size: 15px !important;
+    }
+
     .first__block_img {
         height: 468px;
-
     }
 
     .fifth__block_img {
