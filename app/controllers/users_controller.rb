@@ -7,11 +7,6 @@ class UsersController < ApplicationController
   def new
     redirect_to user_path(current_user.id) if user_signed_in?
     @user = User.new
-
-    @persons = FamilyTree.find(0).persons.order(:birthdate)
-    @relations = Relation.where(person_id: @persons.ids).or(Relation.where(persona_id: @persons.ids)).all
-    service = PersonsService.new(@persons, @relations)
-    @hash = service.graph(Person.find(0))
   end
 
   def show
@@ -36,7 +31,15 @@ class UsersController < ApplicationController
     end
   end
 
-  def welcome; end
+  def welcome
+    if params[:id]
+      person = Person.find(params[:id])
+      persons = person.family_tree.persons.order(:birthdate)
+      relations = Relation.where(person_id: persons.ids).or(Relation.where(persona_id: persons.ids)).all
+      service = PersonsService.new(persons, relations)
+      gon.graph = service.graph(person)
+    end
+  end
 
   private
 

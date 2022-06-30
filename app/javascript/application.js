@@ -2,5 +2,4 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 import "./main"
-require('d3');
-
+import "./graph"

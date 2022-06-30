@@ -26,7 +26,7 @@ class PersonsController < ApplicationController
     @persons = @family_tree.persons.order(:birthdate)
     @relations = Relation.where(person_id: @persons.ids).or(Relation.where(persona_id: @persons.ids)).all
     service = PersonsService.new(@persons, @relations)
-    @hash = service.graph(@person)
+    gon.graph = service.graph(@person)
   end
 
   def new; end

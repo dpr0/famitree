@@ -3,6 +3,7 @@ html
   head
     = csrf_meta_tags
     = csp_meta_tag
+    = Gon::Base.render_data
     = stylesheet_link_tag 'application', 'data-turbo-track': 'reload'
     = javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true
     = favicon_link_tag asset_path('favicon.ico')

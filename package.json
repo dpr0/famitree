@@ -7,9 +7,10 @@
     "bulma": "^0.9.4",
     "bulma-extensions": "^6.2.7",
     "d3": "^3.5.17",
-    "esbuild": "^0.14.47",
+    "esbuild": "^0.14.48",
     "esbuild-plugin-import-glob": "^0.1.1",
     "esbuild-rails": "^1.0.3",
+    "jquery": "^3.6.0",
     "sass": "^1.53.0"
   },
   "scripts": {
