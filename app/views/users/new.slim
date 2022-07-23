@@ -99,11 +99,13 @@ body
             = f.text_field :middle_name, class: 'input'
             p Дата рождения
             = f.date_field :birthdate, class: 'input', value: Date.current.to_s
-            / p Пол
-            / .field
-            /   = f.label :sex_id, 'М'
-            /   = f.check_box :sex_id, { class: 'switch is-medium is-outlined is-right' }, 2, 1
-            /   = f.label :sex_id, 'Ж'
+            p Пол
+            p
+              = f.label :sex_id, 'М'
+              label.switch
+                = f.check_box :sex_id, { class: 'sex_input' }, 2, 1
+                span.slider
+              = f.label :sex_id, 'Ж'
             br
             p Email
             = f.email_field :email, class: 'input'
